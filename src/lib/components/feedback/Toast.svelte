@@ -41,23 +41,12 @@
     onClose?.();
   }
 
+  // Tokens semanticos canonicos DS 2026-05-18. Dark mode adapta via CSS vars.
   const variants: Record<string, { bg: string; icon: string }> = {
-    success: {
-      bg: 'bg-green-600',
-      icon: '\u2713'
-    },
-    error: {
-      bg: 'bg-destructive',
-      icon: '\u2715'
-    },
-    warning: {
-      bg: 'bg-amber-500',
-      icon: '\u26A0'
-    },
-    info: {
-      bg: 'bg-blue-600',
-      icon: '\u2139'
-    }
+    success: { bg: 'bg-success',     icon: '\u2713' },
+    error:   { bg: 'bg-destructive', icon: '\u2715' },
+    warning: { bg: 'bg-warning',     icon: '\u26A0' },
+    info:    { bg: 'bg-info',        icon: '\u2139' }
   };
 
   let variant = $derived(variants[type]);

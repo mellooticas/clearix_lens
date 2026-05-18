@@ -48,7 +48,7 @@
   {/if}
   
   {#if highlight}
-    <p class="text-lg text-orange-600 dark:text-orange-400 font-medium">
+    <p class="text-lg text-warning font-medium">
       {highlight}
     </p>
   {/if}

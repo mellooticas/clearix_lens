@@ -29,13 +29,11 @@
 >
   <!-- Header -->
   <div class="flex items-center gap-3 mb-4">
-    <!-- Icon Container com classes condicionais -->
+    <!-- Icon Container — tokens semantic (blue→primary, green→success); gold/orange decorativos -->
     <div
       class="p-3 rounded-lg"
-      class:bg-primary-50={color === "blue"}
-      class:dark:bg-primary-800={color === "blue"}
-      class:bg-success-light={color === "green"}
-      class:dark:bg-success-dark={color === "green"}
+      class:bg-primary/10={color === "blue"}
+      class:bg-success/15={color === "green"}
       class:bg-orange-50={color === "orange"}
       class:dark:bg-orange-800={color === "orange"}
       class:bg-brand-gold-50={color === "gold"}

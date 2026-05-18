@@ -18,13 +18,14 @@
   export let subtitle: string | undefined = undefined;
   export let trend: { value: string; up: boolean } | undefined = undefined;
 
-  // Mapeamento de cores semânticas (badge apenas)
+  // Mapeamento de cores semânticas (badge apenas) — tokens canonicos DS 2026-05-18.
+  // Dark mode adapta via CSS vars (.dark { --success/warning/...: ... }).
   const semanticBadge: Record<string, string> = {
-    primary: 'bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400',
-    success: 'bg-green-100  text-green-700  dark:bg-green-900/30  dark:text-green-400',
-    warning: 'bg-amber-100  text-amber-700  dark:bg-amber-900/30  dark:text-amber-400',
-    error:   'bg-red-100    text-red-700    dark:bg-red-900/30    dark:text-red-400',
-    info:    'bg-blue-100   text-blue-700   dark:bg-blue-900/30   dark:text-blue-400',
+    primary: 'bg-primary/10     text-primary',
+    success: 'bg-success/15     text-success',
+    warning: 'bg-warning/15     text-warning',
+    error:   'bg-destructive/15 text-destructive',
+    info:    'bg-info/15        text-info',
   };
 
   $: badgeClass = semanticBadge[semantic] ?? semanticBadge.primary;
@@ -38,7 +39,7 @@
       <p class="text-xs font-medium text-muted-foreground uppercase tracking-wide leading-none mb-1">
         {title}
       </p>
-      <p class="text-2xl font-bold text-foreground tracking-tight">
+      <p class="text-2xl font-bold tabular-nums text-foreground tracking-tight">
         {value}
       </p>
     </div>
@@ -89,8 +90,8 @@
       {/if}
       {#if trend}
         <!-- Trend indicator — cor semântica permitida aqui -->
-        <span class="inline-flex items-center gap-1 text-xs font-medium
-          {trend.up ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}">
+        <span class="inline-flex items-center gap-1 text-xs font-medium tabular-nums
+          {trend.up ? 'text-success' : 'text-destructive'}">
           <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             {#if trend.up}
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"/>

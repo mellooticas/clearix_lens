@@ -11,24 +11,20 @@
 </script>
 
 <div class="text-center space-y-4">
-  <!-- Number Badge com classes condicionais -->
-  <div 
+  <!-- Number Badge — tokens semantic; gold/orange brand palette decorativa -->
+  <div
     class="w-14 h-14 rounded-full flex items-center justify-center mx-auto"
-    class:bg-primary-50={color === 'blue'}
-    class:dark:bg-primary-800={color === 'blue'}
-    class:bg-success-light={color === 'green'}
-    class:dark:bg-success-dark={color === 'green'}
+    class:bg-primary/10={color === 'blue'}
+    class:bg-success/15={color === 'green'}
     class:bg-orange-50={color === 'orange'}
     class:dark:bg-orange-800={color === 'orange'}
     class:bg-brand-gold-50={color === 'gold'}
     class:dark:bg-brand-gold-800={color === 'gold'}
   >
-    <span 
-      class="text-xl font-bold"
-      class:text-primary-600={color === 'blue'}
-      class:dark:text-primary-300={color === 'blue'}
+    <span
+      class="text-xl font-bold tabular-nums"
+      class:text-primary={color === 'blue'}
       class:text-success={color === 'green'}
-      class:dark:text-success-light={color === 'green'}
       class:text-orange-600={color === 'orange'}
       class:dark:text-orange-300={color === 'orange'}
       class:text-brand-gold-600={color === 'gold'}

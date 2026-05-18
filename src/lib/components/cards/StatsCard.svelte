@@ -12,14 +12,13 @@
   export let color: "blue" | "green" | "orange" | "gold" | "cyan" | "purple" = "blue";
   export let subtitle: string | undefined = undefined;
 
+  // Tokens canonicos DS 2026-05-18 + decorativos brand palette (gold/cyan/purple).
   const colors = {
-    blue: "bg-primary-50 text-primary-600 dark:bg-primary-800 dark:text-primary-300",
-    green:
-      "bg-success-light text-success-dark dark:bg-success-dark dark:text-success-light",
-    orange:
-      "bg-orange-50 text-orange-600 dark:bg-orange-800 dark:text-orange-300",
-    gold: "bg-brand-gold-50 text-brand-gold-600 dark:bg-brand-gold-800 dark:text-brand-gold-300",
-    cyan: "bg-cyan-50 text-cyan-600 dark:bg-cyan-800 dark:text-cyan-300",
+    blue:   "bg-primary/10 text-primary",
+    green:  "bg-success/15 text-success",
+    orange: "bg-orange-50 text-orange-600 dark:bg-orange-800 dark:text-orange-300",
+    gold:   "bg-brand-gold-50 text-brand-gold-600 dark:bg-brand-gold-800 dark:text-brand-gold-300",
+    cyan:   "bg-cyan-50 text-cyan-600 dark:bg-cyan-800 dark:text-cyan-300",
     purple: "bg-purple-50 text-purple-600 dark:bg-purple-800 dark:text-purple-300",
   };
 </script>
@@ -47,7 +46,7 @@
     >
       {title}
     </div>
-    <div class="text-2xl font-bold text-foreground mb-2">
+    <div class="text-2xl font-bold tabular-nums text-foreground mb-2">
       {value}
     </div>
     
@@ -59,11 +58,9 @@
 
     {#if change !== undefined}
       <div
-        class="flex items-center gap-1 text-sm font-medium"
+        class="flex items-center gap-1 text-sm font-medium tabular-nums"
         class:text-success={trend === "up"}
-        class:dark:text-success-light={trend === "up"}
-        class:text-error={trend === "down"}
-        class:dark:text-error-light={trend === "down"}
+        class:text-destructive={trend === "down"}
       >
         {#if trend === "up"}
           <svg
