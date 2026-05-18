@@ -91,6 +91,60 @@
     --shadow-sm:   0 1px 2px 0 rgba(0,0,0,.05);
     --shadow-card: 0 1px 3px 0 rgba(0,0,0,.07), 0 1px 2px -1px rgba(0,0,0,.05);
     --shadow-md:   0 4px 6px -1px rgba(0,0,0,.08), 0 2px 4px -2px rgba(0,0,0,.05);
+    --shadow-lg:   0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.1);
+    --shadow-xl:   0 20px 25px -5px rgba(0,0,0,.1), 0 8px 10px -6px rgba(0,0,0,.1);
+
+    /* ── Foregrounds canonicos (DS 2026-05-18) ─────────────────────────── */
+    --success-foreground: #ffffff;
+    --warning-foreground: #78350F;
+    --error-foreground:   #ffffff;
+    --info-foreground:    #ffffff;
+    --destructive-foreground: #ffffff;
+
+    /* ── Typography canonico (DS tipografia.md) ────────────────────────── */
+    --text-display-lg: 3rem;
+    --text-display-md: 2.25rem;
+    --text-h1: 2rem;
+    --text-h2: 1.5rem;
+    --text-h3: 1.125rem;
+    --text-h4: 1rem;
+    --text-body-lg: 1.125rem;
+    --text-body-md: 1rem;
+    --text-body-sm: 0.875rem;
+    --text-caption: 0.8125rem;
+    --text-overline: 0.75rem;
+    --text-micro: 0.6875rem;
+
+    --leading-tight: 1.1;
+    --leading-snug: 1.2;
+    --leading-normal: 1.45;
+    --leading-relaxed: 1.5;
+    --leading-loose: 1.6;
+
+    --tracking-tight: -0.02em;
+    --tracking-snug: -0.01em;
+    --tracking-normal: 0;
+    --tracking-wide: 0.05em;
+    --tracking-wider: 0.08em;
+
+    --font-regular: 400;
+    --font-medium: 500;
+    --font-semibold: 600;
+    --font-bold: 700;
+
+    /* ── Motion canonico (DS motion.md) ────────────────────────────────── */
+    --duration-instant: 50ms;
+    --duration-fast: 150ms;
+    --duration-base: 250ms;
+    --duration-slow: 400ms;
+    --duration-deliberate: 600ms;
+
+    --ease-linear: linear;
+    --ease-in: cubic-bezier(0.4, 0, 1, 1);
+    --ease-out: cubic-bezier(0, 0, 0.2, 1);
+    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-emphasis: cubic-bezier(0.2, 0, 0, 1);
+    --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   /* Dark Mode */
@@ -139,6 +193,24 @@
     --info:    #60a5fa;
 
     --shadow-card: 0 1px 3px 0 rgba(0,0,0,.3), 0 1px 2px -1px rgba(0,0,0,.2);
+
+    /* Shadow canonico dark override */
+    --shadow-sm: 0 0 0 1px rgb(255 255 255 / 0.03);
+    --shadow-md: 0 0 0 1px rgb(255 255 255 / 0.05), 0 2px 8px rgb(0 0 0 / 0.4);
+    --shadow-lg: 0 0 0 1px rgb(255 255 255 / 0.07), 0 8px 24px rgb(0 0 0 / 0.5);
+    --shadow-xl: 0 0 0 1px rgb(255 255 255 / 0.08), 0 16px 40px rgb(0 0 0 / 0.6);
+
+    --bg-elevation-1: #1E293B;
+    --bg-elevation-2: #283344;
+    --bg-elevation-3: #334155;
+    --bg-elevation-4: #3F4960;
+
+    /* Foregrounds dark */
+    --success-foreground: #022c22;
+    --warning-foreground: #451a03;
+    --error-foreground:   #450a0a;
+    --info-foreground:    #0c1b33;
+    --destructive-foreground: #450a0a;
   }
 
   /* ── Base ─────────────────────────────────────────────────────────────── */
@@ -150,10 +222,16 @@
     @apply scroll-smooth;
   }
 
+  html {
+    font-size: 16px;
+  }
+
   body {
     @apply bg-background text-foreground;
     @apply font-sans antialiased;
     /* Fundo plano — SEM gradientes animados, SEM orbs */
+    font-optical-sizing: auto;
+    font-feature-settings: "kern", "liga", "calt";
   }
 
   /* Tipografia */
@@ -320,4 +398,39 @@
   .prazo-rapido { @apply text-green-600 dark:text-green-400; }
   .prazo-medio  { @apply text-amber-600 dark:text-amber-400; }
   .prazo-lento  { @apply text-red-600   dark:text-red-400; }
+
+  /* Canonicas DS (2026-05-18) */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum", "kern", "liga", "calt";
+  }
+
+  .tracking-snug { letter-spacing: var(--tracking-snug); }
+  .tracking-wide { letter-spacing: var(--tracking-wide); }
+  .tracking-wider { letter-spacing: var(--tracking-wider); }
+
+  .text-display-lg { font-size: var(--text-display-lg); line-height: var(--leading-tight); letter-spacing: var(--tracking-tight); font-weight: var(--font-bold); }
+  .text-h1 { font-size: var(--text-h1); line-height: var(--leading-snug); letter-spacing: var(--tracking-snug); font-weight: var(--font-bold); }
+  .text-h2 { font-size: var(--text-h2); line-height: 1.25; letter-spacing: var(--tracking-snug); font-weight: var(--font-bold); }
+  .text-h3 { font-size: var(--text-h3); line-height: 1.3; font-weight: var(--font-bold); }
+  .text-body-md { font-size: var(--text-body-md); line-height: var(--leading-relaxed); }
+  .text-body-sm { font-size: var(--text-body-sm); line-height: var(--leading-normal); }
+  .text-caption { font-size: var(--text-caption); line-height: 1.4; }
+  .text-overline { font-size: var(--text-overline); line-height: 1.3; letter-spacing: var(--tracking-wide); font-weight: var(--font-medium); }
+  .text-micro { font-size: var(--text-micro); line-height: 1.3; letter-spacing: 0.04em; font-weight: var(--font-medium); }
+
+  .duration-fast { transition-duration: var(--duration-fast); }
+  .duration-base { transition-duration: var(--duration-base); }
+  .duration-slow { transition-duration: var(--duration-slow); }
+  .ease-emphasis { transition-timing-function: var(--ease-emphasis); }
+}
+
+/* Reduced motion canonico (07_acessibilidade/reduced_motion.md) */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
