@@ -51,7 +51,7 @@
 </script>
 
 <a href={destino}
-    class="bg-card border border-border rounded-2xl p-5 hover:shadow-md hover:border-primary-200 dark:hover:border-primary-800 transition-all duration-200 flex flex-col gap-3 no-underline">
+    class="bg-card border border-border rounded-2xl p-5 hover:shadow-md hover:border-primary-200 dark:hover:border-primary-800 transition-all duration-base flex flex-col gap-3 no-underline">
 
     <!-- Nome + badge linha -->
     <div class="flex items-start justify-between gap-2">
@@ -59,7 +59,7 @@
             <h3 class="font-bold text-foreground text-sm leading-snug line-clamp-2">
                 {_l.lens_name ?? _l.nome ?? '—'}
             </h3>
-            <p class="text-[11px] text-muted-foreground mt-0.5 truncate">
+            <p class="text-micro text-muted-foreground mt-0.5 truncate">
                 {_l.supplier_name ?? _l.fornecedor ?? '—'}
             </p>
         </div>
@@ -74,19 +74,19 @@
     <div class="space-y-1.5 flex-1">
         {#if _l.brand_name || _l.marca}
             <div class="flex items-center gap-2">
-                <span class="text-[10px] font-black uppercase tracking-wide text-muted-foreground w-14 shrink-0">Marca</span>
+                <span class="text-micro font-black uppercase tracking-wide text-muted-foreground w-14 shrink-0">Marca</span>
                 <span class="text-xs text-muted-foreground truncate">{_l.brand_name ?? _l.marca}</span>
             </div>
         {/if}
         {#if _l.lens_type ?? _l.tipo_lente}
             <div class="flex items-center gap-2">
-                <span class="text-[10px] font-black uppercase tracking-wide text-muted-foreground w-14 shrink-0">Tipo</span>
+                <span class="text-micro font-black uppercase tracking-wide text-muted-foreground w-14 shrink-0">Tipo</span>
                 <span class="text-xs text-muted-foreground">{TIPO_LABELS[_l.lens_type ?? _l.tipo_lente] ?? _l.lens_type ?? _l.tipo_lente}</span>
             </div>
         {/if}
         {#if _l.material_name}
             <div class="flex items-center gap-2">
-                <span class="text-[10px] font-black uppercase tracking-wide text-muted-foreground w-14 shrink-0">Material</span>
+                <span class="text-micro font-black uppercase tracking-wide text-muted-foreground w-14 shrink-0">Material</span>
                 <span class="text-xs text-muted-foreground leading-tight">
                     {_l.material_name}{#if _l.refractive_index} · <span class="text-muted-foreground">n={_l.refractive_index}</span>{/if}
                 </span>
@@ -94,8 +94,8 @@
         {/if}
         {#if _l.sku}
             <div class="flex items-center gap-2">
-                <span class="text-[10px] font-black uppercase tracking-wide text-muted-foreground w-14 shrink-0">SKU</span>
-                <span class="font-mono text-[10px] bg-muted text-muted-foreground px-1.5 py-0.5 rounded">{_l.sku}</span>
+                <span class="text-micro font-black uppercase tracking-wide text-muted-foreground w-14 shrink-0">SKU</span>
+                <span class="font-mono text-micro bg-muted text-muted-foreground px-1.5 py-0.5 rounded">{_l.sku}</span>
             </div>
         {/if}
     </div>
@@ -109,7 +109,7 @@
 
     <!-- Footer preço -->
     <div class="flex items-center justify-between pt-3 border-t border-border">
-        <span class="text-[10px] font-black uppercase tracking-wide text-muted-foreground">
+        <span class="text-micro font-black uppercase tracking-wide text-muted-foreground">
             {_l.price_suggested ?? _l.preco ? 'Sugerido' : _l.price_min ? 'A partir de' : 'Preço'}
         </span>
         <span class="text-base font-black text-foreground">

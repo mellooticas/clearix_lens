@@ -37,7 +37,7 @@
   <div class="fixed inset-0 z-50 lg:hidden">
     <!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
     <div class="fixed inset-0 bg-black/60 backdrop-blur-sm" onclick={() => sidebarStore.closeMobile()}></div>
-    <div class="fixed inset-y-0 left-0 w-72 transition-transform duration-300 ease-in-out translate-x-0">
+    <div class="fixed inset-y-0 left-0 w-72 transition-transform duration-base ease-in-out translate-x-0">
       <div
         class="flex h-full grow flex-col overflow-y-auto border-r"
         style="background-color: var(--sidebar); border-color: var(--sidebar-border); color: var(--sidebar-foreground);"
@@ -47,7 +47,7 @@
           <a href="/" onclick={() => sidebarStore.closeMobile()} class="flex items-center gap-3">
             <ClearixLogo size={36} />
             <div>
-              <p class="text-[11px] font-semibold uppercase tracking-[0.15em] opacity-50">Clearix</p>
+              <p class="text-micro font-semibold uppercase tracking-[0.15em] opacity-50">Clearix</p>
               <p class="text-lg font-black tracking-tight">{APP_TITLE}</p>
             </div>
           </a>
@@ -62,7 +62,7 @@
         <nav class="flex-1 overflow-y-auto px-3 py-4">
           {#each navigation as section}
             <div class="mt-5 first:mt-0">
-              <p class="mb-2 px-3 text-[11px] font-semibold uppercase tracking-wider opacity-40">{section.label}</p>
+              <p class="mb-2 px-3 text-micro font-semibold uppercase tracking-wider opacity-40">{section.label}</p>
               <div class="space-y-1">
                 {#each section.items as item}
                   {@const active = isActive(item.href)}
@@ -98,7 +98,7 @@
           </button>
           {#if $currentUser}
             <div class="flex items-center gap-3 px-3 py-2">
-              <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[11px] font-bold" style="background-color: var(--sidebar-primary); color: var(--sidebar-primary-foreground);">{$currentUser.initials}</div>
+              <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-micro font-bold" style="background-color: var(--sidebar-primary); color: var(--sidebar-primary-foreground);">{$currentUser.initials}</div>
               <div class="min-w-0">
                 <p class="truncate text-sm font-semibold">{$currentUser.firstName}</p>
                 <p class="truncate text-xs opacity-60">{$currentUser.roleLabel}</p>
@@ -113,7 +113,7 @@
 
 <!-- Desktop sidebar -->
 <aside
-  class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:flex-col transition-all duration-300 {sidebarStore.collapsed ? 'lg:w-[72px]' : 'lg:w-64'}"
+  class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:flex-col transition-all duration-base {sidebarStore.collapsed ? 'lg:w-[72px]' : 'lg:w-64'}"
 >
   <div
     class="flex h-full grow flex-col overflow-y-auto border-r"
@@ -125,7 +125,7 @@
         <ClearixLogo size={36} />
         {#if !sidebarStore.collapsed}
           <div>
-            <p class="text-[11px] font-semibold uppercase tracking-[0.15em] opacity-50">Clearix</p>
+            <p class="text-micro font-semibold uppercase tracking-[0.15em] opacity-50">Clearix</p>
             <p class="text-lg font-black tracking-tight">{APP_TITLE}</p>
           </div>
         {/if}
@@ -137,7 +137,7 @@
       {#each navigation as section}
         <div class="mt-5 first:mt-0">
           {#if !sidebarStore.collapsed}
-            <p class="mb-2 px-3 text-[11px] font-semibold uppercase tracking-wider opacity-40">{section.label}</p>
+            <p class="mb-2 px-3 text-micro font-semibold uppercase tracking-wider opacity-40">{section.label}</p>
           {:else}
             <div class="mx-auto my-3 h-px w-8" style="background-color: var(--sidebar-border);"></div>
           {/if}
@@ -182,7 +182,7 @@
 
       {#if $currentUser}
         <div class="flex items-center gap-3 rounded-lg px-3 py-2 {sidebarStore.collapsed ? 'justify-center px-0' : ''}" title={sidebarStore.collapsed ? $currentUser.firstName : ''}>
-          <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[11px] font-bold" style="background-color: var(--sidebar-primary); color: var(--sidebar-primary-foreground);">{$currentUser.initials}</div>
+          <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-micro font-bold" style="background-color: var(--sidebar-primary); color: var(--sidebar-primary-foreground);">{$currentUser.initials}</div>
           {#if !sidebarStore.collapsed}
             <div class="min-w-0">
               <p class="truncate text-sm font-semibold">{$currentUser.firstName}</p>

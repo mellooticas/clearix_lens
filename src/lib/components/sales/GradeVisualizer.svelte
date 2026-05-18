@@ -52,7 +52,7 @@
             {#each cilindricos as cil}
                 <span>{cil.toFixed(2)}</span>
             {/each}
-            <span class="text-[10px] -rotate-90 mt-4">CYL</span>
+            <span class="text-micro -rotate-90 mt-4">CYL</span>
         </div>
 
         <!-- O Grid -->
@@ -92,7 +92,7 @@
                     <span>{esf > 0 ? "+" : ""}{esf}</span>
                 {/each}
             </div>
-            <div class="text-center text-[10px] text-muted-foreground mt-1">
+            <div class="text-center text-micro text-muted-foreground mt-1">
                 SPH (Esférico)
             </div>
         </div>

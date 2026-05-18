@@ -216,7 +216,7 @@
                         </span>
                     {/if}
                 </div>
-                <svg class="w-4 h-4 text-muted-foreground transition-transform duration-200 {filtrosAbertos ? 'rotate-180' : ''}"
+                <svg class="w-4 h-4 text-muted-foreground transition-transform duration-base {filtrosAbertos ? 'rotate-180' : ''}"
                     fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
                 </svg>
@@ -226,14 +226,14 @@
                 <div class="border-t border-border px-5 py-5">
                     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                         <div>
-                            <label class="block text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-1.5">Buscar</label>
+                            <label class="block text-micro font-black uppercase tracking-wider text-muted-foreground mb-1.5">Buscar</label>
                             <input type="text" bind:value={busca}
                                 placeholder="Marca ou nome..."
                                 on:keydown={(e) => e.key === 'Enter' && aplicarFiltros()}
                                 class="w-full text-sm bg-muted border border-border rounded-lg px-3 py-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary-400"/>
                         </div>
                         <div>
-                            <label class="block text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-1.5">Marca</label>
+                            <label class="block text-micro font-black uppercase tracking-wider text-muted-foreground mb-1.5">Marca</label>
                             <select bind:value={marca}
                                 class="w-full text-sm bg-muted border border-border rounded-lg px-3 py-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary-400 cursor-pointer">
                                 <option value="">Todas</option>
@@ -243,7 +243,7 @@
                             </select>
                         </div>
                         <div>
-                            <label class="block text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-1.5">Descarte</label>
+                            <label class="block text-micro font-black uppercase tracking-wider text-muted-foreground mb-1.5">Descarte</label>
                             <select bind:value={lens_type}
                                 class="w-full text-sm bg-muted border border-border rounded-lg px-3 py-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary-400 cursor-pointer">
                                 <option value="">Todos</option>
@@ -253,7 +253,7 @@
                             </select>
                         </div>
                         <div>
-                            <label class="block text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-1.5">Finalidade</label>
+                            <label class="block text-micro font-black uppercase tracking-wider text-muted-foreground mb-1.5">Finalidade</label>
                             <select bind:value={purpose}
                                 class="w-full text-sm bg-muted border border-border rounded-lg px-3 py-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary-400 cursor-pointer">
                                 <option value="">Todas</option>
@@ -263,7 +263,7 @@
                             </select>
                         </div>
                         <div>
-                            <label class="block text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-1.5">Material</label>
+                            <label class="block text-micro font-black uppercase tracking-wider text-muted-foreground mb-1.5">Material</label>
                             <select bind:value={material}
                                 class="w-full text-sm bg-muted border border-border rounded-lg px-3 py-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary-400 cursor-pointer">
                                 <option value="">Todos</option>
@@ -276,7 +276,7 @@
 
                     <div class="mt-4 flex flex-wrap items-center gap-6">
                         <div>
-                            <label class="block text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-2">Características</label>
+                            <label class="block text-micro font-black uppercase tracking-wider text-muted-foreground mb-2">Características</label>
                             <div class="flex flex-wrap gap-x-5 gap-y-2">
                                 <label class="flex items-center gap-1.5 cursor-pointer">
                                     <input type="checkbox" bind:checked={is_colored} class="w-3.5 h-3.5 rounded accent-primary-600"/>

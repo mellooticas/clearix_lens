@@ -40,7 +40,7 @@
       src="/clearix-icon.svg"
       alt="Clearix Lens"
       class={cn(
-        "object-contain transition-all duration-300",
+        "object-contain transition-all duration-base",
         sizeClasses[size]
       )}
       style={isDark ? "filter: invert(1) hue-rotate(180deg) brightness(1.2);" : ""}
@@ -51,7 +51,7 @@
       src="/clearix-icon.svg"
       alt="Clearix Lens"
       class={cn(
-        "object-contain transition-all duration-300",
+        "object-contain transition-all duration-base",
         sizeClasses[size]
       )}
       style={isDark ? "filter: invert(1) hue-rotate(180deg) brightness(1.2);" : ""}

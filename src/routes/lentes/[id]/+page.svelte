@@ -274,25 +274,25 @@
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-5">
                         {#if lente.lens_type}
                             <div class="bg-muted rounded-xl px-3 py-2.5">
-                                <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-0.5">Tipo</div>
+                                <div class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-0.5">Tipo</div>
                                 <div class="text-sm font-semibold text-foreground">{TIPO_LABELS[lente.lens_type] ?? lente.lens_type}</div>
                             </div>
                         {/if}
                         {#if lente.material_name}
                             <div class="bg-muted rounded-xl px-3 py-2.5">
-                                <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-0.5">Material</div>
+                                <div class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-0.5">Material</div>
                                 <div class="text-sm font-semibold text-foreground">{lente.material_name}</div>
                             </div>
                         {/if}
                         {#if lente.refractive_index}
                             <div class="bg-muted rounded-xl px-3 py-2.5">
-                                <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-0.5">Índice</div>
+                                <div class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-0.5">Índice</div>
                                 <div class="text-sm font-semibold text-foreground">n = {lente.refractive_index}</div>
                             </div>
                         {/if}
                         {#if lente.stock_available != null}
                             <div class="bg-muted rounded-xl px-3 py-2.5">
-                                <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-0.5">Estoque</div>
+                                <div class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-0.5">Estoque</div>
                                 <div class="text-sm font-semibold {lente.stock_available > 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-500'}">{lente.stock_available} unid.</div>
                             </div>
                         {/if}
@@ -329,15 +329,15 @@
                     {/if}
                     <div class="grid grid-cols-3 gap-3">
                         <div class="text-center bg-muted rounded-xl p-3">
-                            <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-1">Esférico</div>
+                            <div class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-1">Esférico</div>
                             <div class="font-mono text-sm text-foreground">{fmtDiopter(lente.spherical_min)} a {fmtDiopter(lente.spherical_max)}</div>
                         </div>
                         <div class="text-center bg-muted rounded-xl p-3">
-                            <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-1">Cilíndrico</div>
+                            <div class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-1">Cilíndrico</div>
                             <div class="font-mono text-sm text-foreground">{fmtDiopter(lente.cylindrical_min)} a {fmtDiopter(lente.cylindrical_max)}</div>
                         </div>
                         <div class="text-center bg-muted rounded-xl p-3">
-                            <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-1">Adição</div>
+                            <div class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-1">Adição</div>
                             <div class="font-mono text-sm text-foreground">
                                 {#if lente.addition_min != null}{fmtDiopter(lente.addition_min)} a {fmtDiopter(lente.addition_max)}{:else}—{/if}
                             </div>
@@ -365,7 +365,7 @@
                                         {#if conceito.treatment_codes && conceito.treatment_codes.length > 0} · {conceito.treatment_codes.join(', ')}{/if}
                                     </p>
                                     {#if conceito.sku}
-                                        <p class="font-mono text-[10px] text-muted-foreground mt-1">{conceito.sku}</p>
+                                        <p class="font-mono text-micro text-muted-foreground mt-1">{conceito.sku}</p>
                                     {/if}
                                 </div>
                                 <div class="text-right shrink-0">
@@ -391,19 +391,19 @@
                     <div class="space-y-4">
                         {#if lente.price_suggested}
                             <div>
-                                <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground">Sugerido</div>
+                                <div class="text-micro font-black uppercase tracking-wider text-muted-foreground">Sugerido</div>
                                 <div class="text-3xl font-black text-foreground mt-0.5">{fmt(lente.price_suggested)}</div>
                             </div>
                         {/if}
                         {#if lente.price_cost}
                             <div class="pt-3 border-t border-border">
-                                <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground">Custo</div>
+                                <div class="text-micro font-black uppercase tracking-wider text-muted-foreground">Custo</div>
                                 <div class="text-xl font-bold text-muted-foreground mt-0.5">{fmt(lente.price_cost)}</div>
                             </div>
                         {/if}
                         {#if lente.price_cost && lente.price_suggested}
                             <div class="pt-3 border-t border-border">
-                                <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground">Margem</div>
+                                <div class="text-micro font-black uppercase tracking-wider text-muted-foreground">Margem</div>
                                 <div class="text-lg font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">
                                     {(((Number(lente.price_suggested) - Number(lente.price_cost)) / Number(lente.price_suggested)) * 100).toFixed(1)}%
                                 </div>
@@ -475,19 +475,19 @@
                 {#if aba === 'geral'}
                     <div class="space-y-4">
                         <div>
-                            <label for="f-lens-name" class="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-1">Nome</label>
+                            <label for="f-lens-name" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1">Nome</label>
                             <input id="f-lens-name" type="text" bind:value={fLensName}
                                 class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500" />
                         </div>
 
                         <div class="grid grid-cols-2 gap-3">
                             <div>
-                                <label for="f-sku" class="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-1">SKU</label>
+                                <label for="f-sku" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1">SKU</label>
                                 <input id="f-sku" type="text" bind:value={fSku}
                                     class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground font-mono focus:outline-none focus:ring-2 focus:ring-primary-500" />
                             </div>
                             <div>
-                                <label for="f-category" class="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-1">Categoria</label>
+                                <label for="f-category" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1">Categoria</label>
                                 <input id="f-category" type="text" bind:value={fCategory} placeholder="premium, standard…"
                                     class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500" />
                             </div>
@@ -495,7 +495,7 @@
 
                         <div class="grid grid-cols-2 gap-3">
                             <div>
-                                <label for="f-lens-type" class="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-1">Tipo</label>
+                                <label for="f-lens-type" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1">Tipo</label>
                                 <select id="f-lens-type" bind:value={fLensType}
                                     class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500">
                                     {#each opts.lens_types as lt}
@@ -504,7 +504,7 @@
                                 </select>
                             </div>
                             <div>
-                                <label for="f-status" class="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-1">Status</label>
+                                <label for="f-status" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1">Status</label>
                                 <select id="f-status" bind:value={fStatus}
                                     class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500">
                                     {#each opts.statuses as st}
@@ -515,7 +515,7 @@
                         </div>
 
                         <div>
-                            <label for="f-brand" class="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-1">Marca</label>
+                            <label for="f-brand" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1">Marca</label>
                             <select id="f-brand" bind:value={fBrandId}
                                 class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500">
                                 <option value="">—</option>
@@ -526,7 +526,7 @@
                         </div>
 
                         <div>
-                            <label for="f-material" class="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-1">Material</label>
+                            <label for="f-material" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1">Material</label>
                             <select id="f-material" bind:value={fMaterialId}
                                 class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500">
                                 <option value="">—</option>
@@ -537,7 +537,7 @@
                         </div>
 
                         <div>
-                            <label for="f-supplier" class="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-1">Fornecedor</label>
+                            <label for="f-supplier" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1">Fornecedor</label>
                             <select id="f-supplier" bind:value={fSupplierId}
                                 class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500">
                                 <option value="">—</option>
@@ -552,7 +552,7 @@
                             Marcar como Premium
                         </label>
 
-                        <p class="text-[11px] text-muted-foreground italic pt-2 border-t border-border">
+                        <p class="text-micro text-muted-foreground italic pt-2 border-t border-border">
                             Mudar nome, marca, material ou tipo dispara re-canonicalização automática (Canonical Engine v3).
                         </p>
                     </div>
@@ -564,15 +564,15 @@
                         </p>
 
                         <div>
-                            <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-2">Esférico</div>
+                            <div class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-2">Esférico</div>
                             <div class="grid grid-cols-2 gap-3">
                                 <div>
-                                    <label for="f-sph-min" class="text-[10px] text-muted-foreground">Mínimo</label>
+                                    <label for="f-sph-min" class="text-micro text-muted-foreground">Mínimo</label>
                                     <input id="f-sph-min" type="number" step="0.25" bind:value={fSphMin}
                                         class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground font-mono focus:outline-none focus:ring-2 focus:ring-primary-500" />
                                 </div>
                                 <div>
-                                    <label for="f-sph-max" class="text-[10px] text-muted-foreground">Máximo</label>
+                                    <label for="f-sph-max" class="text-micro text-muted-foreground">Máximo</label>
                                     <input id="f-sph-max" type="number" step="0.25" bind:value={fSphMax}
                                         class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground font-mono focus:outline-none focus:ring-2 focus:ring-primary-500" />
                                 </div>
@@ -580,15 +580,15 @@
                         </div>
 
                         <div>
-                            <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-2">Cilíndrico</div>
+                            <div class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-2">Cilíndrico</div>
                             <div class="grid grid-cols-2 gap-3">
                                 <div>
-                                    <label for="f-cyl-min" class="text-[10px] text-muted-foreground">Mínimo</label>
+                                    <label for="f-cyl-min" class="text-micro text-muted-foreground">Mínimo</label>
                                     <input id="f-cyl-min" type="number" step="0.25" bind:value={fCylMin}
                                         class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground font-mono focus:outline-none focus:ring-2 focus:ring-primary-500" />
                                 </div>
                                 <div>
-                                    <label for="f-cyl-max" class="text-[10px] text-muted-foreground">Máximo</label>
+                                    <label for="f-cyl-max" class="text-micro text-muted-foreground">Máximo</label>
                                     <input id="f-cyl-max" type="number" step="0.25" bind:value={fCylMax}
                                         class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground font-mono focus:outline-none focus:ring-2 focus:ring-primary-500" />
                                 </div>
@@ -602,15 +602,15 @@
 
                         {#if temAdicao}
                             <div>
-                                <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-2">Adição</div>
+                                <div class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-2">Adição</div>
                                 <div class="grid grid-cols-2 gap-3">
                                     <div>
-                                        <label for="f-add-min" class="text-[10px] text-muted-foreground">Mínima</label>
+                                        <label for="f-add-min" class="text-micro text-muted-foreground">Mínima</label>
                                         <input id="f-add-min" type="number" step="0.25" min="0" bind:value={fAddMin}
                                             class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground font-mono focus:outline-none focus:ring-2 focus:ring-primary-500" />
                                     </div>
                                     <div>
-                                        <label for="f-add-max" class="text-[10px] text-muted-foreground">Máxima</label>
+                                        <label for="f-add-max" class="text-micro text-muted-foreground">Máxima</label>
                                         <input id="f-add-max" type="number" step="0.25" min="0" bind:value={fAddMax}
                                             class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground font-mono focus:outline-none focus:ring-2 focus:ring-primary-500" />
                                     </div>
@@ -619,7 +619,7 @@
                         {/if}
 
                         <div>
-                            <label for="f-step" class="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-1">Passo (step)</label>
+                            <label for="f-step" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1">Passo (step)</label>
                             <input id="f-step" type="number" step="0.05" min="0.05" bind:value={fStep}
                                 class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground font-mono focus:outline-none focus:ring-2 focus:ring-primary-500" />
                         </div>
@@ -640,7 +640,7 @@
                                             class="rounded border-border" />
                                         <span class="flex-1 text-sm text-foreground">{t.name}</span>
                                         {#if t.code}
-                                            <span class="font-mono text-[10px] text-muted-foreground">{t.code}</span>
+                                            <span class="font-mono text-micro text-muted-foreground">{t.code}</span>
                                         {/if}
                                     </label>
                                 {/each}
@@ -652,12 +652,12 @@
                     <div class="space-y-4">
                         <div class="grid grid-cols-2 gap-3">
                             <div>
-                                <label for="f-cost" class="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-1">Custo (R$)</label>
+                                <label for="f-cost" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1">Custo (R$)</label>
                                 <input id="f-cost" type="number" step="0.01" min="0" bind:value={fPriceCost}
                                     class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500" />
                             </div>
                             <div>
-                                <label for="f-suggested" class="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-1">Sugerido (R$)</label>
+                                <label for="f-suggested" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1">Sugerido (R$)</label>
                                 <input id="f-suggested" type="number" step="0.01" min="0" bind:value={fPriceSuggested}
                                     class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500" />
                             </div>
@@ -674,19 +674,19 @@
 
                         <div class="grid grid-cols-2 gap-3 pt-4 border-t border-border">
                             <div>
-                                <label for="f-stock-av" class="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-1">Estoque Disp.</label>
+                                <label for="f-stock-av" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1">Estoque Disp.</label>
                                 <input id="f-stock-av" type="number" min="0" bind:value={fStockAvailable}
                                     class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500" />
                             </div>
                             <div>
-                                <label for="f-stock-min" class="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-1">Estoque Mín.</label>
+                                <label for="f-stock-min" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1">Estoque Mín.</label>
                                 <input id="f-stock-min" type="number" min="0" bind:value={fStockMinimum}
                                     class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500" />
                             </div>
                         </div>
 
                         <div>
-                            <label for="f-lead" class="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-1">Prazo entrega (dias)</label>
+                            <label for="f-lead" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1">Prazo entrega (dias)</label>
                             <input id="f-lead" type="number" min="0" bind:value={fLeadTime}
                                 class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500" />
                         </div>

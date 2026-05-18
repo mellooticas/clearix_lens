@@ -24,7 +24,7 @@
 </script>
 
 <div
-  class="bg-card border border-border rounded-xl p-6 hover:shadow-card-hover transition-all duration-300"
+  class="bg-card border border-border rounded-xl p-6 hover:shadow-card-hover transition-all duration-base"
   class:opacity-50={disabled}
 >
   <!-- Header -->

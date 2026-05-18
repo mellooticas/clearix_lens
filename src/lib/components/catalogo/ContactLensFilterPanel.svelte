@@ -241,7 +241,7 @@
                 {#each availableSuppliers as supplier}
                     <button
                         on:click={() => toggleSupplier(supplier)}
-                        class="px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 border
+                        class="px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-base border
                         {selectedSuppliers.includes(supplier)
                             ? 'bg-purple-600 border-purple-600 text-white shadow-md'
                             : 'bg-muted border-border text-muted-foreground hover:border-purple-300'}"
@@ -271,7 +271,7 @@
                 {#each availableBrands as brand}
                     <button
                         on:click={() => toggleBrand(brand)}
-                        class="px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 border
+                        class="px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-base border
             {selectedBrands.includes(brand)
                             ? 'bg-primary-600 border-primary-600 text-white shadow-md'
                             : 'bg-muted border-border text-muted-foreground hover:border-primary-300'}"
@@ -304,7 +304,7 @@
             </div>
             <div class="flex items-center gap-2 text-muted-foreground">
                 <span
-                    class="text-[10px] font-medium opacity-0 group-hover:opacity-100 transition-opacity"
+                    class="text-micro font-medium opacity-0 group-hover:opacity-100 transition-opacity"
                 >
                     {showAdvancedGrades ? "RECOLHER" : "CONFIGURAR GRAU"}
                 </span>
@@ -330,7 +330,7 @@
                         >
                         {#if esf !== null}
                             <button
-                                class="text-[10px] text-primary-600 hover:underline"
+                                class="text-micro text-primary-600 hover:underline"
                                 on:click={() => {
                                     esf = null;
                                     applyFilters();
@@ -348,7 +348,7 @@
                             on:input={applyFilters}
                         />
                     </div>
-                    <p class="text-[10px] text-muted-foreground text-center italic">
+                    <p class="text-micro text-muted-foreground text-center italic">
                         Ex: -2.00 ou +4.25
                     </p>
                 </div>
@@ -362,7 +362,7 @@
                         >
                         {#if cil !== null}
                             <button
-                                class="text-[10px] text-primary-600 hover:underline"
+                                class="text-micro text-primary-600 hover:underline"
                                 on:click={() => {
                                     cil = null;
                                     applyFilters();
@@ -381,7 +381,7 @@
                             on:input={applyFilters}
                         />
                     </div>
-                    <p class="text-[10px] text-muted-foreground text-center italic">
+                    <p class="text-micro text-muted-foreground text-center italic">
                         Sempre negativo (ex: -0.75)
                     </p>
                 </div>
@@ -395,7 +395,7 @@
                         >
                         {#if add !== null}
                             <button
-                                class="text-[10px] text-primary-600 hover:underline"
+                                class="text-micro text-primary-600 hover:underline"
                                 on:click={() => {
                                     add = null;
                                     applyFilters();
@@ -414,13 +414,13 @@
                             on:input={applyFilters}
                         />
                     </div>
-                    <p class="text-[10px] text-muted-foreground text-center italic">
+                    <p class="text-micro text-muted-foreground text-center italic">
                         Multifocais (ex: 2.00)
                     </p>
                 </div>
 
                 <div
-                    class="sm:col-span-3 flex items-start gap-2 text-muted-foreground text-[10px]"
+                    class="sm:col-span-3 flex items-start gap-2 text-muted-foreground text-micro"
                 >
                     <Info class="w-3 h-3 mt-0.5 flex-shrink-0" />
                     <p>

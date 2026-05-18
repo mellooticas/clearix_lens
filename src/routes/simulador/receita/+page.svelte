@@ -152,7 +152,7 @@
                     { value: "multifocal",     label: "Multifocal / Prog.", emoji: "🔬" },
                 ] as opt (opt.value)}
                     <label
-                        class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl cursor-pointer border-2 transition-all duration-200 font-semibold text-sm select-none
+                        class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl cursor-pointer border-2 transition-all duration-base font-semibold text-sm select-none
                             {tipoLente === opt.value
                                 ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300'
                                 : 'border-border bg-card text-muted-foreground hover:border-primary-300 dark:hover:border-primary-600'}"
@@ -179,7 +179,7 @@
                     </div>
                     <div>
                         <h3 class="font-bold text-foreground text-sm">OD — Olho Direito</h3>
-                        <p class="text-[11px] text-muted-foreground font-mono">{formatarGrau(od.esferico)} / {formatarGrau(od.cilindrico)} × {od.eixo}°</p>
+                        <p class="text-micro text-muted-foreground font-mono">{formatarGrau(od.esferico)} / {formatarGrau(od.cilindrico)} × {od.eixo}°</p>
                     </div>
                 </div>
                 <div class="receita-body">
@@ -238,7 +238,7 @@
                     </div>
                     <div>
                         <h3 class="font-bold text-foreground text-sm">OE — Olho Esquerdo</h3>
-                        <p class="text-[11px] text-muted-foreground font-mono">{formatarGrau(oe.esferico)} / {formatarGrau(oe.cilindrico)} × {oe.eixo}°</p>
+                        <p class="text-micro text-muted-foreground font-mono">{formatarGrau(oe.esferico)} / {formatarGrau(oe.cilindrico)} × {oe.eixo}°</p>
                     </div>
                     <label class="ml-auto flex items-center gap-2 text-xs cursor-pointer text-muted-foreground font-medium">
                         <input type="checkbox" bind:checked={usarMesmaReceita} class="w-3.5 h-3.5 accent-orange-500 cursor-pointer" />
@@ -296,7 +296,7 @@
 
         <!-- ── Preview da Receita ───────────────────────────────────────────── -->
         <div class="bg-amber-50/60 dark:bg-amber-950/10 border-2 border-dashed border-amber-200 dark:border-amber-700/30 rounded-xl p-4">
-            <p class="text-[11px] font-bold text-amber-600 dark:text-amber-500 uppercase tracking-wider mb-3">📋 Preview da Receita</p>
+            <p class="text-micro font-bold text-amber-600 dark:text-amber-500 uppercase tracking-wider mb-3">📋 Preview da Receita</p>
             <div class="overflow-x-auto rounded-lg border border-amber-100 dark:border-amber-900/20">
                 <table class="w-full border-collapse text-sm">
                     <thead class="bg-amber-50 dark:bg-amber-950/30">
@@ -403,10 +403,10 @@
                                 <!-- Header -->
                                 <div class="px-4 pt-4 pb-3 bg-gradient-to-br from-primary-50 to-blue-50 dark:from-primary-950/20 dark:to-blue-950/20">
                                     <div class="flex items-start justify-between gap-2 mb-2">
-                                        <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-black tracking-wider font-mono bg-primary-100 text-primary-800 dark:bg-primary-900/40 dark:text-primary-300 border border-primary-200 dark:border-primary-700">
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded-md text-micro font-black tracking-wider font-mono bg-primary-100 text-primary-800 dark:bg-primary-900/40 dark:text-primary-300 border border-primary-200 dark:border-primary-700">
                                             {res.sku}
                                         </span>
-                                        <span class="text-[10px] font-mono text-muted-foreground">{res.tenant_lens_count} lente{res.tenant_lens_count !== 1 ? 's' : ''}</span>
+                                        <span class="text-micro font-mono text-muted-foreground">{res.tenant_lens_count} lente{res.tenant_lens_count !== 1 ? 's' : ''}</span>
                                     </div>
                                     <h5 class="font-bold text-foreground text-sm leading-snug line-clamp-2 group-hover:text-primary-700 dark:group-hover:text-primary-300 transition-colors">
                                         {res.canonical_name}
@@ -421,13 +421,13 @@
                                     {#if res.treatment_codes && res.treatment_codes.length > 0}
                                         <div class="flex flex-wrap gap-1">
                                             {#each res.treatment_codes as code (code)}
-                                                <span class="px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide {tratamentoBadgeClass(code)}">
+                                                <span class="px-1.5 py-0.5 rounded text-micro font-bold uppercase tracking-wide {tratamentoBadgeClass(code)}">
                                                     {formatarTratamento(code)}
                                                 </span>
                                             {/each}
                                         </div>
                                     {:else}
-                                        <span class="text-[11px] text-muted-foreground italic">Sem tratamentos adicionais</span>
+                                        <span class="text-micro text-muted-foreground italic">Sem tratamentos adicionais</span>
                                     {/if}
                                 </div>
 
@@ -451,7 +451,7 @@
                                     </div>
                                 {:else}
                                     <div class="px-4 py-2 bg-muted">
-                                        <p class="text-[10px] text-muted-foreground font-medium">Sem pricing cadastrado</p>
+                                        <p class="text-micro text-muted-foreground font-medium">Sem pricing cadastrado</p>
                                     </div>
                                 {/if}
                             </a>
@@ -475,10 +475,10 @@
                                 <!-- Header -->
                                 <div class="px-4 pt-4 pb-3 bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950/20 dark:to-orange-950/20">
                                     <div class="flex items-start justify-between gap-2 mb-2">
-                                        <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-black tracking-wider font-mono bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300 border border-amber-200 dark:border-amber-700">
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded-md text-micro font-black tracking-wider font-mono bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300 border border-amber-200 dark:border-amber-700">
                                             {res.sku}
                                         </span>
-                                        <span class="flex items-center gap-1 text-[10px] text-amber-500 font-bold">
+                                        <span class="flex items-center gap-1 text-micro text-amber-500 font-bold">
                                             ★ <span class="text-muted-foreground font-normal font-mono">{res.tenant_lens_count}L</span>
                                         </span>
                                     </div>
@@ -495,13 +495,13 @@
                                     {#if res.treatment_codes && res.treatment_codes.length > 0}
                                         <div class="flex flex-wrap gap-1">
                                             {#each res.treatment_codes as code (code)}
-                                                <span class="px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide {tratamentoBadgeClass(code)}">
+                                                <span class="px-1.5 py-0.5 rounded text-micro font-bold uppercase tracking-wide {tratamentoBadgeClass(code)}">
                                                     {formatarTratamento(code)}
                                                 </span>
                                             {/each}
                                         </div>
                                     {:else}
-                                        <span class="text-[11px] text-muted-foreground italic">Sem tratamentos adicionais</span>
+                                        <span class="text-micro text-muted-foreground italic">Sem tratamentos adicionais</span>
                                     {/if}
                                 </div>
 
@@ -525,7 +525,7 @@
                                     </div>
                                 {:else}
                                     <div class="px-4 py-2 bg-amber-50 dark:bg-amber-950/20">
-                                        <p class="text-[10px] text-amber-500 font-medium">Sem pricing cadastrado</p>
+                                        <p class="text-micro text-amber-500 font-medium">Sem pricing cadastrado</p>
                                     </div>
                                 {/if}
                             </a>

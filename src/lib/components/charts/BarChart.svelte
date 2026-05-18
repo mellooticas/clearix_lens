@@ -41,7 +41,7 @@
           class="w-full bg-gradient-to-r from-muted to-muted rounded-full h-10 overflow-hidden shadow-inner"
         >
           <div
-            class="h-full rounded-full transition-all duration-700 ease-out flex items-center justify-end pr-4 relative overflow-hidden group-hover:shadow-lg"
+            class="h-full rounded-full transition-all duration-slow ease-out flex items-center justify-end pr-4 relative overflow-hidden group-hover:shadow-lg"
             style="width: {percentage}%; background: linear-gradient(90deg, {item.color}ee, {item.color})"
           >
             <!-- Efeito de brilho animado -->

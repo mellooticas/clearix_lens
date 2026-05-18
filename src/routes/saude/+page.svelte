@@ -246,7 +246,7 @@
                                 <div
                                     class="h-full {getZonaColor(
                                         zone.zona_comercial,
-                                    )} transition-all duration-1000"
+                                    )} transition-all duration-deliberate"
                                     style="width: {(
                                         (zone.qtd_lentes /
                                             (catalogSummary[0]?.total || 1)) *
@@ -269,7 +269,7 @@
                 <div
                     class="mt-8 pt-6 border-t border-border flex flex-col gap-2"
                 >
-                    <p class="text-[10px] text-muted-foreground leading-tight">
+                    <p class="text-micro text-muted-foreground leading-tight">
                         * O sistema utiliza uma curva assintótica dinâmica.
                         O markup médio de cada zona comercial é monitorado
                         continuamente pelo Organismo Vivo de Precificação.

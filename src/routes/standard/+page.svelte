@@ -174,12 +174,12 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                         {#each items as c (c.id)}
                             <a href="/standard/{c.id}"
-                                class="bg-card border border-border rounded-2xl p-5 hover:shadow-md hover:border-sky-200 dark:hover:border-sky-800 transition-all duration-200 flex flex-col gap-3 no-underline">
+                                class="bg-card border border-border rounded-2xl p-5 hover:shadow-md hover:border-sky-200 dark:hover:border-sky-800 transition-all duration-base flex flex-col gap-3 no-underline">
 
                                 <div>
                                     <h3 class="font-bold text-foreground text-sm leading-snug line-clamp-2">{c.canonical_name ?? '—'}</h3>
                                     {#if c.sku}
-                                        <p class="font-mono text-[11px] text-muted-foreground mt-0.5">{c.sku}</p>
+                                        <p class="font-mono text-micro text-muted-foreground mt-0.5">{c.sku}</p>
                                     {/if}
                                 </div>
 
@@ -194,13 +194,13 @@
                                 {#if c.treatment_codes && c.treatment_codes.length > 0}
                                     <div class="flex flex-wrap gap-1">
                                         {#each c.treatment_codes as t}
-                                            <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold uppercase {TREATMENT_CLASSES[t] ?? 'bg-muted text-muted-foreground'}">{t}</span>
+                                            <span class="inline-flex items-center px-1.5 py-0.5 rounded text-micro font-bold uppercase {TREATMENT_CLASSES[t] ?? 'bg-muted text-muted-foreground'}">{t}</span>
                                         {/each}
                                     </div>
                                 {/if}
 
                                 <div class="flex items-center justify-between pt-3 border-t border-border">
-                                    <span class="text-[10px] text-muted-foreground">
+                                    <span class="text-micro text-muted-foreground">
                                         {c.mapped_lens_count} lentes · {c.mapped_supplier_count} forn.
                                     </span>
                                     {#if c.price_avg}

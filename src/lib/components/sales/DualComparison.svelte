@@ -183,7 +183,7 @@
           <div class="flex items-center gap-2 text-sm text-foreground">
             <span class="font-semibold text-foreground">Tecnologia:</span>
             <span
-              class="px-2 py-0.5 bg-brand-gold-100 text-brand-gold-800 rounded font-bold text-[10px] tracking-wide border border-brand-gold-200"
+              class="px-2 py-0.5 bg-brand-gold-100 text-brand-gold-800 rounded font-bold text-micro tracking-wide border border-brand-gold-200"
               >EQUIVALENTE</span
             >
             {privateLabelOption.tecnologia}
@@ -283,7 +283,7 @@
               >
             </div>
             <div
-              class="text-center text-[11px] text-white bg-green-600 rounded-full py-0.5 px-2 mt-2 inline-block font-bold shadow-sm relative z-10"
+              class="text-center text-micro text-white bg-green-600 rounded-full py-0.5 px-2 mt-2 inline-block font-bold shadow-sm relative z-10"
             >
               VOCÊ GANHA +{new Intl.NumberFormat("pt-BR", {
                 style: "currency",

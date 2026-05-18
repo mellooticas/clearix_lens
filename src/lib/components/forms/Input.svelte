@@ -11,7 +11,7 @@
   export let error = '';
   export let icon: 'search' | 'none' = 'none';
   
-  const baseClasses = 'w-full rounded-lg border bg-card px-4 py-2 text-sm transition-all duration-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 disabled:opacity-50 disabled:cursor-not-allowed';
+  const baseClasses = 'w-full rounded-lg border bg-card px-4 py-2 text-sm transition-all duration-base focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 disabled:opacity-50 disabled:cursor-not-allowed';
   
   $: inputClasses = `${baseClasses} ${error ? 'border-error' : 'border-border'} ${icon === 'search' ? 'pl-10' : ''}`;
 </script>

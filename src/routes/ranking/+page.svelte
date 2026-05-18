@@ -275,7 +275,7 @@
                     class="w-full bg-border rounded-full h-2.5"
                   >
                     <div
-                      class="bg-gradient-to-r from-blue-500 to-blue-600 h-2.5 rounded-full transition-all duration-500"
+                      class="bg-gradient-to-r from-blue-500 to-blue-600 h-2.5 rounded-full transition-all duration-slow"
                       style="width: {percentual}%"
                     ></div>
                   </div>
@@ -311,7 +311,7 @@
                     class="w-full bg-border rounded-full h-2.5"
                   >
                     <div
-                      class="bg-gradient-to-r from-green-500 to-emerald-600 h-2.5 rounded-full transition-all duration-500"
+                      class="bg-gradient-to-r from-green-500 to-emerald-600 h-2.5 rounded-full transition-all duration-slow"
                       style="width: {percentual}%"
                     ></div>
                   </div>

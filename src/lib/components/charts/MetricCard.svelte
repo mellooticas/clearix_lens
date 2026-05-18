@@ -64,7 +64,7 @@
 </script>
 
 <div
-  class="bg-card rounded-xl overflow-hidden group hover:shadow-xl transition-all duration-300 border {currentColor.border}"
+  class="bg-card rounded-xl overflow-hidden group hover:shadow-xl transition-all duration-base border {currentColor.border}"
 >
   <!-- Header com gradiente -->
   <div
@@ -72,7 +72,7 @@
   >
     <!-- Efeito de brilho no hover -->
     <div
-      class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+      class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-slow"
     ></div>
 
     <div class="flex items-center gap-3 text-white relative z-10">

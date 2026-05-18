@@ -14,7 +14,7 @@
 </script>
 
 <div 
-  class="bg-card rounded-xl border p-6 transition-all duration-200"
+  class="bg-card rounded-xl border p-6 transition-all duration-base"
   class:border-brand-gold-500={highlighted}
   class:shadow-elevated={highlighted}
   class:border-border={!highlighted}

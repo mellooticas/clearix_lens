@@ -45,11 +45,11 @@
 </script>
 
 <div
-  class="group relative rounded-xl border-2 {config.border} bg-gradient-to-br {config.bg} overflow-hidden hover:shadow-lg transition-all duration-300"
+  class="group relative rounded-xl border-2 {config.border} bg-gradient-to-br {config.bg} overflow-hidden hover:shadow-lg transition-all duration-base"
 >
   <!-- Barra lateral colorida -->
   <div
-    class="absolute left-0 top-0 bottom-0 w-1.5 {config.accentBg} group-hover:w-2 transition-all duration-300"
+    class="absolute left-0 top-0 bottom-0 w-1.5 {config.accentBg} group-hover:w-2 transition-all duration-base"
   ></div>
 
   <!-- Conteúdo -->
@@ -58,7 +58,7 @@
       <!-- Ícone com fundo -->
       <div class="flex-shrink-0 flex items-center gap-2">
         <div
-          class="w-12 h-12 rounded-xl bg-card shadow-md flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+          class="w-12 h-12 rounded-xl bg-card shadow-md flex items-center justify-center group-hover:scale-110 transition-transform duration-base"
         >
           <span class="text-2xl">{icon}</span>
         </div>
@@ -94,6 +94,6 @@
 
   <!-- Efeito de brilho no hover -->
   <div
-    class="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+    class="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-slow pointer-events-none"
   ></div>
 </div>

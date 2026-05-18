@@ -80,7 +80,7 @@
 
 <a
   href="{linkBase}/{grupo.id}"
-  class="grupo-card flex flex-col bg-card border {cardBorder} rounded-2xl hover:shadow-xl transition-all duration-300 overflow-hidden group"
+  class="grupo-card flex flex-col bg-card border {cardBorder} rounded-2xl hover:shadow-xl transition-all duration-base overflow-hidden group"
 >
   <!-- ── Header ─────────────────────────────────────────────────────────── -->
   <div class="px-5 pt-5 pb-3 bg-gradient-to-br {headerBg}">
@@ -109,20 +109,20 @@
       <span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-semibold bg-muted text-foreground">
         {grupo.material_display}
       </span>
-      <span class="text-[11px] text-muted-foreground">n={grupo.refractive_index}</span>
+      <span class="text-micro text-muted-foreground">n={grupo.refractive_index}</span>
     </div>
 
     <!-- Tratamentos -->
     {#if grupo.treatment_codes && grupo.treatment_codes.length > 0}
       <div class="flex flex-wrap gap-1">
         {#each grupo.treatment_codes as code}
-          <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide {tratamentoBadgeClass(code)}">
+          <span class="inline-flex items-center px-1.5 py-0.5 rounded text-micro font-bold uppercase tracking-wide {tratamentoBadgeClass(code)}">
             {formatarTratamento(code)}
           </span>
         {/each}
       </div>
     {:else}
-      <div class="text-[11px] text-muted-foreground italic">Sem tratamentos adicionais</div>
+      <div class="text-micro text-muted-foreground italic">Sem tratamentos adicionais</div>
     {/if}
 
     <!-- Faixa de Graus -->
@@ -143,7 +143,7 @@
     <div class="px-5 py-3 bg-gradient-to-r {priceBg}">
       <div class="flex items-center justify-between">
         <div>
-          <div class="text-[10px] text-white/70 uppercase font-bold tracking-widest">Faixa de Preço</div>
+          <div class="text-micro text-white/70 uppercase font-bold tracking-widest">Faixa de Preço</div>
           <div class="text-white font-bold text-base leading-tight">
             {formatarPreco(grupo.price_min)}
             {#if grupo.price_max && grupo.price_max !== grupo.price_min}
@@ -156,7 +156,7 @@
         </div>
         {#if temMarkup}
           <div class="text-right">
-            <div class="text-[10px] text-white/70 uppercase font-bold tracking-widest">Markup</div>
+            <div class="text-micro text-white/70 uppercase font-bold tracking-widest">Markup</div>
             <div class="text-white font-bold text-sm">{grupo.markup_min?.toFixed(1)}x — {grupo.markup_max?.toFixed(1)}x</div>
           </div>
         {/if}
@@ -166,7 +166,7 @@
 
   <!-- ── Footer: Counters ────────────────────────────────────────────────── -->
   <div class="px-5 py-2.5 bg-muted/50 border-t border-border">
-    <div class="flex items-center justify-between text-[10px] text-muted-foreground font-semibold">
+    <div class="flex items-center justify-between text-micro text-muted-foreground font-semibold">
       <span title="Lentes mapeadas">📦 {grupo.mapped_lens_count ?? 0} lentes</span>
       <span title="Marcas">🏷️ {grupo.mapped_brand_count ?? 0} marcas</span>
       <span title="Fornecedores">🚚 {grupo.mapped_supplier_count ?? 0} fornec.</span>

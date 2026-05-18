@@ -139,7 +139,7 @@
                         >
                             {#if i === 0}
                                 <span
-                                    class="text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold uppercase tracking-wide border border-green-200"
+                                    class="text-micro bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold uppercase tracking-wide border border-green-200"
                                 >
                                     Atual
                                 </span>

@@ -31,7 +31,7 @@
       dark:hover:from-primary-900/40 dark:hover:to-primary-800/40
       border border-border
       shadow-sm hover:shadow-md
-      transition-all duration-300 hover:scale-110
+      transition-all duration-base hover:scale-110
       focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 
       dark:focus:ring-offset-background
       {sizes[size]}"
@@ -45,7 +45,7 @@
         height="22" 
         fill="currentColor" 
         viewBox="0 0 24 24"
-        class="transition-all duration-300 drop-shadow-sm"
+        class="transition-all duration-base drop-shadow-sm"
       >
         <path 
           d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" 
@@ -59,7 +59,7 @@
         fill="none" 
         stroke="currentColor" 
         viewBox="0 0 24 24"
-        class="transition-all duration-300 drop-shadow-sm"
+        class="transition-all duration-base drop-shadow-sm"
       >
         <path 
           stroke-linecap="round" 

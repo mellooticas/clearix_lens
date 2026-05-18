@@ -79,7 +79,7 @@
         <path
           d={arc.path}
           fill={arc.color}
-          class="transition-all duration-300 hover:opacity-90 hover:scale-105 cursor-pointer"
+          class="transition-all duration-base hover:opacity-90 hover:scale-105 cursor-pointer"
           style="transform-origin: {size / 2}px {size /
             2}px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));"
         />
@@ -119,7 +119,7 @@
   <div class="flex-1 w-full space-y-3">
     {#each arcs as arc, i}
       <div
-        class="group flex items-center gap-3 p-3 rounded-lg hover:bg-accent transition-all duration-200 cursor-pointer"
+        class="group flex items-center gap-3 p-3 rounded-lg hover:bg-accent transition-all duration-base cursor-pointer"
       >
         <!-- Indicador de cor com gradiente -->
         <div

@@ -246,37 +246,37 @@
                             <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
                                 {#if lente.lens_type}
                                     <div class="bg-muted rounded-xl px-3 py-2.5">
-                                        <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-0.5">Tipo</div>
+                                        <div class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-0.5">Tipo</div>
                                         <div class="text-sm font-semibold text-foreground">{DESCARTE_LABELS[lente.lens_type] ?? lente.lens_type}</div>
                                     </div>
                                 {/if}
                                 {#if lente.purpose}
                                     <div class="bg-muted rounded-xl px-3 py-2.5">
-                                        <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-0.5">Finalidade</div>
+                                        <div class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-0.5">Finalidade</div>
                                         <div class="text-sm font-semibold text-foreground">{PURPOSE_LABELS[lente.purpose] ?? lente.purpose.replace('_', ' ')}</div>
                                     </div>
                                 {/if}
                                 {#if lente.material}
                                     <div class="bg-muted rounded-xl px-3 py-2.5">
-                                        <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-0.5">Material</div>
+                                        <div class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-0.5">Material</div>
                                         <div class="text-sm font-semibold text-foreground truncate">{lente.material}</div>
                                     </div>
                                 {/if}
                                 {#if lente.usage_days}
                                     <div class="bg-muted rounded-xl px-3 py-2.5">
-                                        <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-0.5">Descarte</div>
+                                        <div class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-0.5">Descarte</div>
                                         <div class="text-sm font-semibold text-foreground">{lente.usage_days} dias</div>
                                     </div>
                                 {/if}
                                 {#if lente.units_per_box}
                                     <div class="bg-muted rounded-xl px-3 py-2.5">
-                                        <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-0.5">Unid./Caixa</div>
+                                        <div class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-0.5">Unid./Caixa</div>
                                         <div class="text-sm font-semibold text-foreground">{lente.units_per_box} lentes</div>
                                     </div>
                                 {/if}
                                 {#if lente.stock_available != null}
                                     <div class="bg-muted rounded-xl px-3 py-2.5">
-                                        <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-0.5">Estoque</div>
+                                        <div class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-0.5">Estoque</div>
                                         <div class="text-sm font-semibold {lente.stock_available > 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-500'}">{lente.stock_available} caixas</div>
                                     </div>
                                 {/if}
@@ -306,7 +306,7 @@
                                 <div class="space-y-4">
                                     <!-- Esférico -->
                                     <div>
-                                        <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-1.5">Esférico (dioptrias)</div>
+                                        <div class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-1.5">Esférico (dioptrias)</div>
                                         <div class="grid grid-cols-2 gap-2">
                                             <input type="number" step="0.25" placeholder="mínimo (ex: -12.00)" bind:value={specEsfMin}
                                                 class="px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500" />
@@ -316,7 +316,7 @@
                                     </div>
                                     <!-- Cilíndrico -->
                                     <div>
-                                        <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-1.5">Cilíndrico (dioptrias)</div>
+                                        <div class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-1.5">Cilíndrico (dioptrias)</div>
                                         <div class="grid grid-cols-2 gap-2">
                                             <input type="number" step="0.25" placeholder="mínimo (ex: -2.25)" bind:value={specCilMin}
                                                 class="px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500" />
@@ -326,7 +326,7 @@
                                     </div>
                                     <!-- Eixo -->
                                     <div>
-                                        <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-1.5">Eixo (graus 0–180)</div>
+                                        <div class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-1.5">Eixo (graus 0–180)</div>
                                         <div class="grid grid-cols-2 gap-2">
                                             <input type="number" step="1" min="0" max="180" placeholder="mínimo" bind:value={specAxisMin}
                                                 class="px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500" />
@@ -336,7 +336,7 @@
                                     </div>
                                     <!-- Adição -->
                                     <div>
-                                        <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-1.5">Adição (multifocal)</div>
+                                        <div class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-1.5">Adição (multifocal)</div>
                                         <div class="grid grid-cols-2 gap-2">
                                             <input type="number" step="0.25" placeholder="mínima (ex: +0.75)" bind:value={specAddMin}
                                                 class="px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500" />
@@ -346,35 +346,35 @@
                                     </div>
                                     <!-- Parametros fisicos -->
                                     <div>
-                                        <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-1.5">Parâmetros Físicos</div>
+                                        <div class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-1.5">Parâmetros Físicos</div>
                                         <div class="grid grid-cols-2 gap-2">
                                             <div>
-                                                <label class="text-[10px] text-muted-foreground">Curva Base (mm)</label>
+                                                <label class="text-micro text-muted-foreground">Curva Base (mm)</label>
                                                 <input type="number" step="0.1" min="7.0" max="10.0" placeholder="ex: 8.6" bind:value={specCurva}
                                                     class="w-full mt-0.5 px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500" />
                                             </div>
                                             <div>
-                                                <label class="text-[10px] text-muted-foreground">Diâmetro (mm)</label>
+                                                <label class="text-micro text-muted-foreground">Diâmetro (mm)</label>
                                                 <input type="number" step="0.1" min="8.0" max="16.0" placeholder="ex: 14.2" bind:value={specDiam}
                                                     class="w-full mt-0.5 px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500" />
                                             </div>
                                             <div>
-                                                <label class="text-[10px] text-muted-foreground">Dk/t</label>
+                                                <label class="text-micro text-muted-foreground">Dk/t</label>
                                                 <input type="number" step="1" min="0" placeholder="ex: 147" bind:value={specDkT}
                                                     class="w-full mt-0.5 px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500" />
                                             </div>
                                             <div>
-                                                <label class="text-[10px] text-muted-foreground">% Água</label>
+                                                <label class="text-micro text-muted-foreground">% Água</label>
                                                 <input type="number" step="1" min="0" max="100" placeholder="ex: 38" bind:value={specAgua}
                                                     class="w-full mt-0.5 px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500" />
                                             </div>
                                             <div>
-                                                <label class="text-[10px] text-muted-foreground">Dias de Uso</label>
+                                                <label class="text-micro text-muted-foreground">Dias de Uso</label>
                                                 <input type="number" step="1" min="0" placeholder="ex: 30" bind:value={specDias}
                                                     class="w-full mt-0.5 px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500" />
                                             </div>
                                             <div>
-                                                <label class="text-[10px] text-muted-foreground">Unid./Caixa</label>
+                                                <label class="text-micro text-muted-foreground">Unid./Caixa</label>
                                                 <input type="number" step="1" min="0" placeholder="ex: 6" bind:value={specUnCaixa}
                                                     class="w-full mt-0.5 px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500" />
                                             </div>
@@ -403,25 +403,25 @@
                                         <div class="grid grid-cols-2 gap-2">
                                             {#if lente.spherical_min != null}
                                                 <div class="bg-muted rounded-xl px-3 py-2.5">
-                                                    <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-0.5">Esférico</div>
+                                                    <div class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-0.5">Esférico</div>
                                                     <div class="text-sm font-semibold text-foreground">{lente.spherical_min} a {lente.spherical_max}</div>
                                                 </div>
                                             {/if}
                                             {#if lente.cylindrical_min != null}
                                                 <div class="bg-muted rounded-xl px-3 py-2.5">
-                                                    <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-0.5">Cilíndrico</div>
+                                                    <div class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-0.5">Cilíndrico</div>
                                                     <div class="text-sm font-semibold text-foreground">{lente.cylindrical_min} a {lente.cylindrical_max}</div>
                                                 </div>
                                             {/if}
                                             {#if lente.axis_min != null}
                                                 <div class="bg-muted rounded-xl px-3 py-2.5">
-                                                    <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-0.5">Eixo</div>
+                                                    <div class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-0.5">Eixo</div>
                                                     <div class="text-sm font-semibold text-foreground">{lente.axis_min}° a {lente.axis_max}°</div>
                                                 </div>
                                             {/if}
                                             {#if lente.addition_min != null}
                                                 <div class="bg-muted rounded-xl px-3 py-2.5">
-                                                    <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-0.5">Adição</div>
+                                                    <div class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-0.5">Adição</div>
                                                     <div class="text-sm font-semibold text-foreground">{lente.addition_min} a {lente.addition_max}</div>
                                                 </div>
                                             {/if}
@@ -432,25 +432,25 @@
                                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
                                             {#if lente.dk_t}
                                                 <div class="text-center bg-muted rounded-xl p-2.5">
-                                                    <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-0.5">Dk/t</div>
+                                                    <div class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-0.5">Dk/t</div>
                                                     <div class="text-base font-black text-foreground">{lente.dk_t}</div>
                                                 </div>
                                             {/if}
                                             {#if lente.water_content}
                                                 <div class="text-center bg-muted rounded-xl p-2.5">
-                                                    <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-0.5">H₂O</div>
+                                                    <div class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-0.5">H₂O</div>
                                                     <div class="text-base font-black text-foreground">{lente.water_content}%</div>
                                                 </div>
                                             {/if}
                                             {#if lente.diameter}
                                                 <div class="text-center bg-muted rounded-xl p-2.5">
-                                                    <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-0.5">Diâmetro</div>
+                                                    <div class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-0.5">Diâmetro</div>
                                                     <div class="text-base font-black text-foreground">{lente.diameter}mm</div>
                                                 </div>
                                             {/if}
                                             {#if lente.base_curve}
                                                 <div class="text-center bg-muted rounded-xl p-2.5">
-                                                    <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-0.5">Curva</div>
+                                                    <div class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-0.5">Curva</div>
                                                     <div class="text-base font-black text-foreground">{lente.base_curve}</div>
                                                 </div>
                                             {/if}
@@ -502,12 +502,12 @@
                                 <!-- Modo edição -->
                                 <div class="space-y-3">
                                     <div>
-                                        <label class="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-1">Custo (R$)</label>
+                                        <label class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1">Custo (R$)</label>
                                         <input type="number" step="0.01" min="0" bind:value={editCost}
                                             class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500" />
                                     </div>
                                     <div>
-                                        <label class="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-1">Preço por Caixa (R$)</label>
+                                        <label class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1">Preço por Caixa (R$)</label>
                                         <input type="number" step="0.01" min="0" bind:value={editSugerido}
                                             class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500" />
                                     </div>
@@ -537,7 +537,7 @@
                                 <div class="space-y-4">
                                     {#if lente.price_suggested}
                                         <div>
-                                            <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground">Por Caixa</div>
+                                            <div class="text-micro font-black uppercase tracking-wider text-muted-foreground">Por Caixa</div>
                                             <div class="text-3xl font-black text-foreground mt-0.5">{fmt(lente.price_suggested)}</div>
                                             {#if lente.units_per_box}
                                                 <div class="text-xs text-muted-foreground mt-0.5">{lente.units_per_box} lentes por caixa</div>
@@ -546,13 +546,13 @@
                                     {/if}
                                     {#if lente.price_cost && lente.price_cost > 0}
                                         <div class="pt-3 border-t border-border">
-                                            <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground">Custo</div>
+                                            <div class="text-micro font-black uppercase tracking-wider text-muted-foreground">Custo</div>
                                             <div class="text-xl font-bold text-muted-foreground dark:text-muted-foreground mt-0.5">{fmt(lente.price_cost)}</div>
                                         </div>
                                     {/if}
                                     {#if lente.lead_time_days}
                                         <div class="pt-3 border-t border-border">
-                                            <div class="text-[10px] font-black uppercase tracking-wider text-muted-foreground">Prazo de Entrega</div>
+                                            <div class="text-micro font-black uppercase tracking-wider text-muted-foreground">Prazo de Entrega</div>
                                             <div class="text-sm font-bold text-foreground mt-0.5">{lente.lead_time_days} dias</div>
                                         </div>
                                     {/if}

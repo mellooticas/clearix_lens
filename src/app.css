@@ -422,6 +422,7 @@
   .duration-fast { transition-duration: var(--duration-fast); }
   .duration-base { transition-duration: var(--duration-base); }
   .duration-slow { transition-duration: var(--duration-slow); }
+  .duration-deliberate { transition-duration: var(--duration-deliberate); }
   .ease-emphasis { transition-timing-function: var(--ease-emphasis); }
 }
 

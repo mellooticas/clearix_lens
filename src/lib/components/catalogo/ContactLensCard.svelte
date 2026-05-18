@@ -22,7 +22,7 @@
 </script>
 
 <a href="/contato/{lente.id}"
-    class="bg-card border border-border rounded-2xl p-5 hover:shadow-md hover:border-primary-200 dark:hover:border-primary-800 transition-all duration-200 flex flex-col gap-3 no-underline">
+    class="bg-card border border-border rounded-2xl p-5 hover:shadow-md hover:border-primary-200 dark:hover:border-primary-800 transition-all duration-base flex flex-col gap-3 no-underline">
 
     <!-- Nome + badge tipo -->
     <div class="flex items-start justify-between gap-2">
@@ -30,7 +30,7 @@
             <h3 class="font-bold text-foreground text-sm leading-snug line-clamp-2">
                 {lente.product_name ?? '—'}
             </h3>
-            <p class="text-[11px] text-muted-foreground mt-0.5 truncate">
+            <p class="text-micro text-muted-foreground mt-0.5 truncate">
                 {lente.brand_name ?? '—'}
             </p>
         </div>
@@ -45,25 +45,25 @@
     <div class="space-y-1.5 flex-1">
         {#if lente.lens_type}
             <div class="flex items-center gap-2">
-                <span class="text-[10px] font-black uppercase tracking-wide text-muted-foreground w-14 shrink-0">Tipo</span>
+                <span class="text-micro font-black uppercase tracking-wide text-muted-foreground w-14 shrink-0">Tipo</span>
                 <span class="text-xs text-muted-foreground">{DESCARTE_LABELS[lente.lens_type] ?? lente.lens_type}</span>
             </div>
         {/if}
         {#if lente.material}
             <div class="flex items-center gap-2">
-                <span class="text-[10px] font-black uppercase tracking-wide text-muted-foreground w-14 shrink-0">Material</span>
+                <span class="text-micro font-black uppercase tracking-wide text-muted-foreground w-14 shrink-0">Material</span>
                 <span class="text-xs text-muted-foreground truncate">{lente.material}</span>
             </div>
         {/if}
         {#if lente.manufacturer_name}
             <div class="flex items-center gap-2">
-                <span class="text-[10px] font-black uppercase tracking-wide text-muted-foreground w-14 shrink-0">Fab.</span>
+                <span class="text-micro font-black uppercase tracking-wide text-muted-foreground w-14 shrink-0">Fab.</span>
                 <span class="text-xs text-muted-foreground truncate">{lente.manufacturer_name}</span>
             </div>
         {/if}
         {#if lente.usage_days}
             <div class="flex items-center gap-2">
-                <span class="text-[10px] font-black uppercase tracking-wide text-muted-foreground w-14 shrink-0">Descarte</span>
+                <span class="text-micro font-black uppercase tracking-wide text-muted-foreground w-14 shrink-0">Descarte</span>
                 <span class="text-xs text-muted-foreground">{lente.usage_days} dias</span>
             </div>
         {/if}
@@ -85,7 +85,7 @@
 
     <!-- Footer preço -->
     <div class="flex items-center justify-between pt-3 border-t border-border">
-        <span class="text-[10px] font-black uppercase tracking-wide text-muted-foreground">
+        <span class="text-micro font-black uppercase tracking-wide text-muted-foreground">
             {lente.units_per_box ? `Caixa · ${lente.units_per_box} unid.` : 'Preço / Caixa'}
         </span>
         <span class="text-base font-black text-foreground">

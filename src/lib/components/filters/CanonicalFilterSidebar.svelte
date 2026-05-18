@@ -92,7 +92,7 @@
             <h2 class="text-sm font-black uppercase tracking-wider text-foreground">Filtros</h2>
             {#if hasActiveFilters}
                 <button type="button" on:click={clearAll}
-                    class="text-[10px] font-bold uppercase text-muted-foreground hover:text-foreground flex items-center gap-1">
+                    class="text-micro font-bold uppercase text-muted-foreground hover:text-foreground flex items-center gap-1">
                     <X class="h-3 w-3" /> Limpar
                 </button>
             {/if}
@@ -109,12 +109,12 @@
             <!-- PREMIUM: Marca (pills) -->
             {#if context === 'premium' && filterOptions.brands?.length}
                 <div class="mb-4">
-                    <label class="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-1.5">Marca</label>
+                    <label class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">Marca</label>
                     <div class="flex flex-wrap gap-1.5">
                         {#each filterOptions.brands as b}
                             <button type="button"
                                 on:click={() => set('brand', filtros.brand === b.value ? null : b.value)}
-                                class="px-2.5 py-1 text-[11px] font-bold rounded-lg border transition-all
+                                class="px-2.5 py-1 text-micro font-bold rounded-lg border transition-all
                                     {filtros.brand === b.value
                                         ? 'bg-amber-600 border-amber-600 text-white'
                                         : 'bg-card border-border text-foreground hover:border-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20'}">
@@ -128,7 +128,7 @@
             <!-- PREMIUM: Linha -->
             {#if context === 'premium' && filterOptions.product_lines?.length}
                 <div class="mb-4">
-                    <label for="f-linha" class="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-1.5">Linha de produto</label>
+                    <label for="f-linha" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">Linha de produto</label>
                     <select id="f-linha" value={filtros.productLine ?? ''}
                         on:change={(e) => set('productLine', e.currentTarget.value || null)}
                         class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500">
@@ -143,7 +143,7 @@
             <!-- Tipo -->
             {#if filterOptions.lens_types?.length}
                 <div class="mb-4">
-                    <label for="f-tipo" class="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-1.5">Tipo</label>
+                    <label for="f-tipo" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">Tipo</label>
                     <select id="f-tipo" value={filtros.lensType ?? ''}
                         on:change={(e) => set('lensType', e.currentTarget.value || null)}
                         class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500">
@@ -158,7 +158,7 @@
             <!-- Material -->
             {#if filterOptions.materials?.length}
                 <div class="mb-4">
-                    <label for="f-mat" class="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-1.5">Material / Índice</label>
+                    <label for="f-mat" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">Material / Índice</label>
                     <select id="f-mat" value={filtros.materialId ?? ''}
                         on:change={(e) => set('materialId', e.currentTarget.value || null)}
                         class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500">
@@ -173,7 +173,7 @@
             <!-- PREMIUM: Coating -->
             {#if context === 'premium' && filterOptions.coatings?.length}
                 <div class="mb-4">
-                    <label for="f-coat" class="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-1.5">Coating</label>
+                    <label for="f-coat" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">Coating</label>
                     <select id="f-coat" value={filtros.coating ?? ''}
                         on:change={(e) => set('coating', e.currentTarget.value || null)}
                         class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500">
@@ -188,7 +188,7 @@
             <!-- PREMIUM: Fotossensível -->
             {#if context === 'premium' && filterOptions.photochromics?.length}
                 <div class="mb-4">
-                    <label for="f-foto" class="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-1.5">Fotossensível (tipo)</label>
+                    <label for="f-foto" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">Fotossensível (tipo)</label>
                     <select id="f-foto" value={filtros.photochromic ?? ''}
                         on:change={(e) => set('photochromic', e.currentTarget.value || null)}
                         class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500">
@@ -203,7 +203,7 @@
             <!-- Faixa de preço -->
             {#if filterOptions.price_range && filterOptions.price_range.max > 0}
                 <div class="mb-5 pb-5 border-b border-border">
-                    <label class="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-1.5">Faixa de preço (R$)</label>
+                    <label class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">Faixa de preço (R$)</label>
                     <div class="flex items-center gap-2">
                         <input type="number" min="0" step="10"
                             placeholder={String(Math.floor(filterOptions.price_range.min))}
@@ -219,7 +219,7 @@
                             on:keydown={(e) => e.key === 'Enter' && aplicarPreco()}
                             class="w-full px-2 py-2 border border-border rounded-lg text-xs bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500" />
                     </div>
-                    <p class="text-[10px] text-muted-foreground mt-1">
+                    <p class="text-micro text-muted-foreground mt-1">
                         R$ {filterOptions.price_range.min.toLocaleString('pt-BR', { maximumFractionDigits: 0 })} a
                         R$ {filterOptions.price_range.max.toLocaleString('pt-BR', { maximumFractionDigits: 0 })}
                     </p>
@@ -228,31 +228,31 @@
 
             <!-- Tratamentos (toggles visuais) -->
             <div class="mb-2">
-                <p class="text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-2">Tratamentos</p>
+                <p class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-2">Tratamentos</p>
                 <div class="grid grid-cols-2 gap-1.5">
                     <button type="button" on:click={() => toggleTreatment('ar')}
-                        class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-[11px] font-semibold transition-colors {isActive('ar') ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-200' : 'bg-muted text-muted-foreground hover:bg-accent'}">
+                        class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-micro font-semibold transition-colors {isActive('ar') ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-200' : 'bg-muted text-muted-foreground hover:bg-accent'}">
                         <Sparkles class="h-3 w-3" /> AR ({treatmentCount('ar')})
                     </button>
                     <button type="button" on:click={() => toggleTreatment('blue')}
-                        class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-[11px] font-semibold transition-colors {isActive('blue') ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-200' : 'bg-muted text-muted-foreground hover:bg-accent'}">
+                        class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-micro font-semibold transition-colors {isActive('blue') ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-200' : 'bg-muted text-muted-foreground hover:bg-accent'}">
                         <Eye class="h-3 w-3" /> Blue ({treatmentCount('blue')})
                     </button>
                     <button type="button" on:click={() => toggleTreatment('photo')}
-                        class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-[11px] font-semibold transition-colors {isActive('photo') ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-200' : 'bg-muted text-muted-foreground hover:bg-accent'}">
+                        class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-micro font-semibold transition-colors {isActive('photo') ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-200' : 'bg-muted text-muted-foreground hover:bg-accent'}">
                         <Sun class="h-3 w-3" /> Foto ({treatmentCount('photo')})
                     </button>
                     <button type="button" on:click={() => toggleTreatment('uv')}
-                        class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-[11px] font-semibold transition-colors {isActive('uv') ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-200' : 'bg-muted text-muted-foreground hover:bg-accent'}">
+                        class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-micro font-semibold transition-colors {isActive('uv') ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-200' : 'bg-muted text-muted-foreground hover:bg-accent'}">
                         <Zap class="h-3 w-3" /> UV ({treatmentCount('uv')})
                     </button>
                     <button type="button" on:click={() => toggleTreatment('scratch')}
-                        class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-[11px] font-semibold transition-colors {isActive('scratch') ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-200' : 'bg-muted text-muted-foreground hover:bg-accent'}">
+                        class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-micro font-semibold transition-colors {isActive('scratch') ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-200' : 'bg-muted text-muted-foreground hover:bg-accent'}">
                         <Shield class="h-3 w-3" /> Risco ({treatmentCount('scratch')})
                     </button>
                     {#if treatmentCount('pol') > 0}
                         <button type="button" on:click={() => toggleTreatment('pol')}
-                            class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-[11px] font-semibold transition-colors {isActive('pol') ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-200' : 'bg-muted text-muted-foreground hover:bg-accent'}">
+                            class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-micro font-semibold transition-colors {isActive('pol') ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-200' : 'bg-muted text-muted-foreground hover:bg-accent'}">
                             <Palette class="h-3 w-3" /> Polar ({treatmentCount('pol')})
                         </button>
                     {/if}

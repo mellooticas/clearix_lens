@@ -50,7 +50,7 @@
 </script>
 
 <a {href} class="group">
-  <div class={`bg-card border ${bgColor} rounded-2xl p-5 hover:shadow-md transition-all duration-200 flex flex-col gap-3 h-full`}>
+  <div class={`bg-card border ${bgColor} rounded-2xl p-5 hover:shadow-md transition-all duration-base flex flex-col gap-3 h-full`}>
     <!-- Header -->
     <div class="flex items-start justify-between gap-2">
       <div class="flex-1">
@@ -58,7 +58,7 @@
           {lente.canonical_name}
         </h3>
         {#if isPremium && premiumLente?.brand}
-          <p class="text-[11px] text-muted-foreground mt-1 truncate">
+          <p class="text-micro text-muted-foreground mt-1 truncate">
             {premiumLente.brand}
             {#if premiumLente.product_line}
               • {premiumLente.product_line}
@@ -68,11 +68,11 @@
       </div>
 
       {#if isPremium}
-        <span class={`shrink-0 px-2 py-1 ${badgeBg} ${badgeText} text-[10px] font-bold rounded-full uppercase tracking-wider flex items-center gap-1`}>
+        <span class={`shrink-0 px-2 py-1 ${badgeBg} ${badgeText} text-micro font-bold rounded-full uppercase tracking-wider flex items-center gap-1`}>
           <Crown class="h-3 w-3" /> PRE
         </span>
       {:else}
-        <span class={`shrink-0 px-2 py-1 ${badgeBg} ${badgeText} text-[10px] font-bold rounded-full uppercase tracking-wider flex items-center gap-1`}>
+        <span class={`shrink-0 px-2 py-1 ${badgeBg} ${badgeText} text-micro font-bold rounded-full uppercase tracking-wider flex items-center gap-1`}>
           <Sparkles class="h-3 w-3" /> STD
         </span>
       {/if}
@@ -130,7 +130,7 @@
     </div>
 
     <!-- Metadata -->
-    <div class="text-[10px] text-muted-foreground space-y-0.5 border-t border-border pt-2 mt-1">
+    <div class="text-micro text-muted-foreground space-y-0.5 border-t border-border pt-2 mt-1">
       <div>📦 {lente.mapped_lens_count} lente(s)</div>
       {#if isPremium && premiumLente}
         <div>🏷️ {premiumLente.mapped_brand_count} marca(s)</div>

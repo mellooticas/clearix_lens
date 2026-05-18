@@ -149,7 +149,7 @@
               </div>
               <div class="h-1.5 w-full bg-muted rounded-full overflow-hidden">
                 <div
-                  class="h-full bg-primary-500 dark:bg-primary-400 rounded-full transition-all duration-500"
+                  class="h-full bg-primary-500 dark:bg-primary-400 rounded-full transition-all duration-slow"
                   style="width: {pct}%"
                   role="progressbar"
                   aria-valuenow={pct}
@@ -176,10 +176,10 @@
         {#each quickLinks as link}
           <a
             href={link.href}
-            class="flex items-start gap-3 p-3 rounded-lg border border-border hover:border-primary-300 dark:hover:border-primary-700 hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors duration-150 group"
+            class="flex items-start gap-3 p-3 rounded-lg border border-border hover:border-primary-300 dark:hover:border-primary-700 hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors duration-fast group"
           >
             <!-- Ícone -->
-            <span class="mt-0.5 shrink-0 w-8 h-8 flex items-center justify-center rounded-lg bg-muted group-hover:bg-primary-100 dark:group-hover:bg-primary-900/40 transition-colors duration-150">
+            <span class="mt-0.5 shrink-0 w-8 h-8 flex items-center justify-center rounded-lg bg-muted group-hover:bg-primary-100 dark:group-hover:bg-primary-900/40 transition-colors duration-fast">
               {#if link.icon === 'zap'}
                 <svg class="w-4 h-4 text-muted-foreground group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M13 10V3L4 14h7v7l9-11h-7z"/>

@@ -61,7 +61,7 @@
     </button>
 
     <div class="min-w-0">
-      <p class="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">{meta.kicker}</p>
+      <p class="text-micro font-medium uppercase tracking-wider text-muted-foreground">{meta.kicker}</p>
       <h1 class="truncate text-sm font-semibold text-foreground sm:text-base">{meta.title}</h1>
     </div>
   </div>
@@ -84,7 +84,7 @@
           <p class="truncate text-sm font-semibold text-foreground">{$currentUser.firstName}</p>
           <p class="truncate text-xs text-muted-foreground">{$currentUser.roleLabel}</p>
         </div>
-        <svg class="h-4 w-4 text-muted-foreground transition-transform duration-200 {showUserMenu ? 'rotate-180' : ''}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="h-4 w-4 text-muted-foreground transition-transform duration-base {showUserMenu ? 'rotate-180' : ''}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
         </svg>
       </button>
@@ -95,7 +95,7 @@
             <p class="text-sm font-semibold text-foreground">{$currentUser.name || $currentUser.email}</p>
             <p class="mt-0.5 text-xs text-primary">{$currentUser.roleLabel}</p>
             {#if $currentUser.tenantName}
-              <p class="mt-0.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">{$currentUser.tenantName}</p>
+              <p class="mt-0.5 text-micro font-bold uppercase tracking-wider text-muted-foreground">{$currentUser.tenantName}</p>
             {/if}
           </div>
           <div class="border-t border-border">

@@ -212,7 +212,7 @@
                             {#if hasActiveFilters}
                                 <button
                                     on:click={limparFiltros}
-                                    class="text-[10px] font-bold uppercase text-muted-foreground hover:text-foreground flex items-center gap-1"
+                                    class="text-micro font-bold uppercase text-muted-foreground hover:text-foreground flex items-center gap-1"
                                 >
                                     <X class="h-3 w-3" /> Limpar
                                 </button>
@@ -221,7 +221,7 @@
 
                         <!-- Laboratório -->
                         <div class="mb-4">
-                            <label for="filtro-fornecedor" class="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-1.5">
+                            <label for="filtro-fornecedor" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">
                                 Laboratório
                             </label>
                             <select
@@ -240,7 +240,7 @@
                         <!-- Marca -->
                         {#if filterOptions.marcas.length > 0}
                             <div class="mb-4">
-                                <label for="filtro-marca" class="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-1.5">
+                                <label for="filtro-marca" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">
                                     Marca
                                 </label>
                                 <select
@@ -260,7 +260,7 @@
                         <!-- Linha de produto -->
                         {#if filterOptions.product_lines.length > 0}
                             <div class="mb-4">
-                                <label for="filtro-linha" class="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-1.5">
+                                <label for="filtro-linha" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">
                                     Linha de produto
                                 </label>
                                 <select
@@ -279,7 +279,7 @@
 
                         <!-- Tipo -->
                         <div class="mb-4">
-                            <label for="filtro-tipo" class="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-1.5">
+                            <label for="filtro-tipo" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">
                                 Tipo
                             </label>
                             <select
@@ -297,7 +297,7 @@
 
                         <!-- Material -->
                         <div class="mb-4">
-                            <label for="filtro-material" class="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-1.5">
+                            <label for="filtro-material" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">
                                 Material
                             </label>
                             <select
@@ -315,7 +315,7 @@
 
                         <!-- Índice -->
                         <div class="mb-4">
-                            <label for="filtro-indice" class="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-1.5">
+                            <label for="filtro-indice" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">
                                 Índice de refração
                             </label>
                             <select
@@ -334,7 +334,7 @@
                         <!-- Coating específico -->
                         {#if filterOptions.coatings.length > 0}
                             <div class="mb-4">
-                                <label for="filtro-coating" class="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-1.5">
+                                <label for="filtro-coating" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">
                                     Coating
                                 </label>
                                 <select
@@ -354,7 +354,7 @@
                         <!-- Design -->
                         {#if filterOptions.lens_designs.length > 0}
                             <div class="mb-4">
-                                <label for="filtro-design" class="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-1.5">
+                                <label for="filtro-design" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">
                                     Design
                                 </label>
                                 <select
@@ -374,7 +374,7 @@
                         <!-- Altura mínima de montagem -->
                         {#if filterOptions.min_heights.length > 0}
                             <div class="mb-4">
-                                <label for="filtro-altura" class="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-1.5">
+                                <label for="filtro-altura" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">
                                     Altura mínima
                                 </label>
                                 <select
@@ -393,7 +393,7 @@
 
                         <!-- Faixa de preço -->
                         <div class="mb-5 pb-5 border-b border-border">
-                            <label class="text-[10px] font-black uppercase tracking-wider text-muted-foreground block mb-1.5">
+                            <label class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">
                                 Faixa de preço (R$)
                             </label>
                             <div class="flex items-center gap-2">
@@ -421,54 +421,54 @@
                                     class="w-full px-2 py-2 border border-border rounded-lg text-xs bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500"
                                 />
                             </div>
-                            <p class="text-[10px] text-muted-foreground mt-1">
+                            <p class="text-micro text-muted-foreground mt-1">
                                 R$ {filterOptions.price_min.toLocaleString('pt-BR', { maximumFractionDigits: 0 })} a R$ {filterOptions.price_max.toLocaleString('pt-BR', { maximumFractionDigits: 0 })}
                             </p>
                         </div>
 
                         <!-- TRATAMENTOS (toggles visuais — no fim da sidebar) -->
                         <div class="mb-2">
-                            <p class="text-[10px] font-black uppercase tracking-wider text-muted-foreground mb-2">Tratamentos</p>
+                            <p class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-2">Tratamentos</p>
                             <div class="grid grid-cols-2 gap-1.5">
                                 <button
                                     type="button"
                                     on:click={() => toggleTratamento('ar')}
-                                    class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-[11px] font-semibold transition-colors {filtros.ar ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-200' : 'bg-muted text-muted-foreground hover:bg-accent'}"
+                                    class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-micro font-semibold transition-colors {filtros.ar ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-200' : 'bg-muted text-muted-foreground hover:bg-accent'}"
                                 >
                                     <Sparkles class="h-3 w-3" /> AR
                                 </button>
                                 <button
                                     type="button"
                                     on:click={() => toggleTratamento('blue')}
-                                    class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-[11px] font-semibold transition-colors {filtros.blue ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-200' : 'bg-muted text-muted-foreground hover:bg-accent'}"
+                                    class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-micro font-semibold transition-colors {filtros.blue ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-200' : 'bg-muted text-muted-foreground hover:bg-accent'}"
                                 >
                                     <Eye class="h-3 w-3" /> Blue
                                 </button>
                                 <button
                                     type="button"
                                     on:click={() => toggleTratamento('photo')}
-                                    class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-[11px] font-semibold transition-colors {filtros.photo ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-200' : 'bg-muted text-muted-foreground hover:bg-accent'}"
+                                    class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-micro font-semibold transition-colors {filtros.photo ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-200' : 'bg-muted text-muted-foreground hover:bg-accent'}"
                                 >
                                     <Sun class="h-3 w-3" /> Foto
                                 </button>
                                 <button
                                     type="button"
                                     on:click={() => toggleTratamento('uv')}
-                                    class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-[11px] font-semibold transition-colors {filtros.uv ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-200' : 'bg-muted text-muted-foreground hover:bg-accent'}"
+                                    class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-micro font-semibold transition-colors {filtros.uv ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-200' : 'bg-muted text-muted-foreground hover:bg-accent'}"
                                 >
                                     <Zap class="h-3 w-3" /> UV
                                 </button>
                                 <button
                                     type="button"
                                     on:click={() => toggleTratamento('scratch')}
-                                    class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-[11px] font-semibold transition-colors {filtros.scratch ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-200' : 'bg-muted text-muted-foreground hover:bg-accent'}"
+                                    class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-micro font-semibold transition-colors {filtros.scratch ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-200' : 'bg-muted text-muted-foreground hover:bg-accent'}"
                                 >
                                     <Shield class="h-3 w-3" /> Risco
                                 </button>
                                 <button
                                     type="button"
                                     on:click={() => toggleTratamento('hidro')}
-                                    class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-[11px] font-semibold transition-colors {filtros.hidro ? 'bg-cyan-100 text-cyan-700 dark:bg-cyan-900/40 dark:text-cyan-200' : 'bg-muted text-muted-foreground hover:bg-accent'}"
+                                    class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-micro font-semibold transition-colors {filtros.hidro ? 'bg-cyan-100 text-cyan-700 dark:bg-cyan-900/40 dark:text-cyan-200' : 'bg-muted text-muted-foreground hover:bg-accent'}"
                                 >
                                     <Droplets class="h-3 w-3" /> Hidro
                                 </button>
@@ -523,22 +523,22 @@
                                             <!-- Tags visuais de tratamentos -->
                                             <div class="flex items-center gap-1 mt-1.5 flex-wrap">
                                                 {#if lente.anti_reflective}
-                                                    <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300 text-[10px] font-bold">AR</span>
+                                                    <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300 text-micro font-bold">AR</span>
                                                 {/if}
                                                 {#if lente.blue_light}
-                                                    <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-300 text-[10px] font-bold">Blue</span>
+                                                    <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-300 text-micro font-bold">Blue</span>
                                                 {/if}
                                                 {#if lente.photochromic}
-                                                    <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-300 text-[10px] font-bold">Foto</span>
+                                                    <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-300 text-micro font-bold">Foto</span>
                                                 {/if}
                                                 {#if lente.uv_filter}
-                                                    <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-orange-50 text-orange-700 dark:bg-orange-950/40 dark:text-orange-300 text-[10px] font-bold">UV</span>
+                                                    <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-orange-50 text-orange-700 dark:bg-orange-950/40 dark:text-orange-300 text-micro font-bold">UV</span>
                                                 {/if}
                                                 {#if lente.anti_scratch}
-                                                    <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 text-[10px] font-bold">Risco</span>
+                                                    <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 text-micro font-bold">Risco</span>
                                                 {/if}
                                                 {#if lente.polarized}
-                                                    <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-purple-50 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300 text-[10px] font-bold">Polar</span>
+                                                    <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-purple-50 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300 text-micro font-bold">Polar</span>
                                                 {/if}
                                             </div>
                                         </div>

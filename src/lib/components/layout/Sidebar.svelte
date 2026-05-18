@@ -63,7 +63,7 @@
 </script>
 
 <aside
-  class="fixed left-0 top-0 h-full z-50 flex flex-col transition-all duration-300 ease-in-out border-r border-border
+  class="fixed left-0 top-0 h-full z-50 flex flex-col transition-all duration-base ease-in-out border-r border-border
          {collapsed ? 'w-[72px]' : 'w-64'}"
   style="background-color: var(--sidebar); color: var(--sidebar-foreground);"
 >
@@ -79,7 +79,7 @@
       </svg>
       {#if !collapsed}
         <div>
-          <p class="text-[11px] font-semibold uppercase tracking-[0.15em] opacity-50">Clearix</p>
+          <p class="text-micro font-semibold uppercase tracking-[0.15em] opacity-50">Clearix</p>
           <p class="text-lg font-black tracking-tight">Lens</p>
         </div>
       {/if}
@@ -91,7 +91,7 @@
     {#each sections as section}
       <div class="mt-5 first:mt-0">
         {#if section.label && !collapsed}
-          <p class="mb-2 px-3 text-[11px] font-semibold uppercase tracking-wider opacity-40">{section.label}</p>
+          <p class="mb-2 px-3 text-micro font-semibold uppercase tracking-wider opacity-40">{section.label}</p>
         {:else if section.label && collapsed}
           <div class="mx-auto my-3 h-px w-8" style="background-color: var(--sidebar-border);"></div>
         {/if}
@@ -131,7 +131,7 @@
     {#if $currentUser}
       <div class="flex items-center gap-3 rounded-lg px-3 py-2 {collapsed ? 'justify-center px-0' : ''}" title={collapsed ? $currentUser.firstName : ''}>
         <div
-          class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[11px] font-bold"
+          class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-micro font-bold"
           style="background-color: var(--sidebar-primary); color: var(--sidebar-primary-foreground);"
         >
           {$currentUser.initials}

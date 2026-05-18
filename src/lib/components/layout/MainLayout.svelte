@@ -10,11 +10,11 @@
   }
 </script>
 
-<div class="min-h-screen bg-background transition-colors duration-300">
+<div class="min-h-screen bg-background transition-colors duration-base">
   <AppSidebar />
 
   <div
-    class="transition-all duration-300 flex flex-col min-h-screen"
+    class="transition-all duration-base flex flex-col min-h-screen"
     style="padding-left: {sidebarStore.collapsed ? '72px' : '16rem'}"
   >
     <Header on:menuClick={handleToggleSidebar} collapsed={sidebarStore.collapsed} />
