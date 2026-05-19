@@ -50,7 +50,6 @@
             <div>
               <p class="text-micro font-semibold uppercase tracking-[0.15em] opacity-50">Clearix</p>
               <p class="text-lg font-black tracking-tight">{APP_TITLE}</p>
-              <DigiaiLogo variant="powered-by" class="mt-0.5" />
             </div>
           </a>
           <button onclick={() => sidebarStore.closeMobile()} class="rounded-lg p-2 opacity-60 hover:opacity-100 transition-opacity" aria-label="Fechar menu">
@@ -107,6 +106,7 @@
               </div>
             </div>
           {/if}
+          <DigiaiLogo variant="powered-by" class="px-3 pt-1" />
         </div>
       </div>
     </div>
@@ -129,7 +129,6 @@
           <div>
             <p class="text-micro font-semibold uppercase tracking-[0.15em] opacity-50">Clearix</p>
             <p class="text-lg font-black tracking-tight">{APP_TITLE}</p>
-            <DigiaiLogo variant="powered-by" class="mt-0.5" />
           </div>
         {/if}
       </a>
@@ -193,6 +192,10 @@
             </div>
           {/if}
         </div>
+      {/if}
+
+      {#if !sidebarStore.collapsed}
+        <DigiaiLogo variant="powered-by" class="px-3 pt-1" />
       {/if}
     </div>
   </div>
