@@ -45,7 +45,7 @@
         <!-- Brand -->
         <div class="flex h-16 shrink-0 items-center justify-between border-b px-4" style="border-color: var(--sidebar-border);">
           <a href="/" onclick={() => sidebarStore.closeMobile()} class="flex items-center gap-3">
-            <ClearixLogo size={36} />
+            <ClearixLogo size={36} variant="icon" />
             <div>
               <p class="text-micro font-semibold uppercase tracking-[0.15em] opacity-50">Clearix</p>
               <p class="text-lg font-black tracking-tight">{APP_TITLE}</p>
@@ -122,7 +122,7 @@
     <!-- Brand -->
     <div class="flex h-16 shrink-0 items-center border-b {sidebarStore.collapsed ? 'justify-center px-3' : 'gap-3 px-4'}" style="border-color: var(--sidebar-border);">
       <a href="/" class="flex items-center {sidebarStore.collapsed ? '' : 'gap-3'}">
-        <ClearixLogo size={36} />
+        <ClearixLogo size={36} variant="icon" />
         {#if !sidebarStore.collapsed}
           <div>
             <p class="text-micro font-semibold uppercase tracking-[0.15em] opacity-50">Clearix</p>
