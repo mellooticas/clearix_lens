@@ -74,7 +74,7 @@
   >
     <a href="/" class="flex items-center {collapsed ? '' : 'gap-3'}">
       <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" width="36" height="36">
-        <circle cx="85" cy="50" r="7" fill="#6366F1" />
+        <circle cx="85" cy="50" r="7" fill="var(--primary)" />
         <path d="M 74.75 25.25 A 35 35 0 1 0 74.75 74.75" stroke="#1A3A5C" stroke-width="14" stroke-linecap="round" />
       </svg>
       {#if !collapsed}
