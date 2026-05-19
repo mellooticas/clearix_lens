@@ -6,6 +6,10 @@ export default {
     './src/lib/**/*.{svelte,ts}'
   ],
 
+  // Safelist: arbitrary values em expressoes ternary podem nao ser detectados
+  // pelo scanner do TW3. lg:w-[72px] usado em AppSidebar.svelte (sidebar collapsed).
+  safelist: ['lg:w-[72px]'],
+
   darkMode: 'class',
 
   theme: {
