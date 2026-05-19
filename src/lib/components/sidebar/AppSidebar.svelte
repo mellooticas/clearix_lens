@@ -5,6 +5,7 @@
   import { theme } from '$lib/stores/theme'
   import { currentUser } from '$lib/stores/auth'
   import ClearixLogo from '$lib/components/brand/ClearixLogo.svelte'
+  import DigiaiLogo from '$lib/components/brand/DigiaiLogo.svelte'
 
   const APP_TITLE = 'Lens'
 
@@ -49,6 +50,7 @@
             <div>
               <p class="text-micro font-semibold uppercase tracking-[0.15em] opacity-50">Clearix</p>
               <p class="text-lg font-black tracking-tight">{APP_TITLE}</p>
+              <DigiaiLogo variant="powered-by" class="mt-0.5" />
             </div>
           </a>
           <button onclick={() => sidebarStore.closeMobile()} class="rounded-lg p-2 opacity-60 hover:opacity-100 transition-opacity" aria-label="Fechar menu">
@@ -127,6 +129,7 @@
           <div>
             <p class="text-micro font-semibold uppercase tracking-[0.15em] opacity-50">Clearix</p>
             <p class="text-lg font-black tracking-tight">{APP_TITLE}</p>
+            <DigiaiLogo variant="powered-by" class="mt-0.5" />
           </div>
         {/if}
       </a>
