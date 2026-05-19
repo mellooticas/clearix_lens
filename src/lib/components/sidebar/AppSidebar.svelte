@@ -191,18 +191,6 @@
           {/if}
         </div>
       {/if}
-
-      <button
-        onclick={() => sidebarStore.toggleCollapse()}
-        class="hidden lg:flex w-full items-center justify-center py-2 opacity-40 hover:opacity-100 transition-opacity"
-        title={sidebarStore.collapsed ? 'Expandir sidebar' : 'Recolher sidebar'}
-      >
-        {#if sidebarStore.collapsed}
-          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" /></svg>
-        {:else}
-          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7M19 19l-7-7 7-7" /></svg>
-        {/if}
-      </button>
     </div>
   </div>
 </aside>

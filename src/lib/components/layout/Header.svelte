@@ -1,5 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
+  import { PanelLeftClose, PanelLeftOpen } from "lucide-svelte";
   import { page } from "$app/stores";
   import { currentUser, logout } from "$lib/stores/auth";
 
@@ -53,11 +54,13 @@
       class="p-2 text-muted-foreground hover:text-foreground transition-colors"
       on:click={() => dispatch("menuClick")}
       title={collapsed ? "Expandir menu" : "Recolher menu"}
-      aria-label="Toggle sidebar"
+      aria-label={collapsed ? "Expandir menu" : "Recolher menu"}
     >
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
-      </svg>
+      {#if collapsed}
+        <PanelLeftOpen class="w-5 h-5" />
+      {:else}
+        <PanelLeftClose class="w-5 h-5" />
+      {/if}
     </button>
 
     <div class="min-w-0">
