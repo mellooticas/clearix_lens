@@ -46,18 +46,6 @@
       href: '/ranking',
       icon: 'trophy',
     },
-    {
-      label: 'Comparar Labs',
-      desc: 'Compare fornecedores lado a lado',
-      href: '/comparar',
-      icon: 'scale',
-    },
-    {
-      label: 'Tabela de Preços',
-      desc: 'Preços e tratamentos por fornecedor',
-      href: '/tabela-precos',
-      icon: 'price-table',
-    },
   ];
 </script>
 
