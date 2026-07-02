@@ -54,8 +54,6 @@ import type {
 } from '$lib/types/database-views';
 import type { ApiResponse } from '$lib/types/sistema';
 
-const TENANT_SEED = '00000000-0000-0000-0000-000000000000';
-
 // ============================================================================
 // CANONICAL ENGINE — Prescrição (motor do wizard)
 // ============================================================================
@@ -328,7 +326,6 @@ export async function searchLenses(
     p_brand_name:  params.brand_name  ?? null,
     p_limit:       params.limit       ?? 50,
     p_offset:      params.offset      ?? 0,
-    p_tenant_id:   TENANT_SEED,
   });
 
   if (error) throw error;
@@ -359,7 +356,6 @@ export async function getLensAlternatives(
   const { data, error } = await supabase.rpc('rpc_lens_get_alternatives', {
     p_lens_id:   lensId,
     p_limit:     limit,
-    p_tenant_id: TENANT_SEED,
   });
   if (error) throw error;
   return (data as RpcLensSearchResult[]) ?? [];
@@ -382,7 +378,6 @@ export async function buscarLentes(
     p_has_blue:    filtros?.has_blue    ?? null,
     p_limit:       filtros?.limit       ?? 50,
     p_offset:      filtros?.offset      ?? 0,
-    p_tenant_id:   TENANT_SEED,
   });
 
   if (error) {
