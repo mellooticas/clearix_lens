@@ -662,3 +662,39 @@ export interface LensEditOptions {
   statuses: LensEditEnumOption[];
 }
 
+// =====================================================================
+// rpc_canonical_price_tiers — faixas de preço por custo efetivo (doc 14)
+// Tiers de ~30% de spread sobre o custo COM acordos de laboratório vigentes.
+// =====================================================================
+
+export interface CanonicalPriceTierLens {
+  lens_id: string;
+  lens_name: string;
+  sku: string | null;
+  supplier: string | null;
+  eff_cost: number;
+  base_cost: number;
+  sell_price: number | null;
+  is_preferred: boolean;
+  has_discount: boolean;
+}
+
+export interface CanonicalPriceTier {
+  tier: number;
+  lens_count: number;
+  cost_min: number;
+  cost_max: number;
+  sell_min: number | null;
+  sell_max: number | null;
+  lenses: CanonicalPriceTierLens[];
+}
+
+export interface CanonicalPriceTiers {
+  canonical_id: string;
+  is_premium: boolean;
+  payment: string;
+  spread_pct: number;
+  tier_count: number;
+  tiers: CanonicalPriceTier[];
+}
+

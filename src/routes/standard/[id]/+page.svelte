@@ -1,13 +1,14 @@
 <script lang="ts">
-    import { ChevronLeft } from "lucide-svelte";
+    import { ChevronLeft, Layers, Tag } from "lucide-svelte";
     import Container from "$lib/components/layout/Container.svelte";
     import type { PageData } from "./$types";
-    import type { CanonicalStandardV3, CanonicalDetailEnriched } from "$lib/types/database-views";
+    import type { CanonicalStandardV3, CanonicalDetailEnriched, CanonicalPriceTiers } from "$lib/types/database-views";
 
     export let data: PageData;
 
     $: conceito = data.conceito as unknown as CanonicalStandardV3;
     $: lentes = (data.lentes ?? []) as CanonicalDetailEnriched[];
+    $: tiers = data.tiers as CanonicalPriceTiers | null;
 
     function formatPrice(value: number | null | undefined): string {
         if (value == null) return "—";
@@ -123,6 +124,51 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Faixas de Preço (tiers por custo efetivo — doc 14) -->
+                    {#if tiers && tiers.tier_count > 0}
+                        <div class="bg-card border border-border rounded-xl overflow-hidden">
+                            <div class="px-6 py-4 border-b border-border flex items-center justify-between">
+                                <h2 class="font-bold text-foreground uppercase text-xs tracking-wider flex items-center gap-2">
+                                    <Layers class="h-4 w-4 text-cyan-600" /> Faixas de Preço
+                                </h2>
+                                <span class="text-xs text-muted-foreground">
+                                    {tiers.tier_count} faixa{tiers.tier_count > 1 ? "s" : ""} · spread {tiers.spread_pct}% · custo efetivo com acordos vigentes
+                                </span>
+                            </div>
+                            <div class="divide-y divide-border">
+                                {#each tiers.tiers as faixa}
+                                    <div class="px-6 py-3 flex items-center justify-between gap-4">
+                                        <div class="flex items-center gap-3">
+                                            <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-cyan-100 dark:bg-cyan-900/40 text-cyan-800 dark:text-cyan-300 text-xs font-bold">
+                                                {faixa.tier}
+                                            </span>
+                                            <div>
+                                                <p class="text-sm font-semibold text-foreground">
+                                                    {faixa.lens_count} lente{faixa.lens_count > 1 ? "s" : ""}
+                                                </p>
+                                                {#if faixa.lenses.some((l) => l.has_discount)}
+                                                    <p class="text-xs text-green-600 flex items-center gap-1">
+                                                        <Tag class="h-3 w-3" />
+                                                        {faixa.lenses.filter((l) => l.has_discount).length} em promoção de laboratório
+                                                    </p>
+                                                {/if}
+                                            </div>
+                                        </div>
+                                        <div class="text-right">
+                                            <p class="text-sm font-bold text-foreground">
+                                                {formatPrice(faixa.sell_min)}
+                                                {#if faixa.sell_max != null && faixa.sell_max !== faixa.sell_min}
+                                                    – {formatPrice(faixa.sell_max)}
+                                                {/if}
+                                            </p>
+                                            <p class="text-xs text-muted-foreground">venda</p>
+                                        </div>
+                                    </div>
+                                {/each}
+                            </div>
+                        </div>
+                    {/if}
 
                     <!-- Lentes Reais Mapeadas -->
                     <div class="bg-card border border-border rounded-xl overflow-hidden">

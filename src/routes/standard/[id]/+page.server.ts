@@ -6,7 +6,7 @@
  */
 import type { PageServerLoad } from './$types';
 import { error } from '@sveltejs/kit';
-import type { CanonicalDetail, CanonicalDetailEnriched, CanonicalStandardV3 } from '$lib/types/database-views';
+import type { CanonicalDetail, CanonicalDetailEnriched, CanonicalStandardV3, CanonicalPriceTiers } from '$lib/types/database-views';
 
 export const load: PageServerLoad = async ({ params, locals }) => {
     const conceitoId = params.id;
@@ -44,6 +44,15 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 
     const lentesBase = (lentes ?? []) as CanonicalDetail[];
 
+    // 2b) Faixas de preço por custo efetivo (tiers de 30% — doc 14)
+    const { data: tiersData, error: erroTiers } = await supabase.rpc('rpc_canonical_price_tiers', {
+        p_canonical_id: conceitoId,
+        p_is_premium: false,
+    });
+    if (erroTiers) {
+        console.error('[standard/detail] rpc_canonical_price_tiers error (non-fatal):', erroTiers);
+    }
+
     // 3) Enriquecer com dados técnicos de v_catalog_lenses
     let lentesEnriquecidas: CanonicalDetailEnriched[] = lentesBase;
     const lensIds = lentesBase.map((l) => l.lens_id).filter(Boolean);
@@ -79,6 +88,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
     return {
         conceito: conceito as CanonicalStandardV3,
         lentes: lentesEnriquecidas,
+        tiers: (tiersData ?? null) as CanonicalPriceTiers | null,
         isPremium: false as const,
     };
 };
