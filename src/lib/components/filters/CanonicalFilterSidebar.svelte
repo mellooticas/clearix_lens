@@ -24,7 +24,8 @@
         materialId?:   string | null;
         coating?:      string | null;
         photochromic?: string | null;
-        treatments?:   string[];
+        treatments?:          string[];
+        excludeTreatments?:   string[];
         priceMin?:     number | null;
         priceMax?:     number | null;
     } = {};
@@ -47,6 +48,7 @@
         filtros.brand || filtros.productLine || filtros.lensType || filtros.materialId ||
         filtros.coating || filtros.photochromic ||
         (filtros.treatments && filtros.treatments.length > 0) ||
+        (filtros.excludeTreatments && filtros.excludeTreatments.length > 0) ||
         filtros.priceMin != null || filtros.priceMax != null
     );
 
@@ -54,10 +56,48 @@
         onApply({ ...filtros, [key]: value });
     }
 
-    function toggleTreatment(code: string) {
-        const cur = filtros.treatments ?? [];
-        const next = cur.includes(code) ? cur.filter(c => c !== code) : [...cur, code];
-        onApply({ ...filtros, treatments: next.length ? next : undefined });
+    type TriState = 'neutral' | 'include' | 'exclude';
+
+    function treatmentState(code: string): TriState {
+        if ((filtros.treatments ?? []).includes(code)) return 'include';
+        if ((filtros.excludeTreatments ?? []).includes(code)) return 'exclude';
+        return 'neutral';
+    }
+
+    // Padrão Vendas: neutro (ambos) → verde (com) → vermelho (sem) → neutro
+    function cycleTreatment(code: string) {
+        const inc = filtros.treatments ?? [];
+        const exc = filtros.excludeTreatments ?? [];
+        const state = treatmentState(code);
+        if (state === 'neutral') {
+            const nextInc = [...inc, code];
+            onApply({ ...filtros, treatments: nextInc });
+        } else if (state === 'include') {
+            const nextInc = inc.filter(c => c !== code);
+            const nextExc = [...exc, code];
+            onApply({
+                ...filtros,
+                treatments: nextInc.length ? nextInc : undefined,
+                excludeTreatments: nextExc,
+            });
+        } else {
+            const nextExc = exc.filter(c => c !== code);
+            onApply({ ...filtros, excludeTreatments: nextExc.length ? nextExc : undefined });
+        }
+    }
+
+    function triClass(code: string): string {
+        const state = treatmentState(code);
+        if (state === 'include') return 'bg-green-600 text-white shadow-sm hover:bg-green-700';
+        if (state === 'exclude') return 'bg-red-600 text-white shadow-sm line-through hover:bg-red-700';
+        return 'bg-muted text-muted-foreground hover:bg-accent';
+    }
+
+    function triTitle(code: string): string {
+        const state = treatmentState(code);
+        if (state === 'include') return 'Com — clique para EXCLUIR';
+        if (state === 'exclude') return 'Sem — clique para limpar';
+        return 'Ambos — clique para exigir';
     }
 
     function aplicarPreco() {
@@ -81,9 +121,14 @@
         return found?.count ?? 0;
     }
 
-    function isActive(code: string): boolean {
-        return (filtros.treatments ?? []).includes(code);
-    }
+    const TREATMENT_DEFS = [
+        { code: 'ar',      label: 'AR',    icon: Sparkles },
+        { code: 'blue',    label: 'Blue',  icon: Eye },
+        { code: 'photo',   label: 'Foto',  icon: Sun },
+        { code: 'uv',      label: 'UV',    icon: Zap },
+        { code: 'scratch', label: 'Risco', icon: Shield },
+        { code: 'pol',     label: 'Polar', icon: Palette },
+    ];
 </script>
 
 <aside class="lg:col-span-1 space-y-4">
@@ -226,37 +271,33 @@
                 </div>
             {/if}
 
-            <!-- Tratamentos (toggles visuais) -->
+            <!-- Tratamentos (tri-state padrão Vendas: cinza ambos → verde com → vermelho sem) -->
             <div class="mb-2">
-                <p class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-2">Tratamentos</p>
+                <p class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-1">Tratamentos</p>
+                <p class="text-micro text-muted-foreground mb-2">
+                    <span class="inline-block w-2 h-2 rounded-full bg-muted-foreground/40 mr-1 align-middle"></span> ambos
+                    <span class="mx-1">·</span>
+                    <span class="inline-block w-2 h-2 rounded-full bg-green-600 mr-1 align-middle"></span> com
+                    <span class="mx-1">·</span>
+                    <span class="inline-block w-2 h-2 rounded-full bg-red-600 mr-1 align-middle"></span> sem
+                </p>
                 <div class="grid grid-cols-2 gap-1.5">
-                    <button type="button" on:click={() => toggleTreatment('ar')}
-                        class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-micro font-semibold transition-colors {isActive('ar') ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-200' : 'bg-muted text-muted-foreground hover:bg-accent'}">
-                        <Sparkles class="h-3 w-3" /> AR ({treatmentCount('ar')})
-                    </button>
-                    <button type="button" on:click={() => toggleTreatment('blue')}
-                        class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-micro font-semibold transition-colors {isActive('blue') ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-200' : 'bg-muted text-muted-foreground hover:bg-accent'}">
-                        <Eye class="h-3 w-3" /> Blue ({treatmentCount('blue')})
-                    </button>
-                    <button type="button" on:click={() => toggleTreatment('photo')}
-                        class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-micro font-semibold transition-colors {isActive('photo') ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-200' : 'bg-muted text-muted-foreground hover:bg-accent'}">
-                        <Sun class="h-3 w-3" /> Foto ({treatmentCount('photo')})
-                    </button>
-                    <button type="button" on:click={() => toggleTreatment('uv')}
-                        class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-micro font-semibold transition-colors {isActive('uv') ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-200' : 'bg-muted text-muted-foreground hover:bg-accent'}">
-                        <Zap class="h-3 w-3" /> UV ({treatmentCount('uv')})
-                    </button>
-                    <button type="button" on:click={() => toggleTreatment('scratch')}
-                        class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-micro font-semibold transition-colors {isActive('scratch') ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-200' : 'bg-muted text-muted-foreground hover:bg-accent'}">
-                        <Shield class="h-3 w-3" /> Risco ({treatmentCount('scratch')})
-                    </button>
-                    {#if treatmentCount('pol') > 0}
-                        <button type="button" on:click={() => toggleTreatment('pol')}
-                            class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-micro font-semibold transition-colors {isActive('pol') ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-200' : 'bg-muted text-muted-foreground hover:bg-accent'}">
-                            <Palette class="h-3 w-3" /> Polar ({treatmentCount('pol')})
-                        </button>
-                    {/if}
+                    {#each TREATMENT_DEFS as t (t.code)}
+                        {#if t.code !== 'pol' || treatmentCount('pol') > 0 || treatmentState('pol') !== 'neutral'}
+                            <button type="button"
+                                on:click={() => cycleTreatment(t.code)}
+                                title={triTitle(t.code)}
+                                class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-micro font-semibold transition-colors {triClass(t.code)}">
+                                <svelte:component this={t.icon} class="h-3 w-3" /> {t.label} ({treatmentCount(t.code)})
+                            </button>
+                        {/if}
+                    {/each}
                 </div>
+                {#if (filtros.excludeTreatments ?? []).length > 0}
+                    <p class="text-micro text-red-500 mt-1.5">
+                        Excluindo: {(filtros.excludeTreatments ?? []).join(', ')}
+                    </p>
+                {/if}
             </div>
         {/if}
     </div>

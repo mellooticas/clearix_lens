@@ -298,6 +298,8 @@ export interface PremiumFilterParamsV3 {
   coating?: string
   photochromic?: string
   treatments?: string[]
+  /** Tratamentos a EXCLUIR (tri-state "sem" — padrão Vendas) */
+  exclude_treatments?: string[]
 }
 
 /** Parâmetros de busca premium v3 */
@@ -316,6 +318,8 @@ export interface StandardFilterParamsV3 {
   lens_type?: string
   material_id?: string
   treatments?: string[]
+  /** Tratamentos a EXCLUIR (tri-state "sem" — padrão Vendas) */
+  exclude_treatments?: string[]
   spherical?: number
   cylindrical?: number
   addition?: number

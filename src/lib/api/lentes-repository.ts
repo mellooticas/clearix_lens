@@ -115,6 +115,7 @@ export async function getPremiumFilterOptionsV3(
     p_coating:      params.coating      ?? null,
     p_photochromic: params.photochromic ?? null,
     p_treatments:   params.treatments   ?? null,
+    p_exclude_treatments: params.exclude_treatments ?? null,
   });
   if (error) {
     console.error('[LENTES v3] rpc_premium_filter_options error:', error);
@@ -139,6 +140,7 @@ export async function searchPremiumV3(
     p_limit:        params.limit        ?? 50,
     p_offset:       params.offset       ?? 0,
     p_treatments:   params.treatments   ?? null,
+    p_exclude_treatments: params.exclude_treatments ?? null,
     p_price_min:    params.price_min    ?? null,
     p_price_max:    params.price_max    ?? null,
   });
@@ -156,6 +158,7 @@ export async function getStandardFilterOptionsV3(
     p_lens_type:   params.lens_type   ?? null,
     p_material_id: params.material_id ?? null,
     p_treatments:  params.treatments  ?? null,
+    p_exclude_treatments: params.exclude_treatments ?? null,
     p_spherical:   params.spherical   ?? null,
     p_cylindrical: params.cylindrical ?? null,
     p_addition:    params.addition    ?? null,
@@ -174,6 +177,7 @@ export async function searchStandardV3(
     p_lens_type:   params.lens_type   ?? null,
     p_material_id: params.material_id ?? null,
     p_treatments:  params.treatments  ?? null,
+    p_exclude_treatments: params.exclude_treatments ?? null,
     p_spherical:   params.spherical   ?? null,
     p_cylindrical: params.cylindrical ?? null,
     p_addition:    params.addition    ?? null,

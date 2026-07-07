@@ -13,6 +13,8 @@ export const load: PageServerLoad = async ({ url }) => {
     const material_id  = url.searchParams.get('material') || null;
     const tratCsv      = url.searchParams.get('trat')     || null;
     const treatments   = tratCsv ? tratCsv.split(',').map(s => s.trim()).filter(Boolean) : [];
+    const semCsv       = url.searchParams.get('sem')      || null;
+    const exclude_treatments = semCsv ? semCsv.split(',').map(s => s.trim()).filter(Boolean) : [];
     const precoMinPar  = url.searchParams.get('precoMin');
     const precoMaxPar  = url.searchParams.get('precoMax');
     const price_min    = precoMinPar ? parseFloat(precoMinPar) : null;
@@ -20,6 +22,6 @@ export const load: PageServerLoad = async ({ url }) => {
     const pagina       = Math.max(1, parseInt(url.searchParams.get('pagina') || '1'));
     return {
         brand, product_line, lens_type, coating, photochromic, material_id,
-        treatments, price_min, price_max, pagina,
+        treatments, exclude_treatments, price_min, price_max, pagina,
     };
 };

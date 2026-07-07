@@ -35,6 +35,7 @@
         coating:      data.coating      ?? null,
         photochromic: data.photochromic ?? null,
         treatments:   data.treatments   ?? [],
+        excludeTreatments: data.exclude_treatments ?? [],
         priceMin:     data.price_min    ?? null,
         priceMax:     data.price_max    ?? null,
     };
@@ -65,6 +66,7 @@
             coating:      filtros.coating      || undefined,
             photochromic: filtros.photochromic || undefined,
             treatments:   filtros.treatments?.length ? filtros.treatments : undefined,
+            exclude_treatments: filtros.excludeTreatments?.length ? filtros.excludeTreatments : undefined,
         });
         if (res.data) filterOptions = res.data as any;
         loadingFilters = false;
@@ -82,6 +84,7 @@
             coating:      filtros.coating      || undefined,
             photochromic: filtros.photochromic || undefined,
             treatments:   filtros.treatments?.length ? filtros.treatments : undefined,
+            exclude_treatments: filtros.excludeTreatments?.length ? filtros.excludeTreatments : undefined,
             price_min:    filtros.priceMin     ?? undefined,
             price_max:    filtros.priceMax     ?? undefined,
             limit: LIMITE,
@@ -105,6 +108,7 @@
         if (next.photochromic) p.set('foto',     next.photochromic);
         if (next.materialId)   p.set('material', next.materialId);
         if (next.treatments?.length) p.set('trat', next.treatments.join(','));
+        if (next.excludeTreatments?.length) p.set('sem', next.excludeTreatments.join(','));
         if (next.priceMin != null) p.set('precoMin', String(next.priceMin));
         if (next.priceMax != null) p.set('precoMax', String(next.priceMax));
         goto(`/premium${p.toString() ? '?' + p.toString() : ''}`);
@@ -119,6 +123,7 @@
         if (filtros.photochromic) params.set('foto',     filtros.photochromic);
         if (filtros.materialId)   params.set('material', filtros.materialId);
         if (filtros.treatments?.length) params.set('trat', filtros.treatments.join(','));
+        if (filtros.excludeTreatments?.length) params.set('sem', filtros.excludeTreatments.join(','));
         if (filtros.priceMin != null) params.set('precoMin', String(filtros.priceMin));
         if (filtros.priceMax != null) params.set('precoMax', String(filtros.priceMax));
         params.set('pagina', String(pg));
