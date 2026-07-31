@@ -76,6 +76,36 @@ const supabaseHandle: Handle = async ({ event, resolve }) => {
 // ============================================================================
 const ENFORCE_AUTH = true;
 
+/**
+ * Portao de acesso ao app. A decisao mora no banco, nao aqui.
+ *
+ * rpc_iam_can_use_app_feature encadeia camada comercial (pacote do tenant, que
+ * o digiai libera) -> usuario ativo -> papel (o Hub grava em
+ * iam.roles_permissions -> apps.clearix_lens.access). Sem p_feature, a rotina
+ * responde so "este papel tem o app?".
+ *
+ * Ate aqui o authGuard conferia apenas sessao: qualquer pessoa logada no
+ * ecossistema entrava por URL direta, mesmo com o app desligado para o papel
+ * dela no Hub. O interruptor do Hub filtrava so o lancador.
+ *
+ * Roda dentro de ENFORCE_AUTH pelo mesmo motivo da guarda de sessao: em modo
+ * soft (dev/staging sem Gateway) nao ha sessao para avaliar.
+ *
+ * Falha de leitura NAO libera: portao que abre no erro nao e portao (R-037).
+ */
+async function podeUsarApp(
+  supabase: ReturnType<typeof createServerClient>
+): Promise<boolean> {
+  try {
+    const { data } = await supabase.rpc('rpc_iam_can_use_app_feature', {
+      p_app_key: 'clearix_lens'
+    });
+    return data === true;
+  } catch {
+    return false;
+  }
+}
+
 // Rotas que NÃO precisam de autenticação
 // Nota: /login foi removido do app — auth é 100% via Clearix Hub
 const PUBLIC_PATHS = ['/auth', '/api/'];
@@ -113,6 +143,12 @@ const authGuard: Handle = async ({ event, resolve }) => {
       const appNext = `${event.url.pathname}${event.url.search}`;
       const returnTo = encodeURIComponent(`${event.url.origin}/auth/callback`);
       throw redirect(303, `${PUBLIC_SIS_GATEWAY_URL}/login?app=clearix_lens&app_key=clearix_lens&next=${encodeURIComponent(appNext)}&returnTo=${returnTo}`);
+    }
+
+    // Devolve ao Hub em vez de mostrar tela vazia. Nao e bloqueio definitivo:
+    // quem tiver acesso legitimo volta pelo SSO com a permissao corrigida.
+    if (session && !isPublicPath && !(await podeUsarApp(event.locals.supabase))) {
+      throw redirect(303, PUBLIC_SIS_GATEWAY_URL || '/auth/callback');
     }
   }
 
