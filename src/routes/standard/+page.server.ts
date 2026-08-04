@@ -14,5 +14,7 @@ export const load: PageServerLoad = async ({ url }) => {
     const price_min   = precoMinPar ? parseFloat(precoMinPar) : null;
     const price_max   = precoMaxPar ? parseFloat(precoMaxPar) : null;
     const pagina      = Math.max(1, parseInt(url.searchParams.get('pagina') || '1'));
-    return { lens_type, material_id, treatments, exclude_treatments, price_min, price_max, pagina };
+    const busca       = url.searchParams.get('busca')    || null;
+    const excluir     = url.searchParams.get('excluir')  || null;
+    return { lens_type, material_id, treatments, exclude_treatments, price_min, price_max, pagina, busca, excluir };
 };

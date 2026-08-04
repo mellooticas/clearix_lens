@@ -311,6 +311,10 @@ export interface PremiumSearchParamsV3 extends PremiumFilterParamsV3 {
   price_max?: number
   limit?: number
   offset?: number
+  /** Busca textual: nome, marca, material, SKU canônico (CPR) ou SKU de lente real membro. Vírgula = E (todos os termos) */
+  search?: string
+  /** Não contém: nenhum termo (vírgula) pode casar */
+  search_exclude?: string
 }
 
 /** Parâmetros de filtro standard v3 */
@@ -331,4 +335,8 @@ export interface StandardSearchParamsV3 extends StandardFilterParamsV3 {
   price_max?: number
   limit?: number
   offset?: number
+  /** Busca textual: nome, material, SKU canônico (CST) ou SKU de lente real membro. Vírgula = E (todos os termos) */
+  search?: string
+  /** Não contém: nenhum termo (vírgula) pode casar */
+  search_exclude?: string
 }

@@ -24,7 +24,7 @@
     $: filtros        = data.filtros;
     $: filterOptions  = data.filterOptions;
     $: hasActiveFilters = !!(
-        filtros.busca || filtros.tipo || filtros.fornecedor || filtros.marca ||
+        filtros.busca || filtros.excluir || filtros.tipo || filtros.fornecedor || filtros.marca ||
         filtros.material || filtros.indice != null || filtros.isPremium !== null ||
         filtros.coating || filtros.linha || filtros.design || filtros.altura ||
         filtros.precoMin != null || filtros.precoMax != null ||
@@ -49,9 +49,11 @@
                  : filtros.isPremium === false ? 'standard'
                  : 'todos';
 
-    // Busca local (input)
+    // Busca local (input) — contém / não contém (termos separados por vírgula)
     let buscaInput = '';
-    $: buscaInput  = filtros.busca ?? '';
+    let excluirInput = '';
+    $: buscaInput   = filtros.busca ?? '';
+    $: excluirInput = filtros.excluir ?? '';
 
     function navegar(params: Record<string, string | number | null>) {
         const url = new URL($page.url);
@@ -70,7 +72,7 @@
     }
 
     function aplicarBusca() {
-        navegar({ busca: buscaInput || null });
+        navegar({ busca: buscaInput || null, excluir: excluirInput || null });
     }
 
     function setFiltro(key: 'tipo' | 'fornecedor' | 'marca' | 'material' | 'indice' | 'coating' | 'linha' | 'design' | 'altura', value: string | null) {
@@ -173,16 +175,26 @@
                 </button>
             </div>
 
-            <!-- Search bar -->
-            <div class="flex gap-2">
-                <div class="relative flex-1">
-                    <Search class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <!-- Search bar: contém / não contém (termos separados por vírgula) -->
+            <div class="flex gap-2 flex-wrap md:flex-nowrap">
+                <div class="relative flex-1 min-w-[220px]">
+                    <Search class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-emerald-600" />
                     <input
                         type="text"
-                        placeholder="Buscar por nome, marca, fornecedor ou SKU…"
+                        placeholder="Contém… nome, marca, fornecedor ou SKU (real/canônico); vírgula = E"
                         bind:value={buscaInput}
                         on:keydown={(e) => e.key === 'Enter' && aplicarBusca()}
-                        class="w-full pl-10 pr-4 py-2 bg-card border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                        class="w-full pl-10 pr-4 py-2 bg-card border border-emerald-200 dark:border-emerald-900 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    />
+                </div>
+                <div class="relative flex-1 min-w-[220px]">
+                    <X class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-red-500" />
+                    <input
+                        type="text"
+                        placeholder="Não contém… ex.: pronta, bloco"
+                        bind:value={excluirInput}
+                        on:keydown={(e) => e.key === 'Enter' && aplicarBusca()}
+                        class="w-full pl-10 pr-4 py-2 bg-card border border-red-200 dark:border-red-900 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-400"
                     />
                 </div>
                 <button

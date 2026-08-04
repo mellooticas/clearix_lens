@@ -32,7 +32,19 @@
         excludeTreatments: data.exclude_treatments ?? [],
         priceMin:   data.price_min   ?? null,
         priceMax:   data.price_max   ?? null,
+        busca:      data.busca       ?? null,
+        excluir:    data.excluir     ?? null,
     };
+
+    // Busca local (input) — contém / não contém (vírgula = múltiplos termos)
+    let buscaInput = '';
+    let excluirInput = '';
+    $: buscaInput   = filtros.busca   ?? '';
+    $: excluirInput = filtros.excluir ?? '';
+
+    function aplicarBusca() {
+        navegar({ ...filtros, busca: buscaInput || null, excluir: excluirInput || null });
+    }
 
     const TIPO_LABELS: Record<string, string> = {
         single_vision: 'Visão Simples',
@@ -73,6 +85,8 @@
             exclude_treatments: filtros.excludeTreatments?.length ? filtros.excludeTreatments : undefined,
             price_min:   filtros.priceMin   ?? undefined,
             price_max:   filtros.priceMax   ?? undefined,
+            search:         filtros.busca   || undefined,
+            search_exclude: filtros.excluir || undefined,
             limit: LIMITE,
             offset,
         });
@@ -85,7 +99,7 @@
         loading = false;
     }
 
-    function navegar(next: typeof filtros) {
+    function navegar(next: Partial<typeof filtros>) {
         const p = new URLSearchParams();
         if (next.lensType)   p.set('tipo',     next.lensType);
         if (next.materialId) p.set('material', next.materialId);
@@ -93,6 +107,10 @@
         if (next.excludeTreatments?.length) p.set('sem', next.excludeTreatments.join(','));
         if (next.priceMin != null) p.set('precoMin', String(next.priceMin));
         if (next.priceMax != null) p.set('precoMax', String(next.priceMax));
+        const busca   = 'busca'   in next ? next.busca   : filtros.busca;
+        const excluir = 'excluir' in next ? next.excluir : filtros.excluir;
+        if (busca)   p.set('busca',   busca);
+        if (excluir) p.set('excluir', excluir);
         goto(`/standard${p.toString() ? '?' + p.toString() : ''}`);
     }
 
@@ -104,6 +122,8 @@
         if (filtros.excludeTreatments?.length) params.set('sem', filtros.excludeTreatments.join(','));
         if (filtros.priceMin != null) params.set('precoMin', String(filtros.priceMin));
         if (filtros.priceMax != null) params.set('precoMax', String(filtros.priceMax));
+        if (filtros.busca)   params.set('busca',   filtros.busca);
+        if (filtros.excluir) params.set('excluir', filtros.excluir);
         params.set('pagina', String(pg));
         goto(`/standard?${params.toString()}`);
     }
@@ -155,6 +175,38 @@
             />
 
             <div class="lg:col-span-3 space-y-4">
+                <!-- Busca: contém / não contém (vírgula = múltiplos termos) -->
+                <div class="flex gap-2 flex-wrap md:flex-nowrap">
+                    <input
+                        type="text"
+                        placeholder="Contém… nome, material ou SKU (CST canônico / LS real); vírgula = E"
+                        bind:value={buscaInput}
+                        on:keydown={(e) => e.key === 'Enter' && aplicarBusca()}
+                        class="flex-1 min-w-[200px] px-4 py-2 bg-card border border-emerald-200 dark:border-emerald-900 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    />
+                    <input
+                        type="text"
+                        placeholder="Não contém… ex.: pronta, bloco"
+                        bind:value={excluirInput}
+                        on:keydown={(e) => e.key === 'Enter' && aplicarBusca()}
+                        class="flex-1 min-w-[200px] px-4 py-2 bg-card border border-red-200 dark:border-red-900 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-400"
+                    />
+                    <button
+                        on:click={aplicarBusca}
+                        class="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white text-sm font-semibold rounded-lg transition-colors"
+                    >
+                        Buscar
+                    </button>
+                    {#if filtros.busca || filtros.excluir}
+                        <button
+                            on:click={() => { buscaInput = ''; excluirInput = ''; navegar({ ...filtros, busca: null, excluir: null }); }}
+                            class="px-3 py-2 bg-muted hover:bg-accent text-muted-foreground text-sm font-semibold rounded-lg transition-colors"
+                        >
+                            Limpar
+                        </button>
+                    {/if}
+                </div>
+
                 {#if loading}
                     <div class="flex flex-col items-center justify-center py-24 bg-card border border-border rounded-2xl">
                         <div class="w-8 h-8 border-4 border-sky-500 border-t-transparent rounded-full animate-spin mb-4"></div>

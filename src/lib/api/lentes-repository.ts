@@ -143,6 +143,8 @@ export async function searchPremiumV3(
     p_exclude_treatments: params.exclude_treatments ?? null,
     p_price_min:    params.price_min    ?? null,
     p_price_max:    params.price_max    ?? null,
+    p_search:       params.search       ?? null,
+    p_search_exclude: params.search_exclude ?? null,
   });
   if (error) {
     console.error('[LENTES v3] rpc_premium_search error:', error);
@@ -185,6 +187,8 @@ export async function searchStandardV3(
     p_offset:      params.offset      ?? 0,
     p_price_min:   params.price_min   ?? null,
     p_price_max:   params.price_max   ?? null,
+    p_search:      params.search      ?? null,
+    p_search_exclude: params.search_exclude ?? null,
   });
   if (error) {
     console.error('[LENTES v3] rpc_standard_search error:', error);

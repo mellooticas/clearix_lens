@@ -20,8 +20,10 @@ export const load: PageServerLoad = async ({ url }) => {
     const price_min    = precoMinPar ? parseFloat(precoMinPar) : null;
     const price_max    = precoMaxPar ? parseFloat(precoMaxPar) : null;
     const pagina       = Math.max(1, parseInt(url.searchParams.get('pagina') || '1'));
+    const busca        = url.searchParams.get('busca')    || null;
+    const excluir      = url.searchParams.get('excluir')  || null;
     return {
         brand, product_line, lens_type, coating, photochromic, material_id,
-        treatments, exclude_treatments, price_min, price_max, pagina,
+        treatments, exclude_treatments, price_min, price_max, pagina, busca, excluir,
     };
 };

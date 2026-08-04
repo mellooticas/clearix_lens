@@ -56,7 +56,8 @@ export const load: PageServerLoad = async ({ url, locals }) => {
     const { supabase } = locals;
 
     // ── URL params ───────────────────────────────────────────────────────────
-    const busca       = url.searchParams.get('busca') || '';
+    const busca       = url.searchParams.get('busca')   || '';
+    const excluir     = url.searchParams.get('excluir') || '';
     const tipo        = url.searchParams.get('tipo')  || null;
     const premiumPar  = url.searchParams.get('premium');
     const isPremium   = premiumPar === 'true' ? true
@@ -124,6 +125,7 @@ export const load: PageServerLoad = async ({ url, locals }) => {
             p_treatments:       treatments.length > 0 ? treatments : null,
             p_limit:            PAGE_SIZE,
             p_offset:           offset,
+            p_search_exclude:   excluir || null,
         }),
         supabase.rpc('rpc_lens_catalog_filter_options'),
     ]);
@@ -164,7 +166,7 @@ export const load: PageServerLoad = async ({ url, locals }) => {
         premiumTotal:  filterOptions.premium_total,
         standardTotal: filterOptions.standard_total,
         filtros: {
-            busca, tipo, isPremium, fornecedor, marca, material, indice,
+            busca, excluir, tipo, isPremium, fornecedor, marca, material, indice,
             coating, linha, design, altura,
             precoMin, precoMax,
             ar, scratch, uv, blue, photo, pol, hidro,
