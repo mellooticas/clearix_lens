@@ -12,6 +12,7 @@
      *  - onApply: callback chamado quando usuário muda algo
      */
     import { X, Sparkles, Eye, Sun, Zap, Shield, Droplets, Palette } from 'lucide-svelte';
+    import FilterSection from './FilterSection.svelte';
 
     type Ctx = 'premium' | 'standard';
 
@@ -129,6 +130,23 @@
         { code: 'scratch', label: 'Risco', icon: Shield },
         { code: 'pol',     label: 'Polar', icon: Palette },
     ];
+
+    // Badges dos módulos recolhidos (resumo do valor ativo no cabeçalho)
+    $: materialLabel = filtros.materialId
+        ? (filterOptions?.materials?.find((m: any) => m.id === filtros.materialId)?.name ?? '1 ativo')
+        : null;
+    $: precoLabel = (filtros.priceMin != null || filtros.priceMax != null)
+        ? `${filtros.priceMin ?? '…'}–${filtros.priceMax ?? '…'}`
+        : null;
+    $: tratLabel = (() => {
+        const inc = (filtros.treatments ?? []).length;
+        const exc = (filtros.excludeTreatments ?? []).length;
+        if (!inc && !exc) return null;
+        const parts = [];
+        if (inc) parts.push(`${inc} com`);
+        if (exc) parts.push(`${exc} sem`);
+        return parts.join(' · ');
+    })();
 </script>
 
 <aside class="lg:col-span-1 space-y-4">
@@ -150,154 +168,142 @@
                 {/each}
             </div>
         {:else if filterOptions}
+            <!-- Módulos recolhíveis (padrão visual Finance: escondido + expansão) -->
+            <div class="space-y-2">
 
-            <!-- PREMIUM: Marca (pills) -->
-            {#if context === 'premium' && filterOptions.brands?.length}
-                <div class="mb-4">
-                    <label class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">Marca</label>
-                    <div class="flex flex-wrap gap-1.5">
-                        {#each filterOptions.brands as b}
-                            <button type="button"
-                                on:click={() => set('brand', filtros.brand === b.value ? null : b.value)}
-                                class="px-2.5 py-1 text-micro font-bold rounded-lg border transition-all
-                                    {filtros.brand === b.value
-                                        ? 'bg-amber-600 border-amber-600 text-white'
-                                        : 'bg-card border-border text-foreground hover:border-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20'}">
-                                {b.value}<span class="ml-1 opacity-70">({b.count})</span>
-                            </button>
-                        {/each}
-                    </div>
-                </div>
-            {/if}
-
-            <!-- PREMIUM: Linha -->
-            {#if context === 'premium' && filterOptions.product_lines?.length}
-                <div class="mb-4">
-                    <label for="f-linha" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">Linha de produto</label>
-                    <select id="f-linha" value={filtros.productLine ?? ''}
-                        on:change={(e) => set('productLine', e.currentTarget.value || null)}
-                        class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500">
-                        <option value="">Todas ({filterOptions.product_lines.length})</option>
-                        {#each filterOptions.product_lines as opt}
-                            <option value={opt.value}>{opt.value} ({opt.count})</option>
-                        {/each}
-                    </select>
-                </div>
-            {/if}
-
-            <!-- Tipo -->
-            {#if filterOptions.lens_types?.length}
-                <div class="mb-4">
-                    <label for="f-tipo" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">Tipo</label>
-                    <select id="f-tipo" value={filtros.lensType ?? ''}
-                        on:change={(e) => set('lensType', e.currentTarget.value || null)}
-                        class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500">
-                        <option value="">Todos</option>
-                        {#each filterOptions.lens_types as opt}
-                            <option value={opt.value}>{TIPO_LABELS[opt.value] ?? opt.value} ({opt.count})</option>
-                        {/each}
-                    </select>
-                </div>
-            {/if}
-
-            <!-- Material -->
-            {#if filterOptions.materials?.length}
-                <div class="mb-4">
-                    <label for="f-mat" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">Material / Índice</label>
-                    <select id="f-mat" value={filtros.materialId ?? ''}
-                        on:change={(e) => set('materialId', e.currentTarget.value || null)}
-                        class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500">
-                        <option value="">Todos</option>
-                        {#each filterOptions.materials as m}
-                            <option value={m.id}>{m.name} · n={m.index} ({m.count})</option>
-                        {/each}
-                    </select>
-                </div>
-            {/if}
-
-            <!-- PREMIUM: Coating -->
-            {#if context === 'premium' && filterOptions.coatings?.length}
-                <div class="mb-4">
-                    <label for="f-coat" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">Coating</label>
-                    <select id="f-coat" value={filtros.coating ?? ''}
-                        on:change={(e) => set('coating', e.currentTarget.value || null)}
-                        class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500">
-                        <option value="">Todos ({filterOptions.coatings.length})</option>
-                        {#each filterOptions.coatings as opt}
-                            <option value={opt.value}>{opt.value} ({opt.count})</option>
-                        {/each}
-                    </select>
-                </div>
-            {/if}
-
-            <!-- PREMIUM: Fotossensível -->
-            {#if context === 'premium' && filterOptions.photochromics?.length}
-                <div class="mb-4">
-                    <label for="f-foto" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">Fotossensível (tipo)</label>
-                    <select id="f-foto" value={filtros.photochromic ?? ''}
-                        on:change={(e) => set('photochromic', e.currentTarget.value || null)}
-                        class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500">
-                        <option value="">Todos</option>
-                        {#each filterOptions.photochromics as opt}
-                            <option value={opt.value}>{opt.value} ({opt.count})</option>
-                        {/each}
-                    </select>
-                </div>
-            {/if}
-
-            <!-- Faixa de preço -->
-            {#if filterOptions.price_range && filterOptions.price_range.max > 0}
-                <div class="mb-5 pb-5 border-b border-border">
-                    <label class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">Faixa de preço (R$)</label>
-                    <div class="flex items-center gap-2">
-                        <input type="number" min="0" step="10"
-                            placeholder={String(Math.floor(filterOptions.price_range.min))}
-                            bind:value={priceMinInput}
-                            on:blur={aplicarPreco}
-                            on:keydown={(e) => e.key === 'Enter' && aplicarPreco()}
-                            class="w-full px-2 py-2 border border-border rounded-lg text-xs bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500" />
-                        <span class="text-muted-foreground text-xs">→</span>
-                        <input type="number" min="0" step="10"
-                            placeholder={String(Math.ceil(filterOptions.price_range.max))}
-                            bind:value={priceMaxInput}
-                            on:blur={aplicarPreco}
-                            on:keydown={(e) => e.key === 'Enter' && aplicarPreco()}
-                            class="w-full px-2 py-2 border border-border rounded-lg text-xs bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500" />
-                    </div>
-                    <p class="text-micro text-muted-foreground mt-1">
-                        R$ {filterOptions.price_range.min.toLocaleString('pt-BR', { maximumFractionDigits: 0 })} a
-                        R$ {filterOptions.price_range.max.toLocaleString('pt-BR', { maximumFractionDigits: 0 })}
-                    </p>
-                </div>
-            {/if}
-
-            <!-- Tratamentos (tri-state padrão Vendas: cinza ambos → verde com → vermelho sem) -->
-            <div class="mb-2">
-                <p class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-1">Tratamentos</p>
-                <p class="text-micro text-muted-foreground mb-2">
-                    <span class="inline-block w-2 h-2 rounded-full bg-muted-foreground/40 mr-1 align-middle"></span> ambos
-                    <span class="mx-1">·</span>
-                    <span class="inline-block w-2 h-2 rounded-full bg-green-600 mr-1 align-middle"></span> com
-                    <span class="mx-1">·</span>
-                    <span class="inline-block w-2 h-2 rounded-full bg-red-600 mr-1 align-middle"></span> sem
-                </p>
-                <div class="grid grid-cols-2 gap-1.5">
-                    {#each TREATMENT_DEFS as t (t.code)}
-                        {#if t.code !== 'pol' || treatmentCount('pol') > 0 || treatmentState('pol') !== 'neutral'}
-                            <button type="button"
-                                on:click={() => cycleTreatment(t.code)}
-                                title={triTitle(t.code)}
-                                class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-micro font-semibold transition-colors {triClass(t.code)}">
-                                <svelte:component this={t.icon} class="h-3 w-3" /> {t.label} ({treatmentCount(t.code)})
-                            </button>
-                        {/if}
-                    {/each}
-                </div>
-                {#if (filtros.excludeTreatments ?? []).length > 0}
-                    <p class="text-micro text-red-500 mt-1.5">
-                        Excluindo: {(filtros.excludeTreatments ?? []).join(', ')}
-                    </p>
+                {#if context === 'premium' && filterOptions.brands?.length}
+                    <FilterSection id="marca" title="Marca" active={filtros.brand ?? null}>
+                        <div class="flex flex-wrap gap-1.5">
+                            {#each filterOptions.brands as b}
+                                <button type="button"
+                                    on:click={() => set('brand', filtros.brand === b.value ? null : b.value)}
+                                    class="px-2.5 py-1 text-micro font-bold rounded-lg border transition-all
+                                        {filtros.brand === b.value
+                                            ? 'bg-amber-600 border-amber-600 text-white'
+                                            : 'bg-card border-border text-foreground hover:border-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20'}">
+                                    {b.value}<span class="ml-1 opacity-70">({b.count})</span>
+                                </button>
+                            {/each}
+                        </div>
+                    </FilterSection>
                 {/if}
+
+                {#if context === 'premium' && filterOptions.product_lines?.length}
+                    <FilterSection id="linha" title="Linha de produto" active={filtros.productLine ?? null}>
+                        <select id="f-linha" value={filtros.productLine ?? ''}
+                            on:change={(e) => set('productLine', e.currentTarget.value || null)}
+                            class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500">
+                            <option value="">Todas ({filterOptions.product_lines.length})</option>
+                            {#each filterOptions.product_lines as opt}
+                                <option value={opt.value}>{opt.value} ({opt.count})</option>
+                            {/each}
+                        </select>
+                    </FilterSection>
+                {/if}
+
+                {#if filterOptions.lens_types?.length}
+                    <FilterSection id="tipo" title="Tipo" active={filtros.lensType ? (TIPO_LABELS[filtros.lensType] ?? filtros.lensType) : null}>
+                        <select id="f-tipo" value={filtros.lensType ?? ''}
+                            on:change={(e) => set('lensType', e.currentTarget.value || null)}
+                            class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500">
+                            <option value="">Todos</option>
+                            {#each filterOptions.lens_types as opt}
+                                <option value={opt.value}>{TIPO_LABELS[opt.value] ?? opt.value} ({opt.count})</option>
+                            {/each}
+                        </select>
+                    </FilterSection>
+                {/if}
+
+                {#if filterOptions.materials?.length}
+                    <FilterSection id="material" title="Material / Índice" active={materialLabel}>
+                        <select id="f-mat" value={filtros.materialId ?? ''}
+                            on:change={(e) => set('materialId', e.currentTarget.value || null)}
+                            class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500">
+                            <option value="">Todos</option>
+                            {#each filterOptions.materials as m}
+                                <option value={m.id}>{m.name} · n={m.index} ({m.count})</option>
+                            {/each}
+                        </select>
+                    </FilterSection>
+                {/if}
+
+                {#if context === 'premium' && filterOptions.coatings?.length}
+                    <FilterSection id="coating" title="Coating" active={filtros.coating ?? null}>
+                        <select id="f-coat" value={filtros.coating ?? ''}
+                            on:change={(e) => set('coating', e.currentTarget.value || null)}
+                            class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500">
+                            <option value="">Todos ({filterOptions.coatings.length})</option>
+                            {#each filterOptions.coatings as opt}
+                                <option value={opt.value}>{opt.value} ({opt.count})</option>
+                            {/each}
+                        </select>
+                    </FilterSection>
+                {/if}
+
+                {#if context === 'premium' && filterOptions.photochromics?.length}
+                    <FilterSection id="foto" title="Fotossensível" active={filtros.photochromic ?? null}>
+                        <select id="f-foto" value={filtros.photochromic ?? ''}
+                            on:change={(e) => set('photochromic', e.currentTarget.value || null)}
+                            class="w-full px-3 py-2 border border-border rounded-lg text-sm bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500">
+                            <option value="">Todos</option>
+                            {#each filterOptions.photochromics as opt}
+                                <option value={opt.value}>{opt.value} ({opt.count})</option>
+                            {/each}
+                        </select>
+                    </FilterSection>
+                {/if}
+
+                {#if filterOptions.price_range && filterOptions.price_range.max > 0}
+                    <FilterSection id="preco" title="Faixa de preço" active={precoLabel}>
+                        <div class="flex items-center gap-2">
+                            <input type="number" min="0" step="10"
+                                placeholder={String(Math.floor(filterOptions.price_range.min))}
+                                bind:value={priceMinInput}
+                                on:blur={aplicarPreco}
+                                on:keydown={(e) => e.key === 'Enter' && aplicarPreco()}
+                                class="w-full px-2 py-2 border border-border rounded-lg text-xs bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500" />
+                            <span class="text-muted-foreground text-xs">→</span>
+                            <input type="number" min="0" step="10"
+                                placeholder={String(Math.ceil(filterOptions.price_range.max))}
+                                bind:value={priceMaxInput}
+                                on:blur={aplicarPreco}
+                                on:keydown={(e) => e.key === 'Enter' && aplicarPreco()}
+                                class="w-full px-2 py-2 border border-border rounded-lg text-xs bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500" />
+                        </div>
+                        <p class="text-micro text-muted-foreground mt-1">
+                            R$ {filterOptions.price_range.min.toLocaleString('pt-BR', { maximumFractionDigits: 0 })} a
+                            R$ {filterOptions.price_range.max.toLocaleString('pt-BR', { maximumFractionDigits: 0 })}
+                        </p>
+                    </FilterSection>
+                {/if}
+
+                <FilterSection id="tratamentos" title="Tratamentos" active={tratLabel}>
+                    <p class="text-micro text-muted-foreground mb-2">
+                        <span class="inline-block w-2 h-2 rounded-full bg-muted-foreground/40 mr-1 align-middle"></span> ambos
+                        <span class="mx-1">·</span>
+                        <span class="inline-block w-2 h-2 rounded-full bg-green-600 mr-1 align-middle"></span> com
+                        <span class="mx-1">·</span>
+                        <span class="inline-block w-2 h-2 rounded-full bg-red-600 mr-1 align-middle"></span> sem
+                    </p>
+                    <div class="grid grid-cols-2 gap-1.5">
+                        {#each TREATMENT_DEFS as t (t.code)}
+                            {#if t.code !== 'pol' || treatmentCount('pol') > 0 || treatmentState('pol') !== 'neutral'}
+                                <button type="button"
+                                    on:click={() => cycleTreatment(t.code)}
+                                    title={triTitle(t.code)}
+                                    class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-micro font-semibold transition-colors {triClass(t.code)}">
+                                    <svelte:component this={t.icon} class="h-3 w-3" /> {t.label} ({treatmentCount(t.code)})
+                                </button>
+                            {/if}
+                        {/each}
+                    </div>
+                    {#if (filtros.excludeTreatments ?? []).length > 0}
+                        <p class="text-micro text-red-500 mt-1.5">
+                            Excluindo: {(filtros.excludeTreatments ?? []).join(', ')}
+                        </p>
+                    {/if}
+                </FilterSection>
+
             </div>
         {/if}
     </div>

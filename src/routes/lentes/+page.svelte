@@ -10,6 +10,7 @@
     import { page } from '$app/stores';
     import { Crown, Sparkles, Search, X, Sun, Eye, Droplets, Shield, Zap, Palette } from 'lucide-svelte';
     import Container from '$lib/components/layout/Container.svelte';
+    import FilterSection from '$lib/components/filters/FilterSection.svelte';
     import type { PageData } from './$types';
 
     export let data: PageData;
@@ -30,6 +31,15 @@
         filtros.precoMin != null || filtros.precoMax != null ||
         filtros.ar || filtros.scratch || filtros.uv || filtros.blue || filtros.photo || filtros.pol || filtros.hidro
     );
+
+    // Badges dos módulos recolhidos (resumo do valor ativo no cabeçalho)
+    $: fornecedorLabel = filtros.fornecedor ? (filterOptions.laboratorios.find(o => o.value === filtros.fornecedor)?.label ?? '1 ativo') : null;
+    $: marcaLabel      = filtros.marca      ? (filterOptions.marcas.find(o => o.value === filtros.marca)?.label ?? '1 ativo') : null;
+    $: materialLabel   = filtros.material   ? (filterOptions.materiais.find(o => o.value === filtros.material)?.label ?? '1 ativo') : null;
+    $: precoLabel      = (filtros.precoMin != null || filtros.precoMax != null)
+        ? `${filtros.precoMin ?? '…'}–${filtros.precoMax ?? '…'}` : null;
+    $: tratAtivos = (['ar','scratch','uv','blue','photo','pol','hidro'] as const).filter(c => filtros[c]).length;
+    $: tratLabel  = tratAtivos > 0 ? `${tratAtivos} ativo${tratAtivos > 1 ? 's' : ''}` : null;
 
     // Inputs locais de preço (só navega ao soltar)
     let precoMinInput: string = '';
@@ -231,11 +241,10 @@
                             {/if}
                         </div>
 
-                        <!-- Laboratório -->
-                        <div class="mb-4">
-                            <label for="filtro-fornecedor" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">
-                                Laboratório
-                            </label>
+                        <!-- Módulos recolhíveis (padrão visual Finance: escondido + expansão) -->
+                        <div class="space-y-2">
+
+                        <FilterSection id="fornecedor" title="Laboratório" active={fornecedorLabel}>
                             <select
                                 id="filtro-fornecedor"
                                 value={filtros.fornecedor ?? ''}
@@ -247,14 +256,10 @@
                                     <option value={opt.value}>{opt.label} ({opt.count})</option>
                                 {/each}
                             </select>
-                        </div>
+                        </FilterSection>
 
-                        <!-- Marca -->
                         {#if filterOptions.marcas.length > 0}
-                            <div class="mb-4">
-                                <label for="filtro-marca" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">
-                                    Marca
-                                </label>
+                            <FilterSection id="marca" title="Marca" active={marcaLabel}>
                                 <select
                                     id="filtro-marca"
                                     value={filtros.marca ?? ''}
@@ -266,15 +271,11 @@
                                         <option value={opt.value}>{opt.label} ({opt.count})</option>
                                     {/each}
                                 </select>
-                            </div>
+                            </FilterSection>
                         {/if}
 
-                        <!-- Linha de produto -->
                         {#if filterOptions.product_lines.length > 0}
-                            <div class="mb-4">
-                                <label for="filtro-linha" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">
-                                    Linha de produto
-                                </label>
+                            <FilterSection id="linha" title="Linha de produto" active={filtros.linha ?? null}>
                                 <select
                                     id="filtro-linha"
                                     value={filtros.linha ?? ''}
@@ -286,14 +287,10 @@
                                         <option value={opt.value}>{opt.value} ({opt.count})</option>
                                     {/each}
                                 </select>
-                            </div>
+                            </FilterSection>
                         {/if}
 
-                        <!-- Tipo -->
-                        <div class="mb-4">
-                            <label for="filtro-tipo" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">
-                                Tipo
-                            </label>
+                        <FilterSection id="tipo" title="Tipo" active={filtros.tipo ? (TIPO_LABELS[filtros.tipo] ?? filtros.tipo) : null}>
                             <select
                                 id="filtro-tipo"
                                 value={filtros.tipo ?? ''}
@@ -305,13 +302,9 @@
                                     <option value={opt.value}>{opt.label} ({opt.count})</option>
                                 {/each}
                             </select>
-                        </div>
+                        </FilterSection>
 
-                        <!-- Material -->
-                        <div class="mb-4">
-                            <label for="filtro-material" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">
-                                Material
-                            </label>
+                        <FilterSection id="material" title="Material" active={materialLabel}>
                             <select
                                 id="filtro-material"
                                 value={filtros.material ?? ''}
@@ -323,13 +316,9 @@
                                     <option value={opt.value}>{opt.label} ({opt.count})</option>
                                 {/each}
                             </select>
-                        </div>
+                        </FilterSection>
 
-                        <!-- Índice -->
-                        <div class="mb-4">
-                            <label for="filtro-indice" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">
-                                Índice de refração
-                            </label>
+                        <FilterSection id="indice" title="Índice de refração" active={filtros.indice != null ? `n = ${filtros.indice}` : null}>
                             <select
                                 id="filtro-indice"
                                 value={filtros.indice != null ? String(filtros.indice) : ''}
@@ -341,14 +330,10 @@
                                     <option value={opt.value}>{opt.label} ({opt.count})</option>
                                 {/each}
                             </select>
-                        </div>
+                        </FilterSection>
 
-                        <!-- Coating específico -->
                         {#if filterOptions.coatings.length > 0}
-                            <div class="mb-4">
-                                <label for="filtro-coating" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">
-                                    Coating
-                                </label>
+                            <FilterSection id="coating" title="Coating" active={filtros.coating ?? null}>
                                 <select
                                     id="filtro-coating"
                                     value={filtros.coating ?? ''}
@@ -360,15 +345,11 @@
                                         <option value={opt.value}>{opt.value} ({opt.count})</option>
                                     {/each}
                                 </select>
-                            </div>
+                            </FilterSection>
                         {/if}
 
-                        <!-- Design -->
                         {#if filterOptions.lens_designs.length > 0}
-                            <div class="mb-4">
-                                <label for="filtro-design" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">
-                                    Design
-                                </label>
+                            <FilterSection id="design" title="Design" active={filtros.design ?? null}>
                                 <select
                                     id="filtro-design"
                                     value={filtros.design ?? ''}
@@ -380,15 +361,11 @@
                                         <option value={opt.value}>{opt.value} ({opt.count})</option>
                                     {/each}
                                 </select>
-                            </div>
+                            </FilterSection>
                         {/if}
 
-                        <!-- Altura mínima de montagem -->
                         {#if filterOptions.min_heights.length > 0}
-                            <div class="mb-4">
-                                <label for="filtro-altura" class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">
-                                    Altura mínima
-                                </label>
+                            <FilterSection id="altura" title="Altura mínima" active={filtros.altura ? `${filtros.altura} mm` : null}>
                                 <select
                                     id="filtro-altura"
                                     value={filtros.altura ?? ''}
@@ -400,14 +377,10 @@
                                         <option value={opt.value}>{opt.label} ({opt.count})</option>
                                     {/each}
                                 </select>
-                            </div>
+                            </FilterSection>
                         {/if}
 
-                        <!-- Faixa de preço -->
-                        <div class="mb-5 pb-5 border-b border-border">
-                            <label class="text-micro font-black uppercase tracking-wider text-muted-foreground block mb-1.5">
-                                Faixa de preço (R$)
-                            </label>
+                        <FilterSection id="preco" title="Faixa de preço" active={precoLabel}>
                             <div class="flex items-center gap-2">
                                 <input
                                     type="number"
@@ -436,11 +409,9 @@
                             <p class="text-micro text-muted-foreground mt-1">
                                 R$ {filterOptions.price_min.toLocaleString('pt-BR', { maximumFractionDigits: 0 })} a R$ {filterOptions.price_max.toLocaleString('pt-BR', { maximumFractionDigits: 0 })}
                             </p>
-                        </div>
+                        </FilterSection>
 
-                        <!-- TRATAMENTOS (toggles visuais — no fim da sidebar) -->
-                        <div class="mb-2">
-                            <p class="text-micro font-black uppercase tracking-wider text-muted-foreground mb-2">Tratamentos</p>
+                        <FilterSection id="tratamentos" title="Tratamentos" active={tratLabel}>
                             <div class="grid grid-cols-2 gap-1.5">
                                 <button
                                     type="button"
@@ -485,6 +456,8 @@
                                     <Droplets class="h-3 w-3" /> Hidro
                                 </button>
                             </div>
+                        </FilterSection>
+
                         </div>
                     </div>
                 </aside>
