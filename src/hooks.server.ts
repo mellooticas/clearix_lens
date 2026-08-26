@@ -15,12 +15,14 @@ import {
   PUBLIC_SUPABASE_ANON_KEY,
   PUBLIC_SIS_GATEWAY_URL
 } from '$env/static/public';
+import { supabaseAppHeaders } from '$lib/supabase-app-headers';
 
 // ============================================================================
 // Handle 1: Inicializar cliente Supabase com cookies HttpOnly
 // ============================================================================
 const supabaseHandle: Handle = async ({ event, resolve }) => {
   event.locals.supabase = createServerClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
+    global: { headers: supabaseAppHeaders },
     cookies: {
       getAll() {
         return event.cookies.getAll();

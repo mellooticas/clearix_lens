@@ -13,6 +13,7 @@
 
 import { createBrowserClient, createServerClient, isBrowser } from '@supabase/ssr';
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public';
+import { supabaseAppHeaders } from '$lib/supabase-app-headers';
 import type { LayoutLoad } from './$types';
 
 export const load: LayoutLoad = async ({ data, depends, fetch }) => {
@@ -24,10 +25,10 @@ export const load: LayoutLoad = async ({ data, depends, fetch }) => {
 
   const supabase = isBrowser()
     ? createBrowserClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
-        global: { fetch },
+        global: { fetch, headers: supabaseAppHeaders },
       })
     : createServerClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
-        global: { fetch },
+        global: { fetch, headers: supabaseAppHeaders },
         cookies: {
           getAll() {
             return data.cookies;

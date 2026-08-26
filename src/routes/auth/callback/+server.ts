@@ -20,6 +20,7 @@ import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/publi
 import { PUBLIC_SIS_GATEWAY_URL } from '$env/static/public';
 import { env } from '$env/dynamic/private';
 import { SSO_APP_KEY, SSO_TICKET_PARAM, normalizeSsoNext, SSO_DEFAULT_NEXT } from '$lib/auth/sso';
+import { supabaseAppHeaders } from '$lib/supabase-app-headers';
 
 async function exchangeSsoTicket(ticket: string): Promise<{
   accessToken: string;
@@ -107,6 +108,7 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
 
   if (access_token && refresh_token) {
     const supabase = createServerClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
+      global: { headers: supabaseAppHeaders },
       cookies: {
         getAll()  { return cookies.getAll(); },
         setAll(cookiesToSet) {

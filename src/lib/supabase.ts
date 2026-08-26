@@ -11,9 +11,12 @@ import {
   PUBLIC_SUPABASE_URL,
   PUBLIC_SUPABASE_ANON_KEY
 } from '$env/static/public';
+import { supabaseAppHeaders } from '$lib/supabase-app-headers';
 
 // Singleton browser client
-export const supabase = createBrowserClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY);
+export const supabase = createBrowserClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
+  global: { headers: supabaseAppHeaders }
+});
 
 // Helper: sessão atual (client-side)
 export async function getSession() {
