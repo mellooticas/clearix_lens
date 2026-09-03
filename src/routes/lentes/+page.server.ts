@@ -39,6 +39,8 @@ export interface FilterOptions {
     product_lines: FilterOption[];
     lens_designs:  FilterOption[];
     min_heights:   FilterOption[];
+    /** Contagem por tratamento no contexto atual. count 0 = existe, mas não temos. */
+    treatments:    FilterOption[];
     has_blue_cut:     number;
     has_photochromic: number;
     has_hidrofobic:   number;
@@ -94,6 +96,13 @@ export const load: PageServerLoad = async ({ url, locals }) => {
         }
     }
 
+    // Tratamentos EXCLUÍDOS — o vermelho do tri-state (padrão Vendas).
+    // trat_nao=blue,pol significa "qualquer coisa, menos essas".
+    const tratNaoParam = url.searchParams.get('trat_nao');
+    const excludeTreatments: string[] = tratNaoParam
+        ? tratNaoParam.split(',').filter(t => TREATMENT_CODES.includes(t as any))
+        : [];
+
     // Booleans derivados dos treatments (para manter filtros state na UI)
     const ar      = treatments.includes('ar');
     const scratch = treatments.includes('scratch');
@@ -126,8 +135,36 @@ export const load: PageServerLoad = async ({ url, locals }) => {
             p_limit:            PAGE_SIZE,
             p_offset:           offset,
             p_search_exclude:   excluir || null,
+            p_exclude_treatments: excludeTreatments.length > 0 ? excludeTreatments : null,
         }),
-        supabase.rpc('rpc_lens_catalog_filter_options'),
+        /**
+         * As opções recebem os MESMOS filtros da busca — é isto que faz o funil.
+         * Sem os argumentos, a RPC devolvia sempre o catálogo inteiro e as
+         * contagens dos dropdowns nunca mudavam.
+         *
+         * Cada dimensão é contada ignorando o filtro dela própria (facetas), então
+         * continua sendo possível trocar de laboratório sem limpar o resto. Opção
+         * que zera permanece na lista com count 0 — a tela mostra em vermelho.
+         */
+        supabase.rpc('rpc_lens_catalog_filter_options', {
+            p_supplier_id:    fornecedor,
+            p_brand_id:       marca,
+            p_lens_type:      tipo,
+            p_material_id:    material,
+            p_refractive_idx: indice,
+            p_is_premium:     isPremium,
+            p_coating:        coating,
+            p_product_line:   linha,
+            p_lens_design:    design,
+            p_min_height:     altura,
+            p_price_min:      precoMin,
+            p_price_max:      precoMax,
+            p_treatments:     treatments.length > 0 ? treatments : null,
+            p_has_hidrofobic: hidro || null,
+            p_busca:          busca || null,
+            p_busca_exclui:   excluir || null,
+            p_exclude_treatments: excludeTreatments.length > 0 ? excludeTreatments : null,
+        }),
     ]);
 
     if (searchResult.error) {
@@ -150,6 +187,7 @@ export const load: PageServerLoad = async ({ url, locals }) => {
         product_lines:   (rawOpts.product_lines as FilterOption[]) ?? [],
         lens_designs:    (rawOpts.lens_designs  as FilterOption[]) ?? [],
         min_heights:     toHeightOptions((rawOpts.min_heights as FilterOption[]) ?? []),
+        treatments:      (rawOpts.treatments   as FilterOption[]) ?? [],
         has_blue_cut:     Number(rawOpts.has_blue_cut     ?? 0),
         has_photochromic: Number(rawOpts.has_photochromic ?? 0),
         has_hidrofobic:   Number(rawOpts.has_hidrofobic   ?? 0),
@@ -170,6 +208,7 @@ export const load: PageServerLoad = async ({ url, locals }) => {
             coating, linha, design, altura,
             precoMin, precoMax,
             ar, scratch, uv, blue, photo, pol, hidro,
+            treatments, excludeTreatments,
         },
         filterOptions,
         pagina,

@@ -18,6 +18,26 @@
   estava rastreado de antes — o ignore não vale para o que já está no índice.
   Mesmo padrão aplicado hoje por Finance e Estoque.
 
+### 2026-08-31 — Laboratório pausado some do catálogo (migrações 355–359)
+- **Regra única do ecossistema**: lente de laboratório pausado não aparece em
+  busca, filtro, canônica, resumo nem sugestão por receita. Vale para Lens,
+  Vendas, DCL e AR Vision. Detalhe em
+  `clearix_docs/padroes/18_LAB_PAUSADO_NAO_APARECE.md`.
+- **Corrigia mais que a lista: corrigia o preço.** 47 canônicas exibiam um
+  mínimo que não dava para comprar (pior caso: R$ 760 exibido × R$ 2.006 real),
+  porque o preço agregava lentes de lab pausado.
+- **A tela de canônicas ficou 14× mais rápida** (3.951 ms → 282 ms): as views
+  juntavam `pricing_book` e `lens_treatment_links` só por `lens_id`, mas o
+  índice é `(tenant_id, lens_id)` — o índice nunca era usado. Problema antigo,
+  encontrado ao medir esta mudança.
+- Ligar/desligar laboratório testado de ponta a ponta, com o estado restaurado.
+- Tela `/lentes` passou a esconder lente de lab pausado, revertendo o argumento
+  contrário que eu havia registrado na migração 354.
+- **OSs destravadas (360/361)**: 18 OSs vivas corrigidas — 8 tinham venda e
+  produção apontando para canônicas diferentes, 10 estavam travadas em PENDENTE
+  sem opção comprável. Nenhum preço de cliente alterado, nenhuma lente física
+  mexida. Backups em `catalog_lenses._fix360_*` e `_fix361_*`.
+
 ### Catálogo (banco — schema `catalog_lenses`, documentado em `clearix_docs`)
 - Segurança: catálogo (custo e laboratório) fechado ao paciente — o portão exige
   funcionário confirmado em `iam.users` via `current_role_code()`.

@@ -29,7 +29,7 @@
         filtros.material || filtros.indice != null || filtros.isPremium !== null ||
         filtros.coating || filtros.linha || filtros.design || filtros.altura ||
         filtros.precoMin != null || filtros.precoMax != null ||
-        filtros.ar || filtros.scratch || filtros.uv || filtros.blue || filtros.photo || filtros.pol || filtros.hidro
+        (filtros.treatments?.length ?? 0) > 0 || (filtros.excludeTreatments?.length ?? 0) > 0
     );
 
     // Badges dos módulos recolhidos (resumo do valor ativo no cabeçalho)
@@ -38,8 +38,74 @@
     $: materialLabel   = filtros.material   ? (filterOptions.materiais.find(o => o.value === filtros.material)?.label ?? '1 ativo') : null;
     $: precoLabel      = (filtros.precoMin != null || filtros.precoMax != null)
         ? `${filtros.precoMin ?? '…'}–${filtros.precoMax ?? '…'}` : null;
-    $: tratAtivos = (['ar','scratch','uv','blue','photo','pol','hidro'] as const).filter(c => filtros[c]).length;
+    $: tratAtivos = (filtros.treatments?.length ?? 0) + (filtros.excludeTreatments?.length ?? 0);
     $: tratLabel  = tratAtivos > 0 ? `${tratAtivos} ativo${tratAtivos > 1 ? 's' : ''}` : null;
+
+    // ── Tratamentos: tri-state (padrão Vendas) ───────────────────────────────
+    // neutro (tanto faz) → verde (quero) → vermelho riscado (não quero) → neutro
+    type TriState = 'neutral' | 'include' | 'exclude';
+
+    const TRATAMENTOS = [
+        { code: 'ar',      label: 'AR',    icon: Sparkles },
+        { code: 'blue',    label: 'Blue',  icon: Eye },
+        { code: 'photo',   label: 'Foto',  icon: Sun },
+        { code: 'uv',      label: 'UV',    icon: Zap },
+        { code: 'scratch', label: 'Risco', icon: Shield },
+        { code: 'pol',     label: 'Polar', icon: Palette },
+        { code: 'hidro',   label: 'Hidro', icon: Droplets },
+    ] as const;
+
+    function estadoTrat(code: string): TriState {
+        if ((filtros.treatments ?? []).includes(code)) return 'include';
+        if ((filtros.excludeTreatments ?? []).includes(code)) return 'exclude';
+        return 'neutral';
+    }
+
+    /** Quantas lentes têm este tratamento, já considerando os outros filtros. */
+    function countTrat(code: string): number {
+        return filterOptions.treatments?.find(t => t.value === code)?.count ?? 0;
+    }
+
+    function cycleTratamento(code: string) {
+        const inc = [...(filtros.treatments ?? [])];
+        const exc = [...(filtros.excludeTreatments ?? [])];
+        const estado = estadoTrat(code);
+
+        let nextInc = inc;
+        let nextExc = exc;
+        if (estado === 'neutral') {
+            nextInc = [...inc, code];
+        } else if (estado === 'include') {
+            nextInc = inc.filter(c => c !== code);
+            nextExc = [...exc, code];
+        } else {
+            nextExc = exc.filter(c => c !== code);
+        }
+
+        // Limpa os booleans legados (ar=true) — a URL canônica é trat / trat_nao
+        const params: Record<string, string | null> = {};
+        for (const t of TRATAMENTOS) params[t.code] = null;
+        params.trat     = nextInc.length ? nextInc.join(',') : null;
+        params.trat_nao = nextExc.length ? nextExc.join(',') : null;
+        navegar(params);
+    }
+
+    function classeTrat(code: string): string {
+        const estado = estadoTrat(code);
+        if (estado === 'include') return 'bg-green-600 text-white shadow-sm hover:bg-green-700';
+        if (estado === 'exclude') return 'bg-red-600 text-white shadow-sm line-through hover:bg-red-700';
+        // Neutro, mas o catálogo não tem nenhuma com este tratamento no contexto atual
+        if (countTrat(code) === 0) return 'bg-red-50 dark:bg-red-900/20 text-red-400 dark:text-red-500/70 border border-dashed border-red-300 dark:border-red-800';
+        return 'bg-muted text-muted-foreground hover:bg-accent';
+    }
+
+    function tituloTrat(code: string): string {
+        const estado = estadoTrat(code);
+        const n = countTrat(code);
+        if (estado === 'include') return `Mostrando só as COM — clique para excluir (${n})`;
+        if (estado === 'exclude') return 'Escondendo as COM — clique para limpar';
+        return n === 0 ? 'Não temos nenhuma assim com os filtros atuais' : `${n} lentes têm — clique para exigir`;
+    }
 
     // Inputs locais de preço (só navega ao soltar)
     let precoMinInput: string = '';
@@ -89,16 +155,6 @@
         navegar({ [key]: value });
     }
 
-    function toggleTratamento(key: 'ar' | 'scratch' | 'uv' | 'blue' | 'photo' | 'pol' | 'hidro') {
-        // Monta array de tratamentos ativos, toggle o selecionado
-        const codes = ['ar', 'scratch', 'uv', 'blue', 'photo', 'pol', 'hidro'] as const;
-        const active = codes.filter(c => c === key ? !filtros[c] : filtros[c]);
-        // Limpa booleans individuais e usa trat=ar,blue (padrão unificado)
-        const reset: Record<string, string | null> = {};
-        for (const c of codes) reset[c] = null;
-        reset.trat = active.length ? active.join(',') : null;
-        navegar(reset);
-    }
 
     function limparFiltros() {
         goto('/lentes');
@@ -253,7 +309,7 @@
                             >
                                 <option value="">Todos ({filterOptions.laboratorios.length})</option>
                                 {#each filterOptions.laboratorios as opt}
-                                    <option value={opt.value}>{opt.label} ({opt.count})</option>
+                                    <option value={opt.value} disabled={opt.count === 0} class={opt.count === 0 ? 'text-red-400' : ''}>{opt.count === 0 ? '— ' : ''}{opt.label} ({opt.count})</option>
                                 {/each}
                             </select>
                         </FilterSection>
@@ -268,7 +324,7 @@
                                 >
                                     <option value="">Todas ({filterOptions.marcas.length})</option>
                                     {#each filterOptions.marcas as opt}
-                                        <option value={opt.value}>{opt.label} ({opt.count})</option>
+                                        <option value={opt.value} disabled={opt.count === 0} class={opt.count === 0 ? 'text-red-400' : ''}>{opt.count === 0 ? '— ' : ''}{opt.label} ({opt.count})</option>
                                     {/each}
                                 </select>
                             </FilterSection>
@@ -284,7 +340,7 @@
                                 >
                                     <option value="">Todas ({filterOptions.product_lines.length})</option>
                                     {#each filterOptions.product_lines as opt}
-                                        <option value={opt.value}>{opt.value} ({opt.count})</option>
+                                        <option value={opt.value} disabled={opt.count === 0} class={opt.count === 0 ? 'text-red-400' : ''}>{opt.count === 0 ? '— ' : ''}{opt.value} ({opt.count})</option>
                                     {/each}
                                 </select>
                             </FilterSection>
@@ -299,7 +355,7 @@
                             >
                                 <option value="">Todos</option>
                                 {#each filterOptions.tipos as opt}
-                                    <option value={opt.value}>{opt.label} ({opt.count})</option>
+                                    <option value={opt.value} disabled={opt.count === 0} class={opt.count === 0 ? 'text-red-400' : ''}>{opt.count === 0 ? '— ' : ''}{opt.label} ({opt.count})</option>
                                 {/each}
                             </select>
                         </FilterSection>
@@ -313,7 +369,7 @@
                             >
                                 <option value="">Todos ({filterOptions.materiais.length})</option>
                                 {#each filterOptions.materiais as opt}
-                                    <option value={opt.value}>{opt.label} ({opt.count})</option>
+                                    <option value={opt.value} disabled={opt.count === 0} class={opt.count === 0 ? 'text-red-400' : ''}>{opt.count === 0 ? '— ' : ''}{opt.label} ({opt.count})</option>
                                 {/each}
                             </select>
                         </FilterSection>
@@ -327,7 +383,7 @@
                             >
                                 <option value="">Todos</option>
                                 {#each filterOptions.indices as opt}
-                                    <option value={opt.value}>{opt.label} ({opt.count})</option>
+                                    <option value={opt.value} disabled={opt.count === 0} class={opt.count === 0 ? 'text-red-400' : ''}>{opt.count === 0 ? '— ' : ''}{opt.label} ({opt.count})</option>
                                 {/each}
                             </select>
                         </FilterSection>
@@ -342,7 +398,7 @@
                                 >
                                     <option value="">Todos ({filterOptions.coatings.length})</option>
                                     {#each filterOptions.coatings as opt}
-                                        <option value={opt.value}>{opt.value} ({opt.count})</option>
+                                        <option value={opt.value} disabled={opt.count === 0} class={opt.count === 0 ? 'text-red-400' : ''}>{opt.count === 0 ? '— ' : ''}{opt.value} ({opt.count})</option>
                                     {/each}
                                 </select>
                             </FilterSection>
@@ -358,7 +414,7 @@
                                 >
                                     <option value="">Todos</option>
                                     {#each filterOptions.lens_designs as opt}
-                                        <option value={opt.value}>{opt.value} ({opt.count})</option>
+                                        <option value={opt.value} disabled={opt.count === 0} class={opt.count === 0 ? 'text-red-400' : ''}>{opt.count === 0 ? '— ' : ''}{opt.value} ({opt.count})</option>
                                     {/each}
                                 </select>
                             </FilterSection>
@@ -374,7 +430,7 @@
                                 >
                                     <option value="">Todas</option>
                                     {#each filterOptions.min_heights as opt}
-                                        <option value={opt.value}>{opt.label} ({opt.count})</option>
+                                        <option value={opt.value} disabled={opt.count === 0} class={opt.count === 0 ? 'text-red-400' : ''}>{opt.count === 0 ? '— ' : ''}{opt.label} ({opt.count})</option>
                                     {/each}
                                 </select>
                             </FilterSection>
@@ -412,49 +468,32 @@
                         </FilterSection>
 
                         <FilterSection id="tratamentos" title="Tratamentos" active={tratLabel}>
+                            <p class="text-micro text-muted-foreground mb-2 flex items-center gap-2 flex-wrap">
+                                <span class="inline-flex items-center gap-1">
+                                    <span class="inline-block w-2 h-2 rounded-full bg-muted-foreground/40"></span> tanto faz
+                                </span>
+                                <span class="inline-flex items-center gap-1">
+                                    <span class="inline-block w-2 h-2 rounded-full bg-green-600"></span> quero
+                                </span>
+                                <span class="inline-flex items-center gap-1">
+                                    <span class="inline-block w-2 h-2 rounded-full bg-red-600"></span> não quero
+                                </span>
+                            </p>
                             <div class="grid grid-cols-2 gap-1.5">
-                                <button
-                                    type="button"
-                                    on:click={() => toggleTratamento('ar')}
-                                    class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-micro font-semibold transition-colors {filtros.ar ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-200' : 'bg-muted text-muted-foreground hover:bg-accent'}"
-                                >
-                                    <Sparkles class="h-3 w-3" /> AR
-                                </button>
-                                <button
-                                    type="button"
-                                    on:click={() => toggleTratamento('blue')}
-                                    class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-micro font-semibold transition-colors {filtros.blue ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-200' : 'bg-muted text-muted-foreground hover:bg-accent'}"
-                                >
-                                    <Eye class="h-3 w-3" /> Blue
-                                </button>
-                                <button
-                                    type="button"
-                                    on:click={() => toggleTratamento('photo')}
-                                    class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-micro font-semibold transition-colors {filtros.photo ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-200' : 'bg-muted text-muted-foreground hover:bg-accent'}"
-                                >
-                                    <Sun class="h-3 w-3" /> Foto
-                                </button>
-                                <button
-                                    type="button"
-                                    on:click={() => toggleTratamento('uv')}
-                                    class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-micro font-semibold transition-colors {filtros.uv ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-200' : 'bg-muted text-muted-foreground hover:bg-accent'}"
-                                >
-                                    <Zap class="h-3 w-3" /> UV
-                                </button>
-                                <button
-                                    type="button"
-                                    on:click={() => toggleTratamento('scratch')}
-                                    class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-micro font-semibold transition-colors {filtros.scratch ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-200' : 'bg-muted text-muted-foreground hover:bg-accent'}"
-                                >
-                                    <Shield class="h-3 w-3" /> Risco
-                                </button>
-                                <button
-                                    type="button"
-                                    on:click={() => toggleTratamento('hidro')}
-                                    class="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-micro font-semibold transition-colors {filtros.hidro ? 'bg-cyan-100 text-cyan-700 dark:bg-cyan-900/40 dark:text-cyan-200' : 'bg-muted text-muted-foreground hover:bg-accent'}"
-                                >
-                                    <Droplets class="h-3 w-3" /> Hidro
-                                </button>
+                                {#each TRATAMENTOS as t (t.code)}
+                                    <button
+                                        type="button"
+                                        on:click={() => cycleTratamento(t.code)}
+                                        title={tituloTrat(t.code)}
+                                        class="flex items-center justify-between gap-1.5 px-2 py-1.5 rounded-lg text-micro font-semibold transition-colors {classeTrat(t.code)}"
+                                    >
+                                        <span class="flex items-center gap-1.5">
+                                            <svelte:component this={t.icon} class="h-3 w-3" />
+                                            {t.label}
+                                        </span>
+                                        <span class="tabular-nums opacity-70">{countTrat(t.code)}</span>
+                                    </button>
+                                {/each}
                             </div>
                         </FilterSection>
 
