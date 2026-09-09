@@ -33,6 +33,9 @@
             <p class="text-micro text-muted-foreground mt-0.5 truncate">
                 {lente.brand_name ?? '—'}
             </p>
+            {#if lente.sku}
+                <p class="text-micro font-mono text-muted-foreground/70 mt-0.5 truncate">{lente.sku}</p>
+            {/if}
         </div>
         {#if lente.stock_available > 0}
             <span class="shrink-0 px-1.5 py-0.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 text-[9px] font-black rounded-full uppercase tracking-wide">Em Stock</span>

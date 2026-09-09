@@ -26,6 +26,15 @@
         terapeutica:   'Terapêutico',
     };
 
+    // Copiar código: o operador precisa colar no pedido ao fornecedor
+    let copiado: string | null = null;
+    function copiar(valor: string, qual: string) {
+        navigator.clipboard?.writeText(valor).then(() => {
+            copiado = qual;
+            setTimeout(() => { if (copiado === qual) copiado = null; }, 1500);
+        }).catch(() => {});
+    }
+
     // Estado
     let lente: Record<string, any> | null = null;
     let loading = true;
@@ -231,6 +240,35 @@
                                     <p class="text-sm text-muted-foreground mt-0.5">
                                         {lente.brand_name ?? '—'}{#if lente.manufacturer_name} · {lente.manufacturer_name}{/if}
                                     </p>
+                                    <!-- sku = identificador da casa; supplier_code = referência do fornecedor -->
+                                    <div class="flex items-center gap-2 mt-2 flex-wrap">
+                                        {#if lente.sku}
+                                            <button
+                                                type="button"
+                                                on:click={() => lente && copiar(lente.sku, 'sku')}
+                                                title="Copiar SKU"
+                                                class="inline-flex items-center gap-1.5 px-2 py-1 rounded-lg bg-muted hover:bg-accent transition-colors font-mono text-xs font-bold text-foreground"
+                                            >
+                                                {lente.sku}
+                                                <span class="text-micro font-sans font-normal text-muted-foreground">
+                                                    {copiado === 'sku' ? 'copiado' : 'SKU'}
+                                                </span>
+                                            </button>
+                                        {/if}
+                                        {#if lente.supplier_code && lente.supplier_code !== lente.sku}
+                                            <button
+                                                type="button"
+                                                on:click={() => lente && copiar(lente.supplier_code, 'fornecedor')}
+                                                title="Código do fornecedor — use este ao fazer o pedido"
+                                                class="inline-flex items-center gap-1.5 px-2 py-1 rounded-lg border border-border hover:bg-accent transition-colors font-mono text-xs text-muted-foreground"
+                                            >
+                                                {lente.supplier_code}
+                                                <span class="text-micro font-sans">
+                                                    {copiado === 'fornecedor' ? 'copiado' : 'cód. fornecedor'}
+                                                </span>
+                                            </button>
+                                        {/if}
+                                    </div>
                                 </div>
                                 <div class="flex gap-2 shrink-0">
                                     {#if lente.stock_available > 0}

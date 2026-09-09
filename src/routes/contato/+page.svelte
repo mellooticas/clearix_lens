@@ -75,12 +75,12 @@
         let query = supabase
             .from('v_contact_lenses')
             .select(
-                'id,brand_name,manufacturer_name,is_premium,product_name,slug,lens_type,purpose,material,is_colored,available_colors,usage_days,units_per_box,dk_t,price_suggested,stock_available,uv_protection',
+                'id,brand_name,manufacturer_name,is_premium,product_name,slug,sku,supplier_code,lens_type,purpose,material,is_colored,available_colors,usage_days,units_per_box,dk_t,price_suggested,stock_available,uv_protection',
                 { count: 'exact' }
             )
             .eq('status', 'active');
 
-        if (busca)      query = query.or(`product_name.ilike.%${busca}%,brand_name.ilike.%${busca}%`);
+        if (busca)      query = query.or(`product_name.ilike.%${busca}%,brand_name.ilike.%${busca}%,sku.ilike.%${busca}%,supplier_code.ilike.%${busca}%`);
         if (lens_type)  query = query.eq('lens_type',    lens_type);
         if (purpose)    query = query.eq('purpose',      purpose);
         if (material)   query = query.eq('material',     material);

@@ -389,6 +389,10 @@ export interface RpcContactLensSearchResult {
   is_premium: boolean;
   product_name: string;
   slug: string;
+  /** Identificador interno da casa, padrão LC###### (migração 366) */
+  sku: string | null;
+  /** Referência do fornecedor/fabricante — é com este que se faz o pedido */
+  supplier_code: string | null;
   lens_type: string;
   purpose: string;
   material: string;
