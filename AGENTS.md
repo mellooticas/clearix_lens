@@ -57,6 +57,19 @@ Catálogo de lentes + pricing engine do ecossistema Clearix — gestão de SKU d
 - **Auth provider:** SSO via Clearix Hub
 - **Comandos Supabase locais:** `supabase` CLI presente (`db:push`, `db:reset`, `db:diff`)
 
+### Preço de lente de contato — comportamentos automáticos (não é bug)
+
+- **Markup automático × 3,2** (`trg_contact_pricing_sync`): ao inserir, e ao alterar **só o custo**,
+  o preço de venda vira custo × 3,2. Preço de venda **digitado** no mesmo salvamento prevalece
+  (migração 369 — antes era descartado em silêncio).
+- **Cópia `dup:` acompanha o original até ganhar preço próprio** (`trg_espelha_preco_contato_para_copias`,
+  migração 370). Produto duplicado em outro fornecedor (ex.: `CO-LC…` na Central Oftálmica, cópia
+  de `LC…` da Bausch & Lomb) recebe sozinho o custo e o preço do original. **Se o preço da Central
+  mudou sem ninguém mexer nela, foi o original que mudou.** Se a cópia receber preço diferente, deixa
+  de acompanhar e fica com o dela; para voltar a acompanhar, igualar os preços.
+- Lente de contato **não tem canônica**: o produto duplicado aparece duas vezes na venda, uma por
+  fornecedor, e a troca de fornecedor é feita no DCL (migração 368).
+
 ## 6. Comandos
 
 ### ✅ Verde (rodar sem confirmar)
@@ -123,6 +136,12 @@ Catálogo de lentes + pricing engine do ecossistema Clearix — gestão de SKU d
 - Esquecer R-014 e usar Skeleton, Flowbite ou outra lib Svelte sem tokens
 - Misturar Svelte 4 e Svelte 5 (este app já está em Svelte 5)
 - `db:push` sem `db:diff` antes (impacto na suíte)
+- Lançar ou alterar preço na **cópia** `CO-…`/`dup:` esperando que o original mude — é o contrário:
+  lança no original `LC…` e a cópia acompanha; mexer na cópia a desliga do original
+- Apagar (`deleted_at`) lente de contato que tem OS apontando — o DCL deixa de abrir a OS
+  (`rpc_contact_lens_detail` só lê não removidas). Para tirar do catálogo, **inativar** (migração 369c)
+- Tratar `supplier_code` de 1–3 dígitos como referência de fornecedor — em linhas `scraper:lentenet`
+  é a posição na listagem da loja (proposta de limpeza em `_PROPOSTA_2026-09-11_SUPPLIER_CODE_DE_PLANILHA.md`)
 
 ## 9. Secrets
 
@@ -137,7 +156,7 @@ Catálogo de lentes + pricing engine do ecossistema Clearix — gestão de SKU d
 
 ## 10. Pendências conhecidas
 
-- [ ] Confirmar URL produção
+- [x] Confirmar URL produção — `https://clearixlens.netlify.app`, cadastrada no Hub (confirmado pelo orquestrador, 08/09)
 - [ ] Documentar schema completo de `catalog_lenses` (SKU, índice, tratamento)
 - [ ] Política de versionamento de preço (snapshot por pedido vs config global)
 - [ ] Validar pricing engine com base real do Mello (1.716 SKUs ativos)
@@ -146,7 +165,7 @@ Catálogo de lentes + pricing engine do ecossistema Clearix — gestão de SKU d
 
 ## Notas para quem mantém este arquivo
 
-- **Última atualização:** 2026-05-25
+- **Última atualização:** 2026-09-11
 - **Owner deste arquivo:** quem mantém Lens (app)
 
 > Em caso de dúvida, **pause e pergunte ao humano**. Lens alimenta o preço que aparece pro cliente — erro aqui é direto financeiro.
