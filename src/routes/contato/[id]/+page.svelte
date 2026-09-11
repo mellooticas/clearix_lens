@@ -169,7 +169,18 @@
                 });
             if (err) throw new Error(err.message);
             if (res && !res.ok) throw new Error(res.error ?? 'Erro ao salvar');
-            lente        = { ...lente!, price_cost: editCost, price_suggested: editSugerido };
+            // Relê do banco em vez de assumir o digitado: o custo pode disparar o
+            // markup automático (custo × 3,2) quando o preço de venda não foi alterado,
+            // e a tela precisa mostrar o que ficou gravado de fato.
+            const { data: gravado } = await supabase
+                .from('v_contact_lenses')
+                .select('*')
+                .eq('id', lente!.id)
+                .maybeSingle();
+            const atual  = gravado ?? { ...lente!, price_cost: editCost, price_suggested: editSugerido };
+            lente        = atual;
+            editCost     = atual.price_cost      ?? 0;
+            editSugerido = atual.price_suggested ?? 0;
             editando     = false;
             editSucesso  = true;
             setTimeout(() => editSucesso = false, 3000);
