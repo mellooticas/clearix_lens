@@ -69,6 +69,10 @@ Catálogo de lentes + pricing engine do ecossistema Clearix — gestão de SKU d
   de acompanhar e fica com o dela; para voltar a acompanhar, igualar os preços.
 - Lente de contato **não tem canônica**: o produto duplicado aparece duas vezes na venda, uma por
   fornecedor, e a troca de fornecedor é feita no DCL (migração 368).
+- **A tela respeita isso** (`/contato/[id]`): a cópia é reconhecida pelo SKU (`XX-LC…`, conferido no
+  banco: 32 de 32, nenhuma falsa), mostra o fornecedor e onde mais a lente é vendida, e **não deixa
+  editar preço nem specs na cópia** — manda para o original. Salvar specs no original grava as
+  mesmas nas cópias pela própria tela (o gatilho 370 só espelha preço).
 
 ## 6. Comandos
 

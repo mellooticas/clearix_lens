@@ -2,6 +2,18 @@
 
 ## Não lançado
 
+### 2026-09-11 — Lente de contato em mais de um fornecedor
+- **A tela passou a entender a duplicação da Bausch & Lomb na Central Oftálmica** (migração 368).
+  Antes, `LC…` e `CO-LC…` apareciam como dois cards idênticos, sem dizer de quem era cada um.
+- `/contato`: o card mostra o **fornecedor**.
+- `/contato/[id]`: mostra o fornecedor, lista **onde mais a lente é vendida** (com custo e link) e,
+  na cópia, **esconde a edição de preço e de specs** com link para o original — mexer na cópia a
+  desligava do original em silêncio.
+- Salvar specs no original grava as mesmas nas cópias. O gatilho da 370 só espelha preço; sem isto
+  a cópia ficava com o grau antigo.
+- A cópia é reconhecida pelo SKU (`XX-LC…`). Conferido no banco: 32 de 32 seguem o formato, nenhuma
+  lente fora da duplicação usa esse formato.
+
 ### 2026-08-25 — Header de app, ADR-0024 e higiene do repo
 - **`x-clearix-app: clearix_lens` em todas as chamadas ao Supabase.** Novo módulo
   `src/lib/supabase-app-headers.ts` com constante única (`CLEARIX_APP`,

@@ -403,6 +403,11 @@ export interface RpcContactLensSearchResult {
   usage_days: number | null;
   dk_t: number | null;
   stock_available: number;
+  /**
+   * Não vem da RPC — só quando a lista lê de v_contact_lenses. A mesma lente
+   * existe em mais de um fornecedor (LC… e CO-LC…); sem o nome, os cards são iguais.
+   */
+  supplier_name?: string | null;
 }
 
 // ============================================================================

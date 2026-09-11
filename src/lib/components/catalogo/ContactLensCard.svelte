@@ -33,6 +33,11 @@
             <p class="text-micro text-muted-foreground mt-0.5 truncate">
                 {lente.brand_name ?? '—'}
             </p>
+            {#if lente.supplier_name}
+                <p class="text-micro text-muted-foreground mt-0.5 truncate">
+                    Fornecedor: <span class="font-semibold text-foreground">{lente.supplier_name}</span>
+                </p>
+            {/if}
             {#if lente.sku}
                 <p class="text-micro font-mono text-muted-foreground/70 mt-0.5 truncate">{lente.sku}</p>
             {/if}

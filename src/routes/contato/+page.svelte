@@ -75,7 +75,7 @@
         let query = supabase
             .from('v_contact_lenses')
             .select(
-                'id,brand_name,manufacturer_name,is_premium,product_name,slug,sku,supplier_code,lens_type,purpose,material,is_colored,available_colors,usage_days,units_per_box,dk_t,price_suggested,stock_available,uv_protection',
+                'id,brand_name,manufacturer_name,is_premium,product_name,slug,sku,supplier_code,supplier_name,lens_type,purpose,material,is_colored,available_colors,usage_days,units_per_box,dk_t,price_suggested,stock_available,uv_protection',
                 { count: 'exact' }
             )
             .eq('status', 'active');

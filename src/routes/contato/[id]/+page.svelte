@@ -69,6 +69,30 @@
     let specsErro: string | null = null;
     let specsSucesso = false;
 
+    // A mesma lente pode estar em mais de um fornecedor: LC… na Bausch & Lomb e
+    // CO-LC… na Central Oftálmica (migração 368). A cópia recebe o preço do original
+    // sozinha (370) e editar a cópia a desliga dele — por isso preço e specs só se
+    // editam no original, e a tela mostra onde mais a lente é vendida.
+    const SKU_COPIA = /^[A-Z]{2}-(LC\d+)$/;
+    let ehCopia = false;
+    let skuOriginal: string | null = null;
+    let outrosFornecedores: Record<string, any>[] = [];
+    $: lenteOriginal = outrosFornecedores.find((r) => r.sku === skuOriginal) ?? null;
+
+    async function carregarOutrosFornecedores(sku: string | null) {
+        const copia = sku?.match(SKU_COPIA);
+        ehCopia     = !!copia;
+        skuOriginal = copia ? copia[1] : sku;
+        if (!skuOriginal) return;
+        const { data: rows } = await supabase
+            .from('v_contact_lenses')
+            .select('id, sku, supplier_name, price_cost, price_suggested, status')
+            .or(`sku.eq.${skuOriginal},sku.like.%-${skuOriginal}`)
+            .neq('id', data.id)
+            .order('sku');
+        outrosFornecedores = rows ?? [];
+    }
+
     onMount(async () => {
         const { data: row, error: err } = await supabase
             .from('v_contact_lenses')
@@ -82,6 +106,7 @@
             lente        = row;
             editCost     = row.price_cost      ?? 0;
             editSugerido = row.price_suggested ?? 0;
+            await carregarOutrosFornecedores(row.sku);
         }
         loading = false;
     });
@@ -118,27 +143,35 @@
         specsSalvando = true;
         specsErro     = null;
         specsSucesso  = false;
+        const specs = {
+            p_spherical_min:   specEsfMin,
+            p_spherical_max:   specEsfMax,
+            p_cylindrical_min: specCilMin,
+            p_cylindrical_max: specCilMax,
+            p_axis_min:        specAxisMin,
+            p_axis_max:        specAxisMax,
+            p_addition_min:    specAddMin,
+            p_addition_max:    specAddMax,
+            p_base_curve:      specCurva,
+            p_diameter:        specDiam,
+            p_dk_t:            specDkT,
+            p_water_content:   specAgua,
+            p_usage_days:      specDias,
+            p_units_per_box:   specUnCaixa,
+        };
         try {
             const { data: res, error: err } = await supabase
-                .rpc('rpc_update_contact_lens_specs', {
-                    p_id:              lente!.id,
-                    p_spherical_min:   specEsfMin,
-                    p_spherical_max:   specEsfMax,
-                    p_cylindrical_min: specCilMin,
-                    p_cylindrical_max: specCilMax,
-                    p_axis_min:        specAxisMin,
-                    p_axis_max:        specAxisMax,
-                    p_addition_min:    specAddMin,
-                    p_addition_max:    specAddMax,
-                    p_base_curve:      specCurva,
-                    p_diameter:        specDiam,
-                    p_dk_t:            specDkT,
-                    p_water_content:   specAgua,
-                    p_usage_days:      specDias,
-                    p_units_per_box:   specUnCaixa,
-                });
+                .rpc('rpc_update_contact_lens_specs', { p_id: lente!.id, ...specs });
             if (err) throw new Error(err.message);
             if (res && !res.ok) throw new Error(res.error ?? 'Erro ao salvar specs');
+            // Especificação é do produto, não do fornecedor: a cópia leva a mesma.
+            // O gatilho da 370 só espelha preço — sem isto a cópia ficava com o grau antigo.
+            const falhas: string[] = [];
+            for (const copia of outrosFornecedores.filter((r) => r.sku !== skuOriginal)) {
+                const { data: resCopia, error: errCopia } = await supabase
+                    .rpc('rpc_update_contact_lens_specs', { p_id: copia.id, ...specs });
+                if (errCopia || (resCopia && !resCopia.ok)) falhas.push(copia.sku);
+            }
             // Recarrega a lente pra refletir persistido
             const { data: row } = await supabase
                 .from('v_contact_lenses')
@@ -146,6 +179,10 @@
                 .eq('id', lente!.id)
                 .single();
             if (row) lente = row;
+            if (falhas.length > 0) {
+                specsErro = `Salvo nesta lente, mas não em ${falhas.join(', ')}. Salve de novo para repetir.`;
+                return;
+            }
             editSpecs = false;
             specsSucesso = true;
             setTimeout(() => specsSucesso = false, 3000);
@@ -251,6 +288,11 @@
                                     <p class="text-sm text-muted-foreground mt-0.5">
                                         {lente.brand_name ?? '—'}{#if lente.manufacturer_name} · {lente.manufacturer_name}{/if}
                                     </p>
+                                    {#if lente.supplier_name}
+                                        <p class="text-sm text-muted-foreground mt-0.5">
+                                            Fornecedor: <span class="font-semibold text-foreground">{lente.supplier_name}</span>
+                                        </p>
+                                    {/if}
                                     <!-- sku = identificador da casa; supplier_code = referência do fornecedor -->
                                     <div class="flex items-center gap-2 mt-2 flex-wrap">
                                         {#if lente.sku}
@@ -336,7 +378,7 @@
                         <div class="bg-card border border-border rounded-2xl p-5">
                             <div class="flex items-center justify-between mb-3">
                                 <h2 class="text-sm font-black uppercase tracking-wide text-muted-foreground">Especificações Ópticas</h2>
-                                {#if !editSpecs}
+                                {#if !editSpecs && !ehCopia}
                                     <button on:click={abrirSpecs}
                                         class="text-xs font-bold text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 transition-colors">
                                         Editar
@@ -530,10 +572,50 @@
 
                     <!-- Sidebar preço -->
                     <div class="space-y-4">
+                        {#if ehCopia || outrosFornecedores.length > 0}
+                            <div class="bg-card border border-border rounded-2xl p-5">
+                                <h2 class="text-sm font-black uppercase tracking-wide text-muted-foreground mb-3">Fornecedores</h2>
+                                {#if ehCopia}
+                                    <p class="mb-3 px-3 py-2 bg-muted rounded-lg text-xs text-muted-foreground">
+                                        Cópia de <span class="font-mono font-bold text-foreground">{skuOriginal}</span>.
+                                        Preço e especificações acompanham o original — edite lá.
+                                        {#if lenteOriginal}
+                                            <a href="/contato/{lenteOriginal.id}" data-sveltekit-reload
+                                                class="font-bold text-primary-600 dark:text-primary-400 hover:underline">Abrir original</a>
+                                        {/if}
+                                    </p>
+                                {/if}
+                                <ul class="space-y-2">
+                                    <li class="flex items-center justify-between gap-2 px-3 py-2 rounded-lg border border-primary-500 bg-primary-50 dark:bg-primary-900/20">
+                                        <div class="min-w-0">
+                                            <div class="text-xs font-bold text-foreground truncate">{lente.supplier_name ?? '—'}</div>
+                                            <div class="text-micro font-mono text-muted-foreground">{lente.sku} · esta</div>
+                                        </div>
+                                        <span class="text-xs font-bold text-foreground shrink-0">{fmt(lente.price_cost)}</span>
+                                    </li>
+                                    {#each outrosFornecedores as outro (outro.id)}
+                                        <li>
+                                            <a href="/contato/{outro.id}" data-sveltekit-reload
+                                                class="flex items-center justify-between gap-2 px-3 py-2 rounded-lg border border-border hover:bg-accent transition-colors no-underline">
+                                                <div class="min-w-0">
+                                                    <div class="text-xs font-bold text-foreground truncate">{outro.supplier_name ?? '—'}</div>
+                                                    <div class="text-micro font-mono text-muted-foreground">
+                                                        {outro.sku}{#if outro.status !== 'active'} · inativa{/if}
+                                                    </div>
+                                                </div>
+                                                <span class="text-xs font-bold text-muted-foreground shrink-0">{fmt(outro.price_cost)}</span>
+                                            </a>
+                                        </li>
+                                    {/each}
+                                </ul>
+                                <p class="mt-2 text-micro text-muted-foreground">Valores: custo de cada fornecedor.</p>
+                            </div>
+                        {/if}
+
                         <div class="bg-card border border-border rounded-2xl p-5">
                             <div class="flex items-center justify-between mb-4">
                                 <h2 class="text-sm font-black uppercase tracking-wide text-muted-foreground">Preço</h2>
-                                {#if !editando}
+                                {#if !editando && !ehCopia}
                                     <button on:click={abrirEdicao}
                                         class="text-xs font-bold text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 transition-colors">
                                         Editar
