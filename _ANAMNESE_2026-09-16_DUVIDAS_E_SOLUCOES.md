@@ -70,18 +70,22 @@ preço), sem cliente e sem funcionário. A **moldura** do app, que aparece em to
   (`lib/components/sidebar/AppSidebar.svelte:104,190`);
 - o **nome completo ou o e-mail** e a empresa, no menu do usuário (`Header.svelte:98`), que abre ao clicar no nome.
 
-Não existe modo de apresentação que esconda isso sem mudar código. Pela regra fail-closed, marquei "sim (moldura)".
+Não existe modo de apresentação que esconda isso sem mudar código.
+
+**Interpretação do eco (17/09, salvo veto do Geral):** o nome de quem apresenta, logado com a própria conta, na moldura
+de qualquer app, **não** é dado pessoal de cliente nem de funcionário — a régua protege terceiros, não o apresentador.
+Por isso as linhas 1, 2 e 5 ficam "não", **com a condição registrada**. Nada de código para esconder o logado nesta rodada.
 
 | # | `dado_pessoal_na_tela` (tela + registro indicados) | `vista_sem_dado` |
 |---|---|---|
-| 1 | **sim, só na moldura** (nome de quem está logado). Conteúdo de `/lentes`, filtrado por laboratório + AR/Foto: **não** | Demonstrar logado com a **conta do próprio dono**, porque o nome na moldura passa a ser o de quem apresenta, não de funcionário. **Não clicar no nome** no cabeçalho (o menu mostra nome completo/e-mail). Não clicar em nenhuma lente |
-| 2 | **sim, só na moldura**. Conteúdo de `/premium`, buscando "Espace Orma 1.50" (cards de canônica): **não** | Igual à linha 1. Não abrir o card |
+| 1 | **não** — condição: demo logada como o dono; não clicar no menu do usuário. Conteúdo de `/lentes`, filtrado por laboratório + AR/Foto: sem dado pessoal | Demonstrar logado com a **conta do próprio dono**. **Não clicar no nome** no cabeçalho (o menu mostra nome completo/e-mail). Não clicar em nenhuma lente |
+| 2 | **não** — condição: demo logada como o dono; não clicar no menu do usuário. Conteúdo de `/premium`, buscando "Espace Orma 1.50" (cards de canônica): sem dado pessoal | Igual à linha 1. Não abrir o card |
 | 3 | **não** no conteúdo (moldura como acima). **Link desligado por sigilo comercial, não por LGPD:** o detalhe `/premium/[id]` mostra preço de venda e markup de cada laboratório real, e dá para deduzir o custo negociado | Falar, não abrir |
 | 4 | **não** no conteúdo (moldura como acima). **Link desligado por sigilo comercial, não por LGPD:** o bloco "Faixas de Preço" expõe o efeito do acordo com laboratório real (ex.: custo de 249 para 127 na Espace Orma 1.50) | Falar, não abrir |
-| 5 | **sim, só na moldura**. Conteúdo de `/contato`, buscando "Ultra para Astigmatismo" (2 cards de produto): **não** | Igual à linha 1. Não abrir o card (o detalhe mostra custo: sigilo comercial, não LGPD) |
+| 5 | **não** — condição: demo logada como o dono; não clicar no menu do usuário. Conteúdo de `/contato`, buscando "Ultra para Astigmatismo" (2 cards de produto): sem dado pessoal | Igual à linha 1. Não abrir o card (o detalhe mostra custo: sigilo comercial, não LGPD) |
 
-**Se o Geral quiser "não" puro na linha 1, 2 e 5**, falta uma coisa que não existe hoje: esconder o nome de quem está
-logado numa sessão de demonstração. É obra de código no Lens (e provavelmente no Hub), fora desta rodada; só com pedido.
+Se a condição não puder ser cumprida (demo com conta de funcionário), as linhas 1, 2 e 5 voltam a "sim (moldura)":
+esconder o nome de quem está logado não existe hoje e seria obra de código (Lens e provavelmente Hub), só com pedido.
 
 ## Isso o Clearix não faz (catálogo de lentes)
 
