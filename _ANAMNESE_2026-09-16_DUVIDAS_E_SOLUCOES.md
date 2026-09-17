@@ -1,42 +1,63 @@
 # Anamnese — dúvidas do dono de ótica e respostas do catálogo de lentes (Clearix Lens)
 
-**De:** agente do `clearix_lens` · **16/09/2026** · **Para:** eco, que consolida e entrega ao Geral.
+**De:** agente do `clearix_lens` · **16/09/2026**, remedido no palco real em **17/09/2026** · **Para:** eco, que consolida e
+entrega ao Geral.
 **Pedido:** `Cockpit/comercial/_PEDIDO_2026-09-16_ANAMNESE_DUVIDAS_E_SOLUCOES.md`, no formato da tabela §3 de
-`Cockpit/comercial/pitch-20min-anamnese-2026-09-16.md` (alinhamento do eco, 16/09).
+`Cockpit/comercial/pitch-20min-anamnese-2026-09-16.md`.
 **Fontes:** folha única `verdade-landing-vs-app-2026-09-14.md` (§1 números, §2 capacidades, §3 o que não se diz) e o
-código do Lens (commits no `origin/main`). Nenhum dado de cliente. Foi só leitura, sem nenhuma alteração.
+código do Lens (`origin/main`). Nenhum dado de cliente. Só leitura: nada foi gravado.
 
-## ⚠ Antes de usar: a demonstração no tenant sintético não roda hoje
+> **Ordem do dono (17/09 00h50, canal do eco):** "trabalhar com nossos dados reais, sempre; o pode tem que ser sempre nos
+> dados da tenant real." O palco do pitch é o **tenant Grupo Mello**. A massa sintética da Ótica Olhar Certo está
+> **cancelada** (`_PROPOSTA_2026-09-16_MASSA_SINTETICA_DEMO_OLHAR_CERTO.sql`, marcada no topo; nunca aplicada).
 
-Medido no banco em 16/09/2026, sem gravar nada:
+## Palco real — Grupo Mello (medido 17/09/2026, só leitura)
 
-| O que | Ótica Olhar Certo (sintético) | Controle (Grupo Mello) |
+### O que a Mello tem hoje
+
+| O que | Hoje (17/09) | Observação |
 |---|---|---|
-| O Lens abre? (`rpc_iam_can_use_app_feature('clearix_lens')`, que o próprio Lens chama na entrada) | **não**: `false` para os 4 usuários (2 admin, manager, staff). Pacote `starter`; o Lens só vem no `enterprise` (Completo) | sim (`true`) |
-| O DCL abre? (onde fica a comparação com prazo) | **não**: `false` para os 4 | sim |
-| O Vendas abre? | só para os 2 admins (manager e staff: `false`) | sim |
-| Acordos de laboratório | **0** | 319 |
-| Lentes de contato ativas | **0** | 273 |
-| Lentes oftálmicas ativas / fornecedores | 4.610 / 6 | 5.569 / 10 |
-| Canônicas com mais de 1 fornecedor | 56 standard · 1.451 premium | — |
+| O Lens abre para o admin? | **sim** (`rpc_iam_can_use_app_feature('clearix_lens')` = true) | pacote enterprise |
+| Lentes oftálmicas ativas | **5.569** | 5.252 de laboratório ativo, que é o que as telas mostram (laboratório pausado some) |
+| Laboratórios com lente à venda | **6** | Brascor, Braslentes, OPTOTAL HOYA, STYLE PLUS, Sygma, TECHNOPARK |
+| Canônicas | 352 standard · 1.843 premium | |
+| **Acordos de laboratório** | **319**, todos vigentes hoje | 318 comerciais por SKU + 1 financeiro (laboratório inteiro). **O "381" soma 62 apagados** (`deleted_at`): não usar |
+| **Lentes de contato** | **274** não apagadas = **273 ativas** + 1 inativa | das 273: 241 produtos + 32 cópias da B&L na Central Oftálmica; **71 ativas sem custo cadastrado**. **O "286" soma 12 apagadas**: não usar |
 
-**Resultado:** nenhuma linha abaixo pode ser demonstrada no sintético enquanto o Lens não for liberado para esse tenant.
-Liberar é mudança de pacote, e a regra da casa é: o digiai libera, com a palavra do dono. **Eu não mexi.** Mesmo depois
-de liberar, as linhas 4 e 5 continuam sem massa no sintético (0 acordos, 0 lentes de contato), e o dono tem 3 caminhos:
-(a) criar a massa no sintético, com "pode"; (b) só falar a frase, sem abrir a tela; (c) tirar essas linhas do pitch.
+Os números da fala continuam os da folha §1, com a data dela: 5.569 lentes + 274 de contato, 319 acordos (14/09/2026).
+Os de hoje batem com eles.
 
-## Tabela "dúvida → solução" (formato do §3 do pitch)
+### O que cada tela mostra — a régua do Geral ("tela com nome/valor sensível = falar, não abrir")
 
-Nome de uso da folha: **Lentes / comparador de laboratórios** (no Hub, **Clearix Lens**). Toda ressalva inclui, dita uma
-vez no bloco: **"o catálogo de lentes só vem no pacote Completo."**
+| Tela | Mostra custo de fornecedor? | Pode abrir com terceiro? |
+|---|---|---|
+| `/lentes` (lista) | não: fornecedor, SKU, tratamentos e **preço sugerido de venda** | **sim**, com a ressalva de que os nomes reais dos laboratórios aparecem (ver decisão abaixo) |
+| `/lentes/[id]` (detalhe) | **sim**: "Custo" e "Margem" | **não clicar** |
+| `/standard`, `/premium` (lista de canônicas) | não: nº de lentes, nº de fornecedores, **preço médio de venda** | **sim** |
+| `/standard/[id]`, `/premium/[id]` (detalhe da canônica) | **indireto**: preço de venda **e markup** de cada lente (venda ÷ markup = custo), mais "em promoção de laboratório" | **falar, não abrir** |
+| `/contato` (lista) | não: marca, fornecedor, SKU, **preço de venda** | **sim** |
+| `/contato/[id]` (detalhe) | **sim**: "Custo" e o quadro "Fornecedores" com o custo de cada um | **não clicar** |
 
-| # | Dúvida/dor do dono de ótica (nas palavras dele) | Solução no app (uma frase) | Tela/rota exata | Ressalva honesta (em voz alta) | Demonstração de 60 s (o que clicar, o que mostrar) | Número da folha que cabe (com data) |
+**Parece sigilo comercial da casa, e a decisão é do dono.** Os acordos são descontos negociados com laboratórios reais.
+Exemplo medido: na Espace Orma 1.50 Trio Easy Clean, o acordo leva o custo de uma das duas fontes para cerca de metade da
+tabela. O detalhe da canônica deixa deduzir isso pelo markup. Por isso marquei como "falar, não abrir", nunca como
+"mostrar".
+
+**Decisão a levar ao dono:** os **nomes reais dos laboratórios** aparecem em todas as listas (`/lentes`, `/contato`). Se
+ele considerar sigilo, as linhas 1 e 5 passam a "falar, não abrir" também.
+
+## Tabela "dúvida → solução" — palco real (formato do §3 do pitch)
+
+Nome de uso da folha: **Lentes / comparador de laboratórios** (no Hub, **Clearix Lens**). Dito uma vez no bloco: **"o
+catálogo de lentes só vem no pacote Completo."**
+
+| # | Dúvida/dor do dono de ótica (nas palavras dele) | Solução no app (uma frase) | Tela/rota exata | Ressalva honesta (em voz alta) | Demonstração de 60 s — tenant Grupo Mello (o que clicar / **o que não clicar**) | Número da folha que cabe (com data) |
 |---|---|---|---|---|---|---|
-| 1 | "Cada laboratório me manda uma tabela e eu não consigo comparar." | Catálogo de lentes por fornecedor, com filtro por laboratório, marca, tipo, material, índice e tratamento (verde = com, vermelho = sem). | Clearix Lens › `/lentes` | "O catálogo é carregado na implantação, a partir das tabelas dos seus laboratórios; a loja não sobe tabela sozinha." | *(depois de liberar o Lens no sintético)* `/lentes` → escolher um laboratório → no bloco de tratamentos, deixar **AR** verde e **Foto** vermelho → mostrar as outras listas oferecendo só o que ainda existe | 5.569 lentes oftálmicas no catálogo (14/09/2026) |
-| 2 | "A mesma lente tem um nome em cada laboratório; eu nem sei se é a mesma." | Lente canônica: um conceito (tipo, material, índice, tratamentos) que reúne a lente real de cada fornecedor. | Clearix Lens › `/standard` → `/standard/[id]` (marcas: `/premium/[id]`) | "Mesma lente aqui quer dizer mesmo tipo, material, índice e tratamentos; lente de marca só se junta com a mesma marca e linha. **Não é equivalência de qualidade.**" | `/standard` → abrir **Multifocal Alto Índice 1.67 AR** → bloco "Lentes Mapeadas": a mesma "SYGMA Prime 1.67" na Aurora e na Spectra, lado a lado. *(Não usar "Visão Simples CR39 1.50 Incolor": no sintético ela mistura lente solar com incolor.)* | — |
-| 3 | "Não sei em qual laboratório esta lente sai mais barata." | Dentro da mesma lente, o preço de cada fornecedor, com mínimo, máximo e médio. | Clearix Lens › `/standard/[id]` (lateral "Preços Agregados"); a comparação **com prazo**, na hora de comprar, é do DCL | "Compara **preço** (e o prazo, na tela de compra do laboratório). **Não compara qualidade, atraso, garantia nem refação.** A escolha é sua." | Na mesma tela da linha 2: ler o mínimo e o máximo da lateral e apontar na lista de qual laboratório é cada um | — |
-| 4 | "Negociei desconto com um laboratório e na hora de comprar ninguém lembra." | O acordo de laboratório entra no custo, e as faixas de preço já saem pelo custo com os acordos vigentes. | Clearix Lens › `/standard/[id]` (bloco "Faixas de Preço") | "Acordo é o custo que **você** negociou, não tabela pública de laboratório. O acordo é cadastrado na implantação; **a loja não tem tela para cadastrar.**" | **Só depois da massa sintética** (`_PROPOSTA_2026-09-16_MASSA_SINTETICA_DEMO_OLHAR_CERTO.sql`, aguarda "pode"): `/premium` → **Varilux Comfort Max Orma 1.50 — Crizal Prevencia** → a mesma lente na PuroFoco e na Cristalvis, com o mesmo preço de tabela; a Cristalvis aparece "em promoção de laboratório" (custo 1.005,30 × 1.117,00). Sem a massa: falar a frase, sem abrir a tela | 319 acordos de laboratório cadastrados (14/09/2026) |
-| 5 | "Lente de contato: a mesma marca em dois fornecedores, preço diferente, e o vendedor pega a errada." | Catálogo de lente de contato com SKU próprio, fornecedor e "onde mais esta lente é vendida"; o preço lançado no produto original passa sozinho para a mesma lente no outro fornecedor. | Clearix Lens › `/contato` → `/contato/[id]` | "Parte das lentes de contato ainda está sem custo cadastrado. Lente de contato **não** tem comparação automática: a troca de fornecedor é feita na compra." | **Só depois da massa sintética** (mesma proposta): `/contato` → buscar "Oasys" → abrir a Acuvue Oasys da Miralens → quadro "Fornecedores": a mesma lente na OptiNova (`ON-LC…`); abrir a cópia e mostrar que o preço só se edita no original. Sem a massa: falar a frase, sem abrir a tela | 274 lentes de contato no catálogo (14/09/2026) |
+| 1 | "Cada laboratório me manda uma tabela e eu não consigo comparar." | Catálogo de lentes por fornecedor, com filtro por laboratório, marca, tipo, material, índice e tratamento (verde = com, vermelho = sem). | Clearix Lens › `/lentes` | "O catálogo é carregado na implantação, a partir das tabelas dos seus laboratórios; a loja não sobe tabela sozinha." | `/lentes` → filtro **Laboratório** → escolher um → no bloco de tratamentos, **AR** verde e **Foto** vermelho → mostrar a contagem dos outros filtros mudando. **Não clicar em nenhuma lente** (o detalhe mostra custo e margem). | 5.569 lentes oftálmicas no catálogo (14/09/2026) |
+| 2 | "A mesma lente tem um nome em cada laboratório; eu nem sei se é a mesma." | Lente canônica: um conceito (tipo, material, índice, tratamentos; nas de marca, a mesma marca e linha) que reúne a lente real de cada fornecedor. | Clearix Lens › `/premium` (lista) | "Mesma lente aqui quer dizer mesmo tipo, material, índice e tratamentos; lente de marca só se junta com a mesma marca e linha. **Não é equivalência de qualidade.**" | `/premium` → buscar **"Espace Orma 1.50"** → no card **Espace Orma 1.50 — Trio Easy Clean**, ler o rodapé "2 lentes · 2 forn." e o preço médio de venda. **Não abrir o card** (o detalhe mostra markup). | — |
+| 3 | "Não sei em qual laboratório esta lente sai mais barata." | Dentro da mesma lente, o preço de cada fornecedor, já com os acordos vigentes. | Clearix Lens › `/premium/[id]`; na hora da compra, com prazo, é o DCL | "Compara **preço** (e o prazo, na tela de compra do laboratório). **Não compara qualidade, atraso, garantia nem refação.** A escolha é sua." | **Falar, não abrir.** O detalhe mostra preço de venda e markup de cada laboratório real; com markup, deduz-se o custo negociado. | — |
+| 4 | "Negociei desconto com um laboratório e na hora de comprar ninguém lembra." | O acordo de laboratório entra no custo, e as faixas de preço já saem pelo custo com os acordos vigentes. | Clearix Lens › `/premium/[id]` (bloco "Faixas de Preço") | "Acordo é o custo que **você** negociou, não tabela pública de laboratório. O acordo é cadastrado na implantação; **a loja não tem tela para cadastrar.**" | **Falar, não abrir.** O acordo é desconto real negociado com laboratório real (sigilo comercial da casa, a confirmar com o dono). | 319 acordos de laboratório cadastrados (14/09/2026) |
+| 5 | "Lente de contato: a mesma marca em dois fornecedores, preço diferente, e o vendedor pega a errada." | Catálogo de lente de contato com SKU próprio e fornecedor; a mesma lente em dois fornecedores aparece nos dois, e o preço lançado no original passa sozinho para a cópia. | Clearix Lens › `/contato` (lista) | "Parte das lentes de contato ainda está sem custo cadastrado. Lente de contato **não** tem comparação automática: a troca de fornecedor é feita na compra." | `/contato` → buscar **"Ultra para Astigmatismo"** → 2 cards: Bausch & Lomb Brasil (`LC101008`) e Central Oftálmica (`CO-LC101008`), o mesmo preço de venda. **Não abrir o card** (o detalhe mostra custo dos dois fornecedores). Não buscar produto sem preço (71 ativas sem custo aparecem sem valor). | 274 lentes de contato no catálogo (14/09/2026) |
 
 ## Isso o Clearix não faz (catálogo de lentes)
 
@@ -47,18 +68,16 @@ vez no bloco: **"o catálogo de lentes só vem no pacote Completo."**
 
 ## Bastidor para o eco e o Geral (não vai para a fala)
 
-- **Nada acima é "em breve".** Todas as telas estão no `origin/main` do Lens, sem nenhum commit pendente de envio (conferido
-  em 16/09).
-- **Não citei números fora da §1 da folha.** Ficaram de fora (medidos, não autorizados para a fala): 910 canônicas, 57
-  lentes de contato à venda por R$ 0 (a folha usa 71 de 275, medição anterior; por isso escrevi "parte"), 56 standard e
-  1.451 premium com mais de um fornecedor no sintético.
-- **Existe e roda, mas não está na §2, então ficou fora da tabela.** Candidatas a entrar, se o Geral quiser:
+- **Nada acima é "em breve".** Todas as telas estão no `origin/main` do Lens (conferido em 16/09).
+- **Não citei números fora da §1 da folha.** A tabela "O que a Mello tem hoje" é medição para o eco, não para a fala.
+- **Existe e roda, mas não está na §2, então ficou fora da tabela.** Candidatas, se o Geral quiser:
   (a) laboratório pausado some da busca, dos filtros e do preço em todos os apps (migrações 355–359);
   (b) simulador de receita que lista as lentes que atendem o grau (`/simulador/receita`);
-  (c) livro de preço por perfil (`pricing_book`: 7.074 linhas na operação, 5.404 no sintético).
-- **Vale para a linha 5, a quem for demonstrar no Vendas:** a mesma lente de contato em dois fornecedores aparece hoje
-  como **dois cards iguais** no PDV (só muda o SKU). A decisão "1 card × 2 cards" está com o dono (plano A6 do eco).
-- **A coluna "pergunta da anamnese" (opcional no alinhamento)** fica aqui, para o dono usar como pergunta de apoio depois
-  da P4 do pitch ("Como vai a OS para o laboratório…"): linhas 1–3 → "Quantos laboratórios você usa e quem escolhe o de
-  cada OS, olhando o quê?"; linha 4 → "Você tem desconto ou campanha combinada com algum laboratório? Onde isso fica
+  (c) livro de preço por perfil (`pricing_book`).
+- **Linha 5, a quem for demonstrar no Vendas:** a mesma lente de contato em dois fornecedores aparece hoje como **dois
+  cards iguais** no PDV (só muda o SKU). A decisão "1 card × 2 cards" está com o dono (plano A6 do eco).
+- **Perguntas de apoio (opcional), depois da P4 do pitch:** linhas 1–3 → "Quantos laboratórios você usa e quem escolhe o
+  de cada OS, olhando o quê?"; linha 4 → "Você tem desconto ou campanha combinada com algum laboratório? Onde isso fica
   anotado?"; linha 5 → "Você vende lente de contato? Compra sempre do mesmo fornecedor?"
+- **Histórico:** a versão de 16/09 usava o tenant sintético Ótica Olhar Certo (Lens e DCL fechados para os 4 usuários,
+  0 acordos, 0 lentes de contato, canônica CST486399_oc misturando solar com incolor). Cancelada pela ordem de 17/09.

@@ -1,3 +1,10 @@
+-- #############################################################################
+-- ###  CANCELADA 17/09/2026 PELO DONO — palco real; NÃO APLICAR.             ###
+-- ###  Ordem (canal do eco, 17/09 00h50): "trabalhar com nossos dados reais, ###
+-- ###  sempre; o pode tem que ser sempre nos dados da tenant real."          ###
+-- ###  O pitch usa o tenant Grupo Mello. Nada deste arquivo foi aplicado     ###
+-- ###  (ensaio revertido; 0 linhas 'demo:' em qualquer tenant, conferido).   ###
+-- #############################################################################
 -- =============================================================================
 -- PROPOSTA — massa sintética do Lens para a demonstração (tenant Ótica Olhar Certo)
 -- =============================================================================
