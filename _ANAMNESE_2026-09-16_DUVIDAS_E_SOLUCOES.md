@@ -59,6 +59,30 @@ catálogo de lentes só vem no pacote Completo."**
 | 4 | "Negociei desconto com um laboratório e na hora de comprar ninguém lembra." | O acordo de laboratório entra no custo, e as faixas de preço já saem pelo custo com os acordos vigentes. | Clearix Lens › `/premium/[id]` (bloco "Faixas de Preço") | "Acordo é o custo que **você** negociou, não tabela pública de laboratório. O acordo é cadastrado na implantação; **a loja não tem tela para cadastrar.**" | **Falar, não abrir.** O acordo é desconto real negociado com laboratório real (sigilo comercial da casa, a confirmar com o dono). | 319 acordos de laboratório cadastrados (14/09/2026) |
 | 5 | "Lente de contato: a mesma marca em dois fornecedores, preço diferente, e o vendedor pega a errada." | Catálogo de lente de contato com SKU próprio e fornecedor; a mesma lente em dois fornecedores aparece nos dois, e o preço lançado no original passa sozinho para a cópia. | Clearix Lens › `/contato` (lista) | "Parte das lentes de contato ainda está sem custo cadastrado. Lente de contato **não** tem comparação automática: a troca de fornecedor é feita na compra." | `/contato` → buscar **"Ultra para Astigmatismo"** → 2 cards: Bausch & Lomb Brasil (`LC101008`) e Central Oftálmica (`CO-LC101008`), o mesmo preço de venda. **Não abrir o card** (o detalhe mostra custo dos dois fornecedores). Não buscar produto sem preço (71 ativas sem custo aparecem sem valor). | 274 lentes de contato no catálogo (14/09/2026) |
 
+### Régua fail-closed do Geral — dado pessoal por linha (conferido no código em 17/09/2026)
+
+Dado pessoal = nome/CPF/telefone/receita/carnê de cliente real ou nome de funcionário. Nome de laboratório **não** é dado
+pessoal (é sigilo comercial, decisão separada do dono).
+
+**Achado que vale para todas as linhas:** o **conteúdo** das telas do Lens é só catálogo (lente, marca, laboratório,
+preço), sem cliente e sem funcionário. A **moldura** do app, que aparece em toda tela, mostra **quem está logado**:
+- o primeiro nome e o papel, no cabeçalho (`lib/components/layout/Header.svelte:87`) e no rodapé da barra lateral
+  (`lib/components/sidebar/AppSidebar.svelte:104,190`);
+- o **nome completo ou o e-mail** e a empresa, no menu do usuário (`Header.svelte:98`), que abre ao clicar no nome.
+
+Não existe modo de apresentação que esconda isso sem mudar código. Pela regra fail-closed, marquei "sim (moldura)".
+
+| # | `dado_pessoal_na_tela` (tela + registro indicados) | `vista_sem_dado` |
+|---|---|---|
+| 1 | **sim, só na moldura** (nome de quem está logado). Conteúdo de `/lentes`, filtrado por laboratório + AR/Foto: **não** | Demonstrar logado com a **conta do próprio dono**, porque o nome na moldura passa a ser o de quem apresenta, não de funcionário. **Não clicar no nome** no cabeçalho (o menu mostra nome completo/e-mail). Não clicar em nenhuma lente |
+| 2 | **sim, só na moldura**. Conteúdo de `/premium`, buscando "Espace Orma 1.50" (cards de canônica): **não** | Igual à linha 1. Não abrir o card |
+| 3 | **não** no conteúdo (moldura como acima). **Link desligado por sigilo comercial, não por LGPD:** o detalhe `/premium/[id]` mostra preço de venda e markup de cada laboratório real, e dá para deduzir o custo negociado | Falar, não abrir |
+| 4 | **não** no conteúdo (moldura como acima). **Link desligado por sigilo comercial, não por LGPD:** o bloco "Faixas de Preço" expõe o efeito do acordo com laboratório real (ex.: custo de 249 para 127 na Espace Orma 1.50) | Falar, não abrir |
+| 5 | **sim, só na moldura**. Conteúdo de `/contato`, buscando "Ultra para Astigmatismo" (2 cards de produto): **não** | Igual à linha 1. Não abrir o card (o detalhe mostra custo: sigilo comercial, não LGPD) |
+
+**Se o Geral quiser "não" puro na linha 1, 2 e 5**, falta uma coisa que não existe hoje: esconder o nome de quem está
+logado numa sessão de demonstração. É obra de código no Lens (e provavelmente no Hub), fora desta rodada; só com pedido.
+
 ## Isso o Clearix não faz (catálogo de lentes)
 
 | Dúvida do dono de ótica (nas palavras dele) | Resposta em voz alta |
