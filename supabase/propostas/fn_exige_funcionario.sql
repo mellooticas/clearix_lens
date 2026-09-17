@@ -8,8 +8,11 @@
 --   Quem aplicar primeiro cria a função. Os demais repetem ESTE bloco idêntico (CREATE OR REPLACE, mesmo nome,
 --   mesmo corpo, mesmos grants). Nunca uma segunda versão. Mudou algo aqui? Muda para todos, pelo eco.
 --
--- COMO USAR NUMA RPC
---   Primeira linha do bloco principal da função:  PERFORM public.fn_exige_funcionario();
+-- DUAS FUNÇÕES, UM CRITÉRIO (ajuste do eco, 17/09)
+--   fn_e_funcionario()     boolean → WHERE das views: (SELECT public.fn_e_funcionario())
+--   fn_exige_funcionario() void    → 1ª linha das RPCs: PERFORM public.fn_exige_funcionario();
+--   A segunda só chama a primeira; o critério mora num lugar só.
+--   Substitui o fn_portao_funcionario do DCL (o DCL troca para este nome).
 --
 -- O QUE FAZ
 --   Nega com 42501 e mensagem 'AUTH_STAFF: …' quem não é funcionário da ótica. Allowlist (R-037): passa só
@@ -35,22 +38,36 @@
 --   clearix_lens/_PROPOSTA_2026-09-17_PORTAO_FUNCIONARIO_CATALOGO_FASE1.sql
 -- =============================================================================
 
-CREATE OR REPLACE FUNCTION public.fn_exige_funcionario()
- RETURNS void LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path TO 'public'
+-- 1) BOOLEANO — para o WHERE das views (padrão 346: quem não é funcionário vê 0 linhas).
+--    Nas views, chamar como subconsulta para avaliar uma vez só:  WHERE ... AND (SELECT public.fn_e_funcionario())
+CREATE OR REPLACE FUNCTION public.fn_e_funcionario()
+ RETURNS boolean LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path TO 'public'
 AS $f$
 BEGIN
   -- Contexto de manutenção (SQL Editor, cron, migration): sem JWT e conectado como dono.
   IF session_user IN ('postgres', 'supabase_admin')
      AND COALESCE(NULLIF(current_setting('request.jwt.claims', true), ''), '{}') = '{}' THEN
-    RETURN;
+    RETURN true;
   END IF;
   -- Chave de serviço (servidor da casa). Claim assinado; não dá para forjar do navegador.
   IF COALESCE(auth.jwt() ->> 'role', '') = 'service_role' THEN
-    RETURN;
+    RETURN true;
   END IF;
   -- Funcionário = linha ativa em iam.users no tenant do token (mesmo portão da 346).
-  -- Paciente, token sem linha e tenant ausente caem aqui: nega.
-  IF public.current_role_code() IS NULL THEN
+  -- Paciente, anon, token sem linha e tenant ausente: false.
+  RETURN public.current_role_code() IS NOT NULL;
+END;
+$f$;
+
+REVOKE ALL ON FUNCTION public.fn_e_funcionario() FROM PUBLIC, anon;
+GRANT EXECUTE ON FUNCTION public.fn_e_funcionario() TO authenticated, service_role;
+
+-- 2) EXIGÊNCIA — para a 1.ª linha das RPCs:  PERFORM public.fn_exige_funcionario();
+CREATE OR REPLACE FUNCTION public.fn_exige_funcionario()
+ RETURNS void LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path TO 'public'
+AS $f$
+BEGIN
+  IF NOT public.fn_e_funcionario() THEN
     RAISE EXCEPTION 'AUTH_STAFF: acesso restrito a funcionário da ótica' USING ERRCODE = '42501';
   END IF;
 END;

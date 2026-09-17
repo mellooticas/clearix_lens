@@ -63,28 +63,10 @@ CREATE TABLE IF NOT EXISTS catalog_lenses._fix373_funcs_antes (
 );
 REVOKE ALL ON catalog_lenses._fix373_funcs_antes FROM PUBLIC, anon, authenticated;
 
-CREATE OR REPLACE FUNCTION public.fn_exige_funcionario()
- RETURNS void LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path TO 'public'
-AS $f$
-BEGIN
-  -- Contexto de manutenção (SQL Editor, cron, migration): sem JWT e conectado como dono.
-  IF session_user IN ('postgres', 'supabase_admin')
-     AND COALESCE(NULLIF(current_setting('request.jwt.claims', true), ''), '{}') = '{}' THEN
-    RETURN;
-  END IF;
-  -- Chave de serviço (servidor da casa). Claim assinado; não dá para forjar do navegador.
-  IF COALESCE(auth.jwt() ->> 'role', '') = 'service_role' THEN
-    RETURN;
-  END IF;
-  -- Funcionário = linha ativa em iam.users no tenant do token (mesmo portão da 346).
-  -- Paciente, token sem linha e tenant ausente caem aqui: nega.
-  IF public.current_role_code() IS NULL THEN
-    RAISE EXCEPTION 'AUTH_STAFF: acesso restrito a funcionário da ótica' USING ERRCODE = '42501';
-  END IF;
-END;
-$f$;
-REVOKE ALL ON FUNCTION public.fn_exige_funcionario() FROM PUBLIC, anon;
-GRANT EXECUTE ON FUNCTION public.fn_exige_funcionario() TO authenticated, service_role;
+-- Helper: colar AQUI, idêntico, o bloco de clearix_lens/supabase/propostas/fn_exige_funcionario.sql
+-- (fn_e_funcionario boolean + fn_exige_funcionario void, com os grants). Fonte única; não duplicar o corpo neste arquivo.
+-- O ensaio de 17/09 rodou com a versão de uma função só; o critério é o mesmo (a void passou a chamar a boolean).
+\ir supabase/propostas/fn_exige_funcionario.sql
 
 DO $aplica$
 DECLARE
@@ -116,8 +98,9 @@ BEGIN
                 AND (has_function_privilege('anon', p.oid, 'EXECUTE') OR NOT has_function_privilege('authenticated', p.oid, 'EXECUTE'))) THEN
     RAISE EXCEPTION 'grant alterado em alguma das funções';
   END IF;
-  IF has_function_privilege('anon', 'public.fn_exige_funcionario()', 'EXECUTE') THEN
-    RAISE EXCEPTION 'fn_exige_funcionario executável por anon';
+  IF has_function_privilege('anon', 'public.fn_exige_funcionario()', 'EXECUTE')
+     OR has_function_privilege('anon', 'public.fn_e_funcionario()', 'EXECUTE') THEN
+    RAISE EXCEPTION 'helper de funcionário executável por anon';
   END IF;
 END $aplica$;
 
