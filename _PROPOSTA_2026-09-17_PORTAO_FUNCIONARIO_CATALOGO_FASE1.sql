@@ -66,7 +66,7 @@ REVOKE ALL ON catalog_lenses._fix373_funcs_antes FROM PUBLIC, anon, authenticate
 -- Helper: colar AQUI, idêntico, o bloco de clearix_lens/supabase/propostas/fn_exige_funcionario.sql
 -- (fn_e_funcionario boolean + fn_exige_funcionario void, com os grants). Fonte única; não duplicar o corpo neste arquivo.
 -- O ensaio de 17/09 rodou com a versão de uma função só; o critério é o mesmo (a void passou a chamar a boolean).
-\ir supabase/propostas/fn_exige_funcionario.sql
+-- (na aplicação o bloco é colado inline: apply_migration não entende \ir do psql)
 
 DO $aplica$
 DECLARE
