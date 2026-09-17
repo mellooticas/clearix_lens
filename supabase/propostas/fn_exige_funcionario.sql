@@ -18,8 +18,9 @@
 --   Nega com 42501 e mensagem 'AUTH_STAFF: …' quem não é funcionário da ótica. Allowlist (R-037): passa só
 --     1. manutenção: session_user postgres/supabase_admin SEM JWT (SQL Editor, cron, migration);
 --     2. chave de serviço: JWT com role = service_role (assinado; não se forja do navegador);
---     3. funcionário: public.current_role_code() não nulo = linha ativa em iam.users no tenant do token
---        (o mesmo portão da migração 346, desde 25/08).
+--     3. funcionário: public.current_role_code() não nulo = linha não apagada (deleted_at nulo; status NÃO
+--        conferido) em iam.users no tenant do token, casando auth_id ou id (o mesmo portão da 346, desde 25/08);
+--        ANTES disso, token com role_code 'patient'/'paciente' é negado (colisão de UUID medida pelo Clinics, 17/09).
 --   Todo o resto é negado: paciente (token do portal: role authenticated, role_code 'patient', sem linha em
 --   iam.users), token sem tenant, token com role_code inventado.
 --
@@ -53,8 +54,16 @@ BEGIN
   IF COALESCE(auth.jwt() ->> 'role', '') = 'service_role' THEN
     RETURN true;
   END IF;
-  -- Funcionário = linha ativa em iam.users no tenant do token (mesmo portão da 346).
-  -- Paciente, anon, token sem linha e tenant ausente: false.
+  -- Token do portal do paciente nunca é funcionário, mesmo que o sub colida com um id de iam.users.
+  -- Caso medido pelo Clinics (17/09): 1 paciente da Mello tem o MESMO UUID de um usuário owner;
+  -- current_role_code() casa u.id = auth.uid() e devolveria 'owner'. Esta linha só RESTRINGE:
+  -- claim nenhum eleva ninguém (a liberação continua vindo do banco, abaixo).
+  IF lower(COALESCE(auth.jwt() ->> 'role_code', '')) IN ('patient', 'paciente') THEN
+    RETURN false;
+  END IF;
+  -- Funcionário = linha NÃO APAGADA (deleted_at nulo) em iam.users no tenant do token, casando auth_id ou id
+  -- com auth.uid() (mesmo portão da 346). O status do usuário NÃO é conferido aqui.
+  -- Anon, token sem linha e tenant ausente: false.
   RETURN public.current_role_code() IS NOT NULL;
 END;
 $f$;
