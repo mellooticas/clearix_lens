@@ -2,7 +2,7 @@
 -- public.fn_exige_funcionario() — CORPO CANÔNICO (fonte única para todos os apps)
 -- =============================================================================
 -- Dono do arquivo: clearix_lens · 17/09/2026 · distribuição: eco
--- Status: PROPOSTA — ainda não aplicada no banco.
+-- Status: APLICADA no banco (21/09/2026 com o portão do BI; passo 5 do super_admin em 22/09/2026, migration fn_e_funcionario_super_admin_do_banco).
 --
 -- REGRA DE USO (eco, 17/09)
 --   Quem aplicar primeiro cria a função. Os demais repetem ESTE bloco idêntico (CREATE OR REPLACE, mesmo nome,
@@ -27,7 +27,7 @@
 -- POR QUE NÃO current_user
 --   Dentro de SECURITY DEFINER, current_user é o dono da função (postgres) → liberaria todo mundo.
 --
--- PONTO EM ABERTO (não resolvido neste corpo)
+-- PONTO EM ABERTO — RESOLVIDO 22/09/2026 (dono): passo 5 abaixo libera o super_admin pela linha viva no banco. Texto original:
 --   super_admin impersonando outro tenant (active_tenant_id) não tem linha em iam.users daquele tenant →
 --   current_role_code() = NULL → NEGADO. É o mesmo comportamento das views da 346. A medição de quem é
 --   super_admin e onde tem linha ficou parada (banco sem conexão, fila do eco). Se o dono quiser a exceção,
@@ -73,7 +73,16 @@ BEGIN
   -- (4) Funcionário = linha NÃO APAGADA (deleted_at nulo) em iam.users no tenant do token, casando auth_id ou id
   -- com auth.uid() (mesmo portão da 346). O status do usuário NÃO é conferido aqui.
   -- Anon, token sem linha e tenant ausente: false.
-  RETURN public.current_role_code() IS NOT NULL;
+  IF public.current_role_code() IS NOT NULL THEN
+    RETURN true;
+  END IF;
+  -- (5) super_admin trocando de loja no Hub (active_tenant_id sem linha dele): vale a linha super_admin viva no banco,
+  -- nunca o claim role_code (o portal do paciente assina o proprio token). Dono, 22/09/2026.
+  RETURN auth.uid() IS NOT NULL AND EXISTS (
+    SELECT 1 FROM iam.users u
+     WHERE u.deleted_at IS NULL
+       AND (u.auth_id = auth.uid() OR u.id = auth.uid())
+       AND lower(NULLIF(TRIM(u.role_code), '')) = 'super_admin');
 END;
 $f$;
 
