@@ -1,5 +1,14 @@
 # Changelog — Clearix Lens
 
+## 2026-09-23 — Hospedagem: Netlify → Cloudflare (virada)
+
+- **Endereço oficial:** `https://lenses.clearix.app.br` (Worker `clearix-lenses`). Legado: `https://clearixlens.netlify.app` (Netlify, só até desligar; nada aponta mais para ele).
+- **Login:** o Hub oficial passou a ser `https://app.clearix.app.br` — este app troca o ticket de SSO lá (gateway = `PUBLIC_SIS_GATEWAY_URL`); o Hub do Netlify continua aceitando por ter o mesmo segredo, mas é legado.
+- **Como foi feito:** build local com as variáveis públicas explícitas no comando + `wrangler deploy` (chave de API do Cloudflare no registro do Windows, `CLOUDFLARE_API_TOKEN`); segredos por `wrangler secret put`, digitados pelo dono (R-042). Stack no Cloudflare: SvelteKit (adapter-cloudflare, DEPLOY_TARGET=cloudflare).
+- **Status na virada:** publicado.
+- **Onde está tudo:** `Cockpit/infra/virada-cloudflare-2026-09-23.md` (ordem, rollback), `Cockpit/infra/runbook-migrar-app-para-cloudflare.md` (receita e armadilhas), ADR-0059/ADR-0060, `Cockpit/Harness/rules.md` R-042.
+
+
 ## Não lançado
 
 ### 2026-09-11 — Lente de contato em mais de um fornecedor

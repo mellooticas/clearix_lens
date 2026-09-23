@@ -173,3 +173,11 @@ Catálogo de lentes + pricing engine do ecossistema Clearix — gestão de SKU d
 - **Owner deste arquivo:** quem mantém Lens (app)
 
 > Em caso de dúvida, **pause e pergunte ao humano**. Lens alimenta o preço que aparece pro cliente — erro aqui é direto financeiro.
+
+## Hospedagem e variáveis (R-042 §4 — desde 23/09/2026)
+
+- **Onde roda:** Cloudflare Worker `clearix-lenses` → `https://lenses.clearix.app.br` (custom domain no `wrangler.jsonc`). Netlify (`clearixlens.netlify.app`) é legado: não configurar nada lá.
+- **Publicar:** build local com as variáveis públicas no comando (ver `Cockpit/infra/runbook-migrar-app-para-cloudflare.md`) e `npx wrangler deploy` na pasta do app. Conferir o hostname do Supabase no bundle antes de publicar (runbook §20).
+- **Gateway de SSO:** `PUBLIC_SIS_GATEWAY_URL` = `https://app.clearix.app.br` (build). Endereço deste app no lançador do Hub vem do banco: `iam.clearix_apps.url_production` (ADR-0060) — mudar endereço é UPDATE nessa linha, não deploy do Hub.
+- **Variáveis e segredos:** Segredos: SSO_EXCHANGE_SHARED_SECRET. Segredo só entra por `wrangler secret put`, digitado pelo dono; nunca no repo, nunca no chat.
+- **Registro da virada:** `Cockpit/infra/virada-cloudflare-2026-09-23.md`.
