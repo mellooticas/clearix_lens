@@ -11,6 +11,21 @@
 
 ## Não lançado
 
+### 2026-10-01 — Tech Vantagens outubro/2026 (Technopark): 86 preços atualizados (migração 374)
+- Tabela nova do laboratório lida do PDF por coordenadas (129 produtos, 353 preços). As colunas vêm com o
+  título girado e há 4 tabelas por página, então o texto corrido não serve — o leitor usa a posição.
+- **Aplicado só o que dois caminhos independentes confirmaram:** casamento por regra (família + material +
+  acabamento + fotossensível + blue + cilindro estendido) **e** o mapeamento do import de agosto, com o mesmo
+  valor nos dois. São 86 lentes: 65 seguem no mesmo valor e 21 mudaram. Campanha "Tech Vantagens 2026 - Outubro",
+  vigência 01/10 a 31/12. Backup em `catalog_lenses._fix374_acordos_antes`.
+- **Armadilhas que a primeira tentativa de casamento criou** (corrigidas antes de aplicar): "Gen S"
+  (fotossensível) lido como a marca "GEN" da Technopark, o que casou Pro Design Away com Wise e Elite;
+  "Acclimates" tratado como incolor; e a linha de cilindro estendido casando com a lente normal.
+- **Fora desta leva, aguardando conferência do dono** (`Downloads/tech_vantagens_outubro_revisao.csv`):
+  154 acordos de agosto que a regra não casou e 248 preços da tabela sem lente correspondente no catálogo —
+  entre eles a família Kodak "Precise Next", que substitui a "Precise UHD" (decisão do dono), as cores da
+  Pro Design Platinum e a Stellest.
+
 ### 2026-09-11 — Lente de contato em mais de um fornecedor
 - **A tela passou a entender a duplicação da Bausch & Lomb na Central Oftálmica** (migração 368).
   Antes, `LC…` e `CO-LC…` apareciam como dois cards idênticos, sem dizer de quem era cada um.
