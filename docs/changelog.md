@@ -11,6 +11,18 @@
 
 ## Não lançado
 
+### 2026-10-01 — Uma empresa via canônicas de outra: fechado (migração 377)
+- `v_catalog_canonicas_sem_opcao` **não tinha filtro de empresa** e rodava como dono, então a RLS das
+  tabelas base era ignorada. Logado em outra ótica, a view devolvia 2.022 linhas, **1.869 delas da Mello**
+  (id, SKU e nº de lentes mapeadas; sem preço, custo ou dado de paciente). Achado do teste de papéis do eco,
+  confirmado por chamada real.
+- Conserto: filtro de empresa nos dois ramos + `security_invoker` como segunda trava. Depois de aplicar:
+  a outra ótica vê 51 (as dela, 0 da Mello) e a Mello vê 1.869. DDL antigo em `_fix377_view_antes`.
+- **Medido e limpo:** das 12 views do catálogo sem filtro escrito, só essa vazava. As duas de grupos
+  (`v_catalog_canonical_groups` e `_premium`) são `security_invoker` e a RLS resolve.
+- **Armadilha de medição registrada:** contar "quantas linhas são da outra empresa" de dentro da sessão
+  dela dá zero — a própria conferência cai na trava. A prova guarda os identificadores vistos e confere fora.
+
 ### 2026-10-01 — Cores da Pro Design: já estavam cadastradas; o que faltava era preço (migração 376)
 - **Cor de Transitions não é lente separada.** Mora em `catalog_lenses.transitions_color_availability`,
   por linha de produto, índice e tipo de fotossensível, e é servida por `rpc_transitions_colors_for_lens`.
