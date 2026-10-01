@@ -11,6 +11,26 @@
 
 ## Não lançado
 
+### 2026-10-01 — Tech Vantagens outubro/2026, tabela inteira (migração 375)
+- **183 promoções vivas** na campanha "Tech Vantagens 2026 - Outubro" (01/10 a 31/12): 129 substituídas
+  (95 no mesmo valor, 34 com valor novo — 17 sobem, 17 descem) e **54 promoções novas**.
+- **130 promoções encerradas**, por decisão do dono: o que a tabela nova não traz volta ao custo de tabela.
+  Inclui Kodak Network UHD e Unique UHD (só a Precise virou "Precise Next") e as versões com acabamento
+  Essilor/Kodak (Crizal, No Reflex) que a grade da Technopark não tem.
+- **O que destravou o resto da tabela:** o de-para de acabamento. No catálogo, "Verniz HC" é a coluna
+  "Valor" da tabela Technopark (só verniz, sem AR). Confirmado pelos próprios valores: 17 de 17 acordos
+  de agosto batem exatamente.
+- **Mais duas armadilhas corrigidas antes de gravar:** o "Blue" de "Pro Coat Blue" (acabamento) estava
+  sendo lido como lente Blue Cut — o nome do catálogo é `<produto> — <acabamento>` e só a parte da
+  esquerda vale para material, fotossensível e blue; e a lente "Technopark Plus Cr-39 1.50 Foto Cinza"
+  estava com o preço da linha incolor desde agosto (78,90 → 243,90 e 131,90 → 296,90).
+- **6 linhas ficaram de fora por não dar desconto** (promoção ≥ custo de tabela), entre elas
+  "Essilor VS Orma 1.50 — Sem AR" (tabela 65,00, tabela promocional 67,90) e as Technopark Blue Cut.
+- 5 OS em andamento usam lente que perdeu promoção, todas já compradas (CHEGOU/MONTAGEM/PRONTO): o custo
+  gravado na OS não muda; o efeito é só em compra nova.
+- **Pendência:** 213 preços da tabela sem lente no catálogo — cores da Pro Design Platinum/Single, Kodak
+  Precise Next Short, Pro Design Close, Stellest. São produtos a cadastrar, não promoção a lançar.
+
 ### 2026-10-01 — Tech Vantagens outubro/2026 (Technopark): 86 preços atualizados (migração 374)
 - Tabela nova do laboratório lida do PDF por coordenadas (129 produtos, 353 preços). As colunas vêm com o
   título girado e há 4 tabelas por página, então o texto corrido não serve — o leitor usa a posição.
