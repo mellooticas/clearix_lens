@@ -11,6 +11,22 @@
 
 ## Não lançado
 
+### 2026-10-01 — Cores da Pro Design: já estavam cadastradas; o que faltava era preço (migração 376)
+- **Cor de Transitions não é lente separada.** Mora em `catalog_lenses.transitions_color_availability`,
+  por linha de produto, índice e tipo de fotossensível, e é servida por `rpc_transitions_colors_for_lens`.
+  Todas as linhas Pro Design já têm as 8 cores em 1.50 e 1.59 (3 em 1.67, 2 em 1.74). **Nada a cadastrar.**
+- **O que faltava era o preço:** a tabela da Technopark não escreve "Blue UV" nas linhas Transitions e o
+  catálogo escreve, porque aqui vale "Transitions já traz filtro azul" (migração 295). Com a regra aplicada
+  ao casamento, 209 preços sem par casaram, entre eles a grade de cores da Pro Design. Resultado: **219
+  promoções vivas** (43 gravadas: 42 novas + 1 correção; 6 encerradas).
+- **Dois erros da 375, corrigidos:** "Technopark Cr-39 1.50 Transitions Gen S — Premium" estava com o preço
+  da linha "CR Foto" (129,90) em vez da linha Transitions (189,00); e 6 lentes não deviam ter promoção —
+  as Technopark Transitions 1.50 Sem AR e Pro Coat Blue (a tabela só tem AR Premium nessa linha), as
+  Technopark Plus "Foto Cinza" (fotossensível genérico, não Transitions) e as Essilor Orma **Acclimates**
+  (Acclimates não é Transitions). Isso **desfaz** o "78,90 → 243,90" que a 375 anunciou como correção.
+- **Erro de digitação do PDF tratado:** `1.116.90` (ponto no lugar da vírgula) viraria R$ 111.690. A trava
+  "promoção não pode ser maior que o custo de tabela" pegaria, mas agora a leitura corrige.
+
 ### 2026-10-01 — Tech Vantagens outubro/2026, tabela inteira (migração 375)
 - **183 promoções vivas** na campanha "Tech Vantagens 2026 - Outubro" (01/10 a 31/12): 129 substituídas
   (95 no mesmo valor, 34 com valor novo — 17 sobem, 17 descem) e **54 promoções novas**.
