@@ -11,6 +11,15 @@
 
 ## Não lançado
 
+### 2026-10-05 — `AGENTS.md`: canal de coordenação (seção 2-A) — commit 1ae6742
+- Registrada a R-045: o que é do ecossistema Clearix passa pelo Orquestrador do eco; o resto, pelo Geral.
+  Só documentação, nenhuma mudança de comportamento do app.
+
+### 2026-09-22 — Helper canônico ganhou o passo do super_admin — commit 1ef6a92
+- `supabase/propostas/fn_exige_funcionario.sql` (proposta, **não aplicada no banco**): passo 5 libera
+  super_admin **pela linha ativa em `iam.users`**, nunca pelo claim `role_code` do JWT — o portal do paciente
+  assina o próprio token. Fecha o ponto que estava aberto desde 17/09.
+
 ### 2026-10-01 — Uma empresa via canônicas de outra: fechado (migração 377)
 - `v_catalog_canonicas_sem_opcao` **não tinha filtro de empresa** e rodava como dono, então a RLS das
   tabelas base era ignorada. Logado em outra ótica, a view devolvia 2.022 linhas, **1.869 delas da Mello**
