@@ -11,6 +11,21 @@
 
 ## Não lançado
 
+### 2026-10-28 — 6 bifocais da Sygma cadastradas (migração 378)
+- Tabela "Bifocais Tradicionais Surfaçadas" da Sygma (foto do dono): Ultex, Kriptok e Flat Top, nas versões
+  CR (R$ 55 o par) e Photo (R$ 66 o par); dioptria −4,00 a +6,00, cilindro até −4,00, adição 1,00 a 3,50,
+  altura 14 mm, diâmetro 68. As 3 Photo entraram com tratamento **Fotocromático**.
+- O gatilho de canonização ligou as 6 a canônicas que já existiam; livro de preço criado; aparecem na busca,
+  porque o laboratório Sygma está ativo. Preço de venda igual ao das gêmeas (R$ 455 e R$ 498).
+- **Duplicidade conhecida, decidida pelo dono:** as mesmas 6 já existiam com os mesmos códigos web
+  (5016–5021) e os mesmos custos no fornecedor **Express**, cujo laboratório está desativado — por isso
+  estavam invisíveis. Ele optou por criar as da Sygma do zero. Ficam duas cópias de cada: uma visível
+  (Sygma) e uma escondida (Express).
+- **Pendência:** outras **124 lentes ativas** do fornecedor Express seguem invisíveis pelo mesmo motivo
+  (inclui lentes da marca SYGMA). Decisão adiada: mover para a Sygma ou religar o laboratório Express.
+- **Divergência a conferir com o laboratório:** a tabela diz índice 1.53 na Ultex CR; o catálogo não tem
+  material 1.53 e a gêmea está como CR-39 1.50. Gravei 1.50 e guardei o "1.53" da tabela no cadastro.
+
 ### 2026-10-05 — `AGENTS.md`: canal de coordenação (seção 2-A) — commit 1ae6742
 - Registrada a R-045: o que é do ecossistema Clearix passa pelo Orquestrador do eco; o resto, pelo Geral.
   Só documentação, nenhuma mudança de comportamento do app.
